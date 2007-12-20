@@ -26,6 +26,7 @@ using namespace std;
 
 #define MYSQLPP_SSQLS_NO_STATICS        // makes sure that the SSQL structs are only declared, not defined.
 #include "Utils/CAFE_SQLStructs.h"		// for LonLatAnomDate, LonLatAnom type
+
 #include "Utils/CAFEUtly.h"
 
 

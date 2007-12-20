@@ -54,11 +54,31 @@ PEAKVAL_SOURCES = PeakValleyPicker.C
 PEAKVAL_BINS = PeakValleyPicker
 PEAKVAL_DEPENDS = PeakValleyPicker.d
 
-UTIL_OBJECTS := $(addprefix Utils/, CAFEEqtns.o CAFEUtly.o CAFE_CmdLine.o CAFE_SQLStructs.o CAFE_SQLUtly.o Cluster_CmdLine.o SamplingUtly.o)
+UTIL_OBJECTS := $(addprefix Utils/, CAFEEqtns.o \
+				    CAFEUtly.o \
+				    CAFE_CmdLine.o \
+				    CAFE_SQLStructs.o \
+				    CAFE_SQLUtly.o \
+				    Cluster_CmdLine.o \
+				    SamplingUtly.o \
+				    PeakValleyFile.o \
+				    ClusterFile.o \
+				    EventScoreFile.o \
+				    FieldMeasFile.o)
 UTIL_DEPENDS := $(UTIL_OBJECTS:.o=.d)
-SPA_OBJECTS := $(addprefix SPAnalysis/, BoardConvertor.o BoardType.o ClusterBoard.o ClusterConfig.o StrongPointAnalysis.o)
+SPA_OBJECTS := $(addprefix SPAnalysis/, BoardConvertor.o \
+					BoardType.o \
+					ClusterBoard.o \
+					ClusterConfig.o \
+					StrongPointAnalysis.o)
 SPA_DEPENDS := $(SPA_OBJECTS:.o=.d)
-CONF_OBJECTS := $(addprefix Config/, CAFEDomain.o CAFEVar.o Configuration.o DataSource.o DataVar.o EventType.o Variable.o)
+CONF_OBJECTS := $(addprefix Config/, CAFEDomain.o \
+				     CAFEVar.o \
+				     Configuration.o \
+				     DataSource.o \
+				     DataVar.o \
+				     EventType.o \
+				     Variable.o)
 CONF_DEPENDS := $(CONF_OBJECTS:.o=.d)
 
 
