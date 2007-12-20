@@ -1,0 +1,114 @@
+function main(args)
+
+Option = subwrd(args, 1)
+
+if (Option = 0)
+   prompt 'How many files do you want to plot? '
+   pull FileCnt
+   say ' '
+   TitleStr = ''
+   Counter = 1
+   while(Counter <= FileCnt)
+
+      say 'File #'Counter
+      prompt 'What is the file name? '
+      pull Names.Counter
+      Names.Counter = sublin(Names.Counter, 1)
+      Counter = Counter + 1
+      TitleStr = TitleStr' 'Names.Counter
+   endwhile
+
+   OutName = '/hart/s0/bvroot/AnalysisInfo/Overlay.gif'
+endif
+
+if (Option = 1)
+   FileCnt = 1
+   TitleStr = subwrd(args, 2)
+   Names.1 = subwrd(args, 3)
+   OutName = subwrd(args, 4)
+endif
+   
+if (Option = 2)
+   FileCnt = 1
+   Names.1 = '../AnalysisInfo/Directions/'subwrd(args, 2)'.dirdist'
+   OutName = '../AnalysisInfo/LociPics/'subwrd(args, 2)'.gif'
+   TitleStr = subwrd(args, 2)
+endif
+
+'open grid.ctl'
+'set parea 0 11 0 8.5'
+
+XCent = 5.5
+YCent = 4.25
+
+Radius = 3.5
+CircSz = 2*Radius
+CrossSz = 2*(Radius+0.5)
+
+IsDraw = 0
+'draw mark 2 'XCent' 'YCent' 'CircSz
+'draw mark 6 'XCent' 'YCent' 'CrossSz
+'draw mark 1 'XCent' 'YCent' 'CrossSz
+
+Counter = 1
+while(Counter <= FileCnt)
+
+   LineRead = read(Names.Counter)
+   IOCode = sublin(LineRead, 1)
+   MarkCnt.Counter = 0
+
+   while (IOCode != 2 & IOCode != 1 & IOCode != 9 & IOCode != 8)
+
+      PntInfo = sublin(LineRead, 2)
+      EvntDir = subwrd(PntInfo, 1)
+      EvntDist = subwrd(PntInfo, 2)
+
+      say 'PointInfo: 'PntInfo'   EventDirection: 'EvntDir'     EventDistance: 'EvntDist
+      if (EvntDir != '\N' & EvntDist != '\N')
+         TempHold = MarkCnt.Counter
+         Dirs.TempHold = EvntDir * (3.1416/180)
+         Dists.TempHold = EvntDist
+         MarkCnt.Counter = TempHold + 1
+      endif
+
+      LineRead = read(Names.Counter)
+      IOCode = sublin(LineRead, 1)
+   endwhile
+
+   MaxDist = 0
+   Index = 0
+   while (Index < MarkCnt.Counter)
+      if (Dists.Index > MaxDist)
+         MaxDist = Dists.Index
+      endif
+      Index = Index + 1
+   endwhile
+
+   Index = 0
+   while (Index < MarkCnt.Counter)
+      Scaler = Dists.Index/MaxDist
+      'define XLoc = ('Radius * Scaler' * cos('Dirs.Index')) + 'XCent
+      MarkX = GetValue(XLoc, 1, 1)
+      'define YLoc = ('Radius * Scaler' * sin('Dirs.Index')) + 'YCent
+      MarkY = GetValue(YLoc, 1, 1)
+      'draw mark 3 'MarkX' 'MarkY' 0.15'
+      IsDraw = 1
+      Index = Index + 1
+   endwhile
+
+   TitleStr = TitleStr' Count: 'MarkCnt.Counter' MaxDist: 'MaxDist
+   Counter = Counter + 1
+endwhile
+
+if (IsDraw != 0)
+   'set string 1 tc 8'
+   'set strsiz .15'
+   'draw string 5.5 8.45 'TitleStr
+   'printim 'OutName' gif x640 y480 white'
+endif
+'quit'
+
+function GetValue(arg1, arg2, arg3)
+   'q defval 'arg1' 'arg2' 'arg3
+return(subwrd(result,3))
+

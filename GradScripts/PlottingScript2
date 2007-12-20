@@ -1,0 +1,161 @@
+*  This program is the same as PlottingScript, except that it normalizes the sizes of the circles when the number of events is large.
+
+function main(args)
+
+Option = subwrd(args, 1)
+
+Marker = 2
+Color = 1
+
+InitSize = 0.15
+MaxSize = 0
+
+if (Option = 1)
+   TitleStr = subwrd(args, 2)
+   Name = subwrd(args, 3)
+   OutName = subwrd(args, 4)
+endif
+
+if (Option = 2)
+   Name = '../AnalysisInfo/'subwrd(args, 2)'.lonlatanom'
+   OutName = '../AnalysisInfo/'subwrd(args, 2)_MapPlot'.gif'
+   TitleStr = subwrd(args, 2)
+endif
+
+
+'open grid.ctl'
+'set parea 0 11 0 8.5'
+'set ylab off'
+'set xlab off'
+'set grads off'
+'set mpdset mres'
+'set map 1'
+'set mproj scaled'
+'set clevs -999'
+'set lon -105 -55'
+'set lat 28 52'
+
+GridInfo = GridBoundaries()
+X1 = subwrd(GridInfo, 1)
+X2 = subwrd(GridInfo, 2)
+Y1 = subwrd(GridInfo, 3)
+Y2 = subwrd(GridInfo, 4)
+
+'d var'
+'set line 0 1 1'
+'draw recf 0.5 8.1 10.5 8.48'
+BigCnt = var
+
+* initializing the BigCnt array
+
+* BTW, Xix and Yix is short for Xindex and Yindex.  Unfortunately, when you have an array, there is a maximum limit to the size of the variable to call it
+* which is 16 characters before or after substitution of values in place of the variable names.  If this doesn't make sense, blame the creators of GrAD
+* for designing the scripting language with this limitation.
+
+Xix = X1
+while (Xix <= X2)
+   Yix = Y1
+   while (Yix <= Y2)
+      BigCnt.Xix.Yix = 0
+      Yix = Yix + 1
+   endwhile
+   Xix = Xix + 1
+endwhile
+
+'set line 'Color
+
+LineRead = read(Name)
+IOCode = sublin(LineRead, 1)
+MarkCnt = 0
+
+while (IOCode != 2 & IOCode != 1 & IOCode != 9 & IOCode != 8)
+   Values = sublin(LineRead, 2)
+   EventLon = subwrd(Values, 1)
+   EventLat = subwrd(Values, 2)
+
+   if (EventLon != '\N' & EventLat != '\N')
+      MarkCnt = MarkCnt + 1
+      'q w2gr 'EventLon' 'EventLat
+      Xix = subwrd(result, 3)
+      Yix = subwrd(result, 6)
+      Xix = math_int(Xix)
+      Yix = math_int(Yix)
+       
+      BigCnt.Xix.Yix = BigCnt.Xix.Yix + 1
+      if (MaxSize < BigCnt.Xix.Yix)
+         MaxSize = BigCnt.Xix.Yix
+      endif
+   endif
+
+   LineRead = read(Name)
+   IOCode = sublin(LineRead, 1)
+endwhile
+
+if (MaxSize > 0)
+   Increm = 1 / MaxSize
+
+   if (Increm < 0.04)
+      Increm = 0.04
+   endif
+
+   Xix = X1
+   while (Xix <= X2)
+      Yix = Y1
+      while (Yix <= Y2)
+         if (BigCnt.Xix.Yix > 0)
+            'q gr2xy 'Xix' 'Yix
+            MarkX = subwrd(result, 3)
+            MarkY = subwrd(result, 6)
+            Size = BigCnt.Xix.Yix / MaxSize
+
+*           Sometimes, if MaxSize is larger than, say 7, and there is a point that has only one occurance, than Size will end up larger than InitSize
+*	        So, I set Size in those cases to InitSize so that there will be at least one circle drawn.
+
+            if (Size < InitSize)
+               Size = InitSize
+            endif
+         
+            DrawSize = InitSize
+            while (DrawSize <= Size)
+               'draw mark 'Marker' 'MarkX' 'MarkY' 'DrawSize
+               DrawSize = DrawSize + Increm
+            endwhile
+         endif
+         Yix = Yix + 1
+      endwhile
+      Xix = Xix + 1
+   endwhile
+
+   TitleStr = TitleStr' Count: 'MarkCnt
+
+   'set string 1 tc 8'
+   'set strsiz 0.18'
+   'draw string 5.5 8.45 'TitleStr
+   'printim 'OutName' gif x640 y480 white'
+endif
+'quit'
+
+function GridBoundaries()
+   'q dims'
+   XLine = sublin(result, 2)
+   YLine = sublin(result, 3)
+
+   X1 = subwrd(XLine, 11)
+   X2 = subwrd(XLine, 13)
+
+   offset = 0
+   if (math_fmod(X1, 1) != 0)
+      offset = 1
+   endif
+   X1 = math_int(X1) + offset
+   X2 = math_int(X2)
+
+   Y1 = subwrd(YLine, 11)
+   Y2 = subwrd(YLine, 13)
+   offset = 0
+   if (math_fmod(Y1, 1) != 0)
+      offset = 1
+   endif
+   Y1 = math_int(Y1) + offset
+   Y2 = math_int(Y2)
+return(X1' 'X2' 'Y1' 'Y2)

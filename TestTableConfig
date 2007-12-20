@@ -1,0 +1,975 @@
+<Config>
+	<DatabaseStem>RawFields</DatabaseStem>
+	<ProcessedStem>ClusteredFields</ProcessedStem>
+	<TimePeriods>Tm00</TimePeriods>
+#	<Domain>
+#		<Lon>-97.5,-58</Lon>
+#		<Lat>30,43.5</Lat>
+#	</Domain>
+        <Domain>
+                <Lon>-102.5,-57.5</Lon>
+                <Lat>32.5,47.5</Lat>
+        </Domain>
+	<CAFEVar>
+		<Name>PWAT</Name>
+	</CAFEVar>
+	<CAFEVar>
+                <Name>SpecHum</Name>
+                <Level>$0 = 1000</Level>
+		<Level>$1 = 925</Level>
+		<Level>$2 = 850</Level>
+		<Level>$3 = 700</Level>
+		<Level>$4 = 600</Level>
+		<Level>$5 = 500</Level>
+		<Level>$6 = 400</Level>
+		<Level>$7 = 300</Level>
+        </CAFEVar>
+	<CAFEVar>
+                <Name>RelHum</Name>
+                <Level>$0 = 1000</Level>
+                <Level>$1 = 925</Level>
+                <Level>$2 = 850</Level>
+                <Level>$3 = 700</Level>
+                <Level>$4 = 600</Level>
+                <Level>$5 = 500</Level>
+                <Level>$6 = 400</Level>
+                <Level>$7 = 300</Level>
+        </CAFEVar>
+	<CAFEVar>
+                <Name>Uwnd</Name>
+                <Level>$0 = 1000</Level>
+                <Level>$1 = 925</Level>
+                <Level>$2 = 850</Level>
+                <Level>$3 = 700</Level>
+                <Level>$4 = 600</Level>
+                <Level>$5 = 500</Level>
+                <Level>$6 = 400</Level>
+                <Level>$7 = 300</Level>
+		<Level>$8 = 250</Level>
+		<Level>$9 = 200</Level>
+		<Level>$10 = 150</Level>
+		<Level>$11 = 100</Level>
+		<Level>$12 = 70</Level>
+		<Level>$13 = 50</Level>
+		<Level>$14 = 30</Level>
+		<Level>$15 = 20</Level>
+		<Level>$16 = 10</Level>
+		<Level>$17 = 10m</Level>
+        </CAFEVar>
+	<CAFEVar>
+                <Name>Vwnd</Name>
+                <Level>$0 = 1000</Level>
+                <Level>$1 = 925</Level>
+                <Level>$2 = 850</Level>
+                <Level>$3 = 700</Level>
+                <Level>$4 = 600</Level>
+                <Level>$5 = 500</Level>
+                <Level>$6 = 400</Level>
+                <Level>$7 = 300</Level>
+                <Level>$8 = 250</Level>
+                <Level>$9 = 200</Level>
+                <Level>$10 = 150</Level>
+                <Level>$11 = 100</Level>
+                <Level>$12 = 70</Level>
+                <Level>$13 = 50</Level>
+                <Level>$14 = 30</Level>
+                <Level>$15 = 20</Level>
+                <Level>$16 = 10</Level>
+		<Level>$17 = 10m</Level>
+        </CAFEVar>
+	<CAFEVar>
+                <Name>MSLP</Name>
+        </CAFEVar>
+	<CAFEVar>
+                <Name>Hgt</Name>
+                <Level>$0 = 1000</Level>
+                <Level>$1 = 925</Level>
+                <Level>$2 = 850</Level>
+                <Level>$3 = 700</Level>
+                <Level>$4 = 600</Level>
+                <Level>$5 = 500</Level>
+                <Level>$6 = 400</Level>
+                <Level>$7 = 300</Level>
+                <Level>$8 = 250</Level>
+                <Level>$9 = 200</Level>
+                <Level>$10 = 150</Level>
+                <Level>$11 = 100</Level>
+                <Level>$12 = 70</Level>
+                <Level>$13 = 50</Level>
+                <Level>$14 = 30</Level>
+                <Level>$15 = 20</Level>
+                <Level>$16 = 10</Level>
+        </CAFEVar>
+	<CAFEVar>
+                <Name>Temp</Name>
+                <Level>$0 = 1000</Level>
+                <Level>$1 = 925</Level>
+                <Level>$2 = 850</Level>
+                <Level>$3 = 700</Level>
+                <Level>$4 = 600</Level>
+                <Level>$5 = 500</Level>
+                <Level>$6 = 400</Level>
+                <Level>$7 = 300</Level>
+                <Level>$8 = 250</Level>
+                <Level>$9 = 200</Level>
+                <Level>$10 = 150</Level>
+                <Level>$11 = 100</Level>
+                <Level>$12 = 70</Level>
+                <Level>$13 = 50</Level>
+                <Level>$14 = 30</Level>
+                <Level>$15 = 20</Level>
+                <Level>$16 = 10</Level>
+        </CAFEVar>
+	<CAFEVar>
+                <Name>Thk</Name>
+                <Level>$0 = 1000_850</Level>
+                <Level>$1 = 1000_700</Level>
+                <Level>$2 = 1000_500</Level>
+                <Level>$3 = 500_200</Level>
+		<Level>$4 = 850_700</Level>
+        </CAFEVar>
+	<CAFEVar>
+		<Name>Shear</Name>
+		<Level>$0 = 1000_850</Level>
+		<Level>$1 = 1000_700</Level>
+		<Level>$2 = 1000_500</Level>
+		<Level>$3 = 1000_400</Level>
+		<Level>$4 = 850_700</Level>
+	</CAFEVar>
+
+#	<Default>NARR</Default>
+	<Default>NCEP_Global</Default>
+
+	<DataSource>
+		<Name>NCEP_Global</Name>
+		<Projection>LatLon::90.0,0.0,-2.5,2.5</Projection>
+		<Time>1948-01-01 00, 2005-12-31 18</Time>
+		<DataVar>
+			<Name>shum</Name>
+			<CAFEname>SpecHum</CAFEname>
+			<Level>1000 = $0</Level>	# Note, we are associating the data's level value to a CAFE level.  There should be the same number of levels as up in the CAFE section.
+	                <Level>925 = $1</Level>
+	                <Level>850 = $2</Level>
+	                <Level>700 = $3</Level>
+	                <Level>600 = $4</Level>
+	                <Level>500 = $5</Level>
+	                <Level>400 = $6</Level>
+	                <Level>300 = $7</Level>
+		</DataVar>
+		<DataVar>
+                        <Name>rhum</Name>
+                        <CAFEname>RelHum</CAFEname>
+                        <Level>1000 = $0</Level>
+                        <Level>925 = $1</Level>
+                        <Level>850 = $2</Level>
+                        <Level>700 = $3</Level>
+                        <Level>600 = $4</Level>
+                        <Level>500 = $5</Level>
+                        <Level>400 = $6</Level>
+                        <Level>300 = $7</Level>
+                </DataVar>
+                <DataVar>
+                        <Name>uwnd</Name>
+                        <CAFEname>Uwnd</CAFEname>
+                        <Level>1000 = $0</Level>
+                        <Level>925 = $1</Level>
+                        <Level>850 = $2</Level>
+                        <Level>700 = $3</Level>
+                        <Level>600 = $4</Level>
+                        <Level>500 = $5</Level>
+                        <Level>400 = $6</Level>
+                        <Level>300 = $7</Level>
+			<Level>250 = $8</Level>
+	                <Level>200 = $9</Level>
+        	        <Level>150 = $10</Level>
+                	<Level>100 = $11</Level>
+	                <Level>70 = $12</Level>
+        	        <Level>50 = $13</Level>
+                	<Level>30 = $14</Level>
+	                <Level>20 = $15</Level>
+        	        <Level>10 = $16</Level>
+			<Level>10m = $17</Level>
+                </DataVar>
+		<DataVar>
+                        <Name>vwnd</Name>
+                        <CAFEname>Vwnd</CAFEname>
+                        <Level>1000 = $0</Level>
+                        <Level>925 = $1</Level>
+                        <Level>850 = $2</Level>
+                        <Level>700 = $3</Level>
+                        <Level>600 = $4</Level>
+                        <Level>500 = $5</Level>
+                        <Level>400 = $6</Level>
+                        <Level>300 = $7</Level>
+                        <Level>250 = $8</Level>
+                        <Level>200 = $9</Level>
+                        <Level>150 = $10</Level>
+                        <Level>100 = $11</Level>
+                        <Level>70 = $12</Level>
+                        <Level>50 = $13</Level>
+                        <Level>30 = $14</Level>
+                        <Level>20 = $15</Level>
+                        <Level>10 = $16</Level>
+			<Level>10m = $17</Level>
+                </DataVar>
+		<DataVar>
+                        <Name>hgt</Name>
+                        <CAFEname>Hgt</CAFEname>
+                        <Level>1000 = $0</Level>
+                        <Level>925 = $1</Level>
+                        <Level>850 = $2</Level>
+                        <Level>700 = $3</Level>
+                        <Level>600 = $4</Level>
+                        <Level>500 = $5</Level>
+                        <Level>400 = $6</Level>
+                        <Level>300 = $7</Level>
+                        <Level>250 = $8</Level>
+                        <Level>200 = $9</Level>
+                        <Level>150 = $10</Level>
+                        <Level>100 = $11</Level>
+                        <Level>70 = $12</Level>
+                        <Level>50 = $13</Level>
+                        <Level>30 = $14</Level>
+                        <Level>20 = $15</Level>
+                        <Level>10 = $16</Level>
+                </DataVar>
+		<DataVar>
+                        <Name>air</Name>
+                        <CAFEname>Temp</CAFEname>
+                        <Level>1000 = $0</Level>
+                        <Level>925 = $1</Level>
+                        <Level>850 = $2</Level>
+                        <Level>700 = $3</Level>
+                        <Level>600 = $4</Level>
+                        <Level>500 = $5</Level>
+                        <Level>400 = $6</Level>
+                        <Level>300 = $7</Level>
+                        <Level>250 = $8</Level>
+                        <Level>200 = $9</Level>
+                        <Level>150 = $10</Level>
+                        <Level>100 = $11</Level>
+                        <Level>70 = $12</Level>
+                        <Level>50 = $13</Level>
+                        <Level>30 = $14</Level>
+                        <Level>20 = $15</Level>
+                        <Level>10 = $16</Level>
+                </DataVar>
+		<DataVar>
+			<Name>thk</Name>
+			<CAFEname>Thk</CAFEname>
+			<Level>500,200,205 = $3</Level>
+			<Level>1000,500,501 = $2</Level>
+			<Level>1000,700,701 = $1</Level>
+			<Level>1000,850,851 = $0</Level>
+		</DataVar>
+		<DataVar>
+			<Name>slp</Name>
+			<CAFEname>MSLP</CAFEname>
+		</DataVar>
+		<DataVar>
+			<Name>pr_wtr</Name>
+			<CAFEname>PWAT</CAFEname>
+		</DataVar>
+		<DataVar>
+			<Name>shear</Name>
+			<CAFEname>Shear</CAFEname>
+			<Level>850 = $0</Level>
+			<Level>700 = $1</Level>
+			<Level>500 = $2</Level>
+			<Level>400 = $3</Level>
+		</DataVar>
+	</DataSource>
+
+
+############ Will need to add information about the NARR dataset and the Models here #######################################
+	<DataSource>
+		<Name>NARR</Name>
+		<Projection>LambertConformal::1.0,-145.5,-107.0,32463,50.0,50.0</Projection>
+		<Time>1979-01-01 00, 2005-12-31 21</Time>
+		<DataVar>
+                        <Name>SPFH</Name>
+                        <CAFEname>SpecHum</CAFEname>
+                        <Level>1000 mb = $0</Level>        # Note, we are associating the data's level value to a CAFE level.  There should be the same number of levels as up in the CAFE section.
+                        <Level>925 mb = $1</Level>
+                        <Level>850 mb = $2</Level>
+                        <Level>700 mb = $3</Level>
+                        <Level>600 mb = $4</Level>
+                        <Level>500 mb = $5</Level>
+                        <Level>400 mb = $6</Level>
+                        <Level>300 mb = $7</Level>
+                </DataVar>
+		<DataVar>
+                        <Name>PWAT</Name>
+                        <CAFEname>PWAT</CAFEname>
+			<Level>atmos col</Level>
+                </DataVar>
+		<DataVar>
+                        <Name>UGRD</Name>
+                        <CAFEname>Uwnd</CAFEname>
+                        <Level>1000 mb = $0</Level>
+                        <Level>925 mb = $1</Level>
+                        <Level>850 mb = $2</Level>
+                        <Level>700 mb = $3</Level>
+                        <Level>600 mb = $4</Level>
+                        <Level>500 mb = $5</Level>
+                        <Level>400 mb = $6</Level>
+                        <Level>300 mb = $7</Level>
+                        <Level>250 mb = $8</Level>
+                        <Level>200 mb = $9</Level>
+                        <Level>150 mb = $10</Level>
+                        <Level>100 mb = $11</Level>
+                        <Level>70 mb = $12</Level>
+                        <Level>50 mb = $13</Level>
+                        <Level>30 mb = $14</Level>
+                        <Level>20 mb = $15</Level>
+                        <Level>10 mb = $16</Level>
+			<Level>10 m above gnd = $17</Level>
+                </DataVar>
+		<DataVar>
+                        <Name>VGRD</Name>
+                        <CAFEname>Vwnd</CAFEname>
+                        <Level>1000 mb = $0</Level>
+                        <Level>925 mb = $1</Level>
+                        <Level>850 mb = $2</Level>
+                        <Level>700 mb = $3</Level>
+                        <Level>600 mb = $4</Level>
+                        <Level>500 mb = $5</Level>
+                        <Level>400 mb = $6</Level>
+                        <Level>300 mb = $7</Level>
+                        <Level>250 mb = $8</Level>
+                        <Level>200 mb = $9</Level>
+                        <Level>150 mb = $10</Level>
+                        <Level>100 mb = $11</Level>
+                        <Level>70 mb = $12</Level>
+                        <Level>50 mb = $13</Level>
+                        <Level>30 mb = $14</Level>
+                        <Level>20 mb = $15</Level>
+                        <Level>10 mb = $16</Level>
+			<Level>10 m above gnd = $17</Level>
+                </DataVar>
+		<DataVar>
+                        <Name>HGT</Name>
+                        <CAFEname>Hgt</CAFEname>
+                        <Level>1000 mb = $0</Level>
+                        <Level>925 mb = $1</Level>
+                        <Level>850 mb = $2</Level>
+                        <Level>700 mb = $3</Level>
+                        <Level>600 mb = $4</Level>
+                        <Level>500 mb = $5</Level>
+                        <Level>400 mb = $6</Level>
+                        <Level>300 mb = $7</Level>
+                        <Level>250 mb = $8</Level>
+                        <Level>200 mb = $9</Level>
+                        <Level>150 mb = $10</Level>
+                        <Level>100 mb = $11</Level>
+                        <Level>70 mb = $12</Level>
+                        <Level>50 mb = $13</Level>
+                        <Level>30 mb = $14</Level>
+                        <Level>20 mb = $15</Level>
+                        <Level>10 mb = $16</Level>
+                </DataVar>
+		<DataVar>
+                        <Name>TMP</Name>
+                        <CAFEname>Temp</CAFEname>
+                        <Level>1000 mb = $0</Level>
+                        <Level>925 mb = $1</Level>
+                        <Level>850 mb = $2</Level>
+                        <Level>700 mb = $3</Level>
+                        <Level>600 mb = $4</Level>
+                        <Level>500 mb = $5</Level>
+                        <Level>400 mb = $6</Level>
+                        <Level>300 mb = $7</Level>
+                        <Level>250 mb = $8</Level>
+                        <Level>200 mb = $9</Level>
+                        <Level>150 mb = $10</Level>
+                        <Level>100 mb = $11</Level>
+                        <Level>70 mb = $12</Level>
+                        <Level>50 mb = $13</Level>
+                        <Level>30 mb = $14</Level>
+                        <Level>20 mb = $15</Level>
+                        <Level>10 mb = $16</Level>
+                </DataVar>
+		<DataVar>
+                        <Name>THK</Name>
+                        <CAFEname>Thk</CAFEname>
+                        <Level>1000 mb,500 mb,1000-500 mb = $2</Level>
+                        <Level>1000 mb,700 mb,1000-700 mb = $1</Level>
+                        <Level>1000 mb,850 mb,1000-850 mb = $0</Level>
+			<Level>850 mb,700 mb,850-700 mb = $4</Level>
+                </DataVar>
+		<DataVar>
+                        <Name>PRMSL</Name>
+                        <CAFEname>MSLP</CAFEname>
+			<Level>MSL</Level>
+                </DataVar>
+                <DataVar>
+                        <Name>SHEAR</Name>
+                        <CAFEname>Shear</CAFEname>
+                        <Level>1000 mb,850 mb,1000-850 mb = $0</Level>
+                        <Level>1000 mb,850 mb,1000-700 mb = $1</Level>
+                        <Level>1000 mb,850 mb,1000-500 mb = $2</Level>
+                        <Level>850 mb,700 mb,850-700 mb = $4</Level>
+                </DataVar>
+	</DataSource>
+	<DataSource>
+		<Name>ETA</Name>
+	</DataSource>
+############################################################################################################################
+
+	<EventType>
+		<TypeName>Fire</TypeName>
+		<Variable>
+			<Name>PWAT</Name>
+		</Variable>
+		<Variable>
+        	        <Name>SpecHum</Name>
+                	<Levels>925,850</Levels>
+        	</Variable>
+		<Variable>
+        	        <Name>Uwnd</Name>
+                	<Levels>850,700</Levels>
+        	</Variable>
+		<Variable>
+        	        <Name>Vwnd</Name>
+	                <Levels>850,700</Levels>
+        	</Variable>
+		<Variable>
+        	        <Name>MSLP</Name>
+		</Variable>
+		<Variable>
+        	        <Name>Hgt</Name>
+	                <Levels>850,500</Levels>
+        	</Variable>
+		<Variable>
+                        <Name>Temp</Name>
+                        <Levels>925,850</Levels>
+                </Variable>
+		<Variable>
+                        <Name>Thk</Name>
+                        <Levels>1000_500,1000_850</Levels>
+                </Variable>
+	</EventType>
+	<EventType>
+        	<TypeName>S_Wind</TypeName>
+	        <Variable>
+        	        <Name>MSLP</Name>
+        	</Variable>
+	        <Variable>
+        	        <Name>Uwnd</Name>
+                	<Levels>850,700,250,10m</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Vwnd</Name>
+                	<Levels>850,700,250,10m</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Hgt</Name>
+                	<Levels>850,500</Levels>
+        	</Variable>
+		<Variable>
+                        <Name>PWAT</Name>
+                </Variable>
+	</EventType>
+	<EventType>
+        	<TypeName>Hail</TypeName>
+	        <Variable>
+        	        <Name>PWAT</Name>
+                </Variable>
+	        <Variable>
+        	        <Name>MSLP</Name>
+        	</Variable>
+	        <Variable>
+        	        <Name>Temp</Name>
+                	<Levels>850,700</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Uwnd</Name>
+                	<Levels>700,500,300</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Vwnd</Name>
+                	<Levels>700,500,300</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Hgt</Name>
+                	<Levels>700,500,300</Levels>
+        	</Variable>
+		<Variable>
+			<Name>Thk</Name>
+			<Levels>1000_850</Levels>
+		</Variable>
+		<Variable>
+			<Name>SpecHum</Name>
+			<Levels>700,500</Levels>
+		</Variable>
+	</EventType>
+	<EventType>
+	        <TypeName>T_Wind</TypeName>
+        	<Variable>
+                	<Name>Uwnd</Name>
+	                <Levels>850,500,300</Levels>
+	        </Variable>
+        	<Variable>
+                	<Name>Vwnd</Name>
+	                <Levels>850,500,300</Levels>
+	        </Variable>
+        	<Variable>
+                	<Name>PWAT</Name>
+	        </Variable>
+        	<Variable>
+	                <Name>SpecHum</Name>
+                	<Levels>850,700</Levels>
+	        </Variable>
+        	<Variable>
+                	<Name>MSLP</Name>
+	        </Variable>
+#		<Variable>
+#                        <Name>Shear</Name>
+#                        <Levels>1000_700</Levels>
+#                </Variable>
+		<Variable>
+			<Name>Thk</Name>
+			<Levels>1000_850</Levels>
+		</Variable>
+		<Variable>
+			<Name>Temp</Name>
+			<Levels>925,850</Levels>
+		</Variable>
+	</EventType>
+	<EventType>
+        	<TypeName>Ice</TypeName>
+	        <Variable>
+        	        <Name>Thk</Name>
+        	        <Levels>1000_500,1000_850</Levels>
+	        </Variable>
+        	<Variable>
+	                <Name>MSLP</Name>
+	        </Variable>
+        	<Variable>
+                	<Name>PWAT</Name>
+	        </Variable>
+        	<Variable>
+                	<Name>Temp</Name>
+	                <Levels>1000,925,850,700</Levels>
+	        </Variable>
+		<Variable>
+			<Name>SpecHum</Name>
+			<Levels>925,850</Levels>
+        	</Variable>
+		<Variable>
+                	<Name>Uwnd</Name>
+	                <Levels>925,850,700</Levels>
+	        </Variable>
+        	<Variable>
+                	<Name>Vwnd</Name>
+        	        <Levels>925,850,700</Levels>
+	        </Variable>
+	</EventType>
+        <EventType>
+                <TypeName>crash_ice</TypeName>
+                <Variable>
+                        <Name>Thk</Name>
+                        <Levels>1000_500,1000_850</Levels>
+                </Variable>
+                <Variable>
+                        <Name>MSLP</Name>
+                </Variable>
+                <Variable>
+                        <Name>PWAT</Name>
+                </Variable>
+                <Variable>
+                        <Name>Temp</Name>
+                        <Levels>1000,925,850,700</Levels>
+                </Variable>
+                <Variable>
+                        <Name>SpecHum</Name>
+                        <Levels>925,850</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Uwnd</Name>
+                        <Levels>925,850,700</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Vwnd</Name>
+                        <Levels>925,850,700</Levels>
+                </Variable>
+        </EventType>
+	<EventType>
+        	<TypeName>Tornado</TypeName>
+	        <Variable>
+        	        <Name>Uwnd</Name>
+                	<Levels>850,500,300</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Vwnd</Name>
+	                <Levels>850,500,300</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>PWAT</Name>
+        	</Variable>
+	        <Variable>
+        	        <Name>SpecHum</Name>
+	                <Levels>850,700</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>MSLP</Name>
+                </Variable>
+		<Variable>
+			<Name>Thk</Name>
+			<Levels>1000_850</Levels>
+		</Variable>
+#		<Variable>
+#                        <Name>Shear</Name>
+#                        <Levels>1000_700</Levels>
+#                </Variable>
+		<Variable>
+			<Name>Temp</Name>
+			<Levels>925,850</Levels>
+		</Variable>
+	</EventType>
+	<EventType>
+        	<TypeName>Cold_Winter</TypeName>
+	        <Variable>
+        	        <Name>Temp</Name>
+                	<Levels>1000,925,850,700</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Uwnd</Name>
+                	<Levels>850,500</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Vwnd</Name>
+                	<Levels>850,500</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>SpecHum</Name>
+	                <Levels>925,850</Levels>
+	        </Variable>
+        	<Variable>
+                	<Name>Hgt</Name>
+	                <Levels>850,500</Levels>
+	        </Variable>
+        	<Variable>
+                	<Name>MSLP</Name>
+	        </Variable>
+		<Variable>
+	                <Name>Thk</Name>
+                	<Levels>1000_500,1000_850</Levels>
+	        </Variable>
+		<Variable>
+                	<Name>PWAT</Name>
+	        </Variable>
+	</EventType>
+	<EventType>
+        	<TypeName>Heat_Summer</TypeName>
+	        <Variable>
+        	        <Name>Temp</Name>
+                	<Levels>1000,925,850,700</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Uwnd</Name>
+                	<Levels>850,500</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Vwnd</Name>
+	                <Levels>850,500</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>SpecHum</Name>
+                	<Levels>925,850</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Hgt</Name>
+                	<Levels>850,500</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>MSLP</Name>
+                </Variable>
+	        <Variable>
+        	        <Name>Thk</Name>
+                	<Levels>1000_500,1000_850</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>PWAT</Name>
+        	</Variable>
+	</EventType>
+	<EventType>
+        	<TypeName>Snow</TypeName>
+	        <Variable>
+        	        <Name>MSLP</Name>
+        	</Variable>
+	        <Variable>
+        	        <Name>PWAT</Name>
+        	</Variable>
+	        <Variable>
+        	        <Name>SpecHum</Name>
+                	<Levels>925</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Uwnd</Name>
+                	<Levels>850,250</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Vwnd</Name>
+                	<Levels>850,250</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Temp</Name>
+                	<Levels>925,850,500</Levels>
+        	</Variable>
+	        <Variable>
+        	        <Name>Hgt</Name>
+                	<Levels>1000,850,700,500</Levels>
+        	</Variable>
+		<Variable>
+			<Name>Thk</Name>
+			<Levels>1000_850,1000_700</Levels>
+		</Variable>
+#		<Variable>
+#			<Name>Shear</Name>
+#			<Levels>1000_700</Levels>
+#		</Variable>
+	</EventType>
+        <EventType>
+                <TypeName>crash_snow</TypeName>
+                <Variable>
+                        <Name>MSLP</Name>
+                </Variable>
+                <Variable>
+                        <Name>PWAT</Name>
+                </Variable>
+                <Variable>
+                        <Name>SpecHum</Name>
+                        <Levels>925</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Uwnd</Name>
+                        <Levels>850,250</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Vwnd</Name>
+                        <Levels>850,250</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Temp</Name>
+                        <Levels>925,850,500</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Hgt</Name>
+                        <Levels>1000,850,700,500</Levels>
+                </Variable>
+		<Variable>
+			<Name>Thk</Name>
+			<Levels>1000_850,1000_700</Levels>
+		</Variable>
+#		<Variable>
+#			<Name>Shear</Name>
+#			<Levels>1000_700</Levels>
+#		</Variable>
+        </EventType>
+	<EventType>
+                <TypeName>crash_squall</TypeName>
+                <Variable>
+                        <Name>MSLP</Name>
+                </Variable>
+                <Variable>
+                        <Name>PWAT</Name>
+                </Variable>
+                <Variable>
+                        <Name>SpecHum</Name>
+                        <Levels>925</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Uwnd</Name>
+                        <Levels>850,250</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Vwnd</Name>
+                        <Levels>850,250</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Temp</Name>
+                        <Levels>925,850,500</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Hgt</Name>
+                        <Levels>1000,850,700,500</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Thk</Name>
+                        <Levels>1000_850,1000_700</Levels>
+                </Variable>
+#                <Variable>
+#                        <Name>Shear</Name>
+#                        <Levels>1000_700</Levels>
+#                </Variable>
+        </EventType>
+	<EventType>
+        	<TypeName>Flood</TypeName>
+	        <Variable>
+        	        <Name>Temp</Name>
+        	        <Levels>850</Levels>
+	        </Variable>
+        	<Variable>
+	                <Name>SpecHum</Name>
+        	        <Levels>850,700</Levels>
+	        </Variable>
+        	<Variable>
+	                <Name>Vwnd</Name>
+                	<Levels>850,500</Levels>
+	        </Variable>
+        	<Variable>
+                	<Name>Uwnd</Name>
+        	        <Levels>850,500</Levels>
+	        </Variable>
+        	<Variable>
+                	<Name>Hgt</Name>
+	                <Levels>1000,250</Levels>
+	        </Variable>
+#		<Variable>
+#			<Name>Shear</Name>
+#			<Levels>1000_700</Levels>
+#		</Variable>
+	</EventType>
+	<EventType>
+                <TypeName>Flash_Flood</TypeName>
+                <Variable>
+                        <Name>Temp</Name>
+                        <Levels>925,850</Levels>
+                </Variable>
+                <Variable>
+                        <Name>SpecHum</Name>
+                        <Levels>925,850,700</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Vwnd</Name>
+                        <Levels>850,700,500</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Uwnd</Name>
+                        <Levels>850,700,500</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Hgt</Name>
+                        <Levels>1000,700,250</Levels>
+                </Variable>
+		<Variable>
+			<Name>MSLP</Name>
+		</Variable>
+#                <Variable>
+#                        <Name>Shear</Name>
+#                        <Levels>1000_700</Levels>
+#                </Variable>
+        </EventType>
+        <EventType>
+                <TypeName>Fog</TypeName>
+                <Variable>
+                        <Name>Temp</Name>
+                        <Levels>1000,925,850</Levels>   #we will want surface
+                </Variable>
+                <Variable>
+                        <Name>SpecHum</Name>
+                        <Levels>1000,925</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Vwnd</Name>
+                        <Levels>1000,925,850,10m</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Uwnd</Name>
+                        <Levels>1000,925,850,10m</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Hgt</Name>
+                        <Levels>1000,500</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Thk</Name>
+                        <Levels>1000_850</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Shear</Name>
+                        <Levels>1000_700</Levels>
+                </Variable>
+                <Variable>
+                        <Name>PWAT</Name>
+                </Variable>
+                <Variable>
+                        <Name>MSLP</Name>
+                </Variable>
+        </EventType>
+	<EventType>
+                <TypeName>crash_fog</TypeName>
+                <Variable>
+                        <Name>Temp</Name>
+                        <Levels>1000,925,850</Levels>	#we will want surface
+                </Variable>
+                <Variable>
+			<Name>SpecHum</Name>
+                        <Levels>1000,925</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Vwnd</Name>
+                        <Levels>1000,925,850,10m</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Uwnd</Name>
+                        <Levels>1000,925,850,10m</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Hgt</Name>
+                        <Levels>1000,500</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Thk</Name>
+                        <Levels>1000_850</Levels>
+                </Variable>
+#                <Variable>
+#                        <Name>Shear</Name>
+#                        <Levels>1000_700</Levels>
+#                </Variable>
+		<Variable>
+			<Name>PWAT</Name>
+		</Variable>
+		<Variable>
+			<Name>MSLP</Name>
+		</Variable>
+        </EventType>
+	<EventType>
+                <TypeName>Ozone</TypeName>
+                <Variable>
+                        <Name>Temp</Name>
+                        <Levels>1000,925,850</Levels>   #we will want surface
+                </Variable>
+                <Variable>
+                        <Name>SpecHum</Name>
+                        <Levels>1000,925</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Vwnd</Name>
+                        <Levels>1000,925,850,10m</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Uwnd</Name>
+                        <Levels>1000,925,850,10m</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Hgt</Name>
+                        <Levels>1000,500</Levels>
+                </Variable>
+                <Variable>
+                        <Name>Thk</Name>
+                        <Levels>1000_850</Levels>
+                </Variable>
+#                <Variable>
+#                        <Name>Shear</Name>
+#                        <Levels>1000_700</Levels>
+#                </Variable>
+                <Variable>
+                        <Name>PWAT</Name>
+                </Variable>
+                <Variable>
+                        <Name>MSLP</Name>
+                </Variable>
+        </EventType>
+</Config>

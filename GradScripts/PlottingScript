@@ -1,0 +1,186 @@
+function main(args)
+
+Option = subwrd(args, 1)
+
+Markers.1 = 2
+Markers.2 = 4
+Markers.3 = 6
+Markers.4 = 7
+Markers.5 = 8
+Markers.6 = 11
+Markers.7 = 10
+Colors.1 = 1
+Colors.2 = 2
+Colors.3 = 4
+Colors.4 = 9
+Colors.5 = 12
+Colors.6 = 14
+Colors.7 = 15
+
+InitSize = 0.15
+Increm = 0.08
+Ignore = 0
+
+if (Option = 0)
+   prompt 'How many files do you want to plot? '
+   pull FileCnt
+   say ' '
+   TitleStr = ''
+   Counter = 1
+   while(Counter <= FileCnt)
+
+      say 'File #'Counter
+      prompt 'What is the file name? '
+      pull Names.Counter
+      Names.Counter = sublin(Names.Counter, 1)
+      Counter = Counter + 1
+      TitleStr = TitleStr' 'Names.Counter
+   endwhile
+
+   OutName = '../AnalysisInfo/AnalysisPics/Overlay.gif'
+endif
+
+if (Option = 1)
+   FileCnt = 1
+   TitleStr = subwrd(args, 2)
+   Names.1 = subwrd(args, 3)
+   OutName = subwrd(args, 4)
+endif
+
+if (Option = 2)
+   FileCnt = subwrd(args, 2)
+   Counter = 1
+   while(Counter <=FileCnt)
+
+      Names.Counter = '../AnalysisInfo/LonLats/'subwrd(args, Counter+2)'.lonlat'
+      OutName = '../AnalysisInfo/AnalysisPics/'subwrd(args, Counter+2)'.gif'
+      TitleStr = TitleStr' 'subwrd(args, Counter+2)
+   endwhile
+endif
+
+
+'open grid.ctl'
+'set parea 0 11 0 8.5'
+'set ylab off'
+'set xlab off'
+'set grads off'
+'set mpdset mres'
+'set map 1'
+'set mproj scaled'
+'set clevs -999'
+'set lon -105 -55'
+'set lat 28 52'
+IsDraw = 0
+
+GridInfo = GridBoundaries()
+X1 = subwrd(GridInfo, 1)
+X2 = subwrd(GridInfo, 2)
+Y1 = subwrd(GridInfo, 3)
+Y2 = subwrd(GridInfo, 4)
+
+'d var'
+'set line 0 1 1'
+'draw recf 0.5 8.1 10.5 8.48'
+BigCnt = var
+
+Counter = 1
+while(Counter <= FileCnt)
+
+   LineRead = read(Names.Counter)
+   IOCode = sublin(LineRead, 1)
+   MarkCnt.Counter = 0
+   say 'The code: 'IOCode
+
+
+* initializing the BigCnt array
+   Xix = X1
+   while (Xix <= X2)
+      Yix = Y1
+      while (Yix <= Y2)
+         BigCnt.Xix.Yix = InitSize
+         Yix = Yix + 1
+      endwhile
+      Xix = Xix + 1
+   endwhile
+
+   'set line 'Colors.Counter
+   while (IOCode != 2 & IOCode != 1 & IOCode != 9 & IOCode != 8)
+
+      Values = sublin(LineRead, 2)
+      EventLon = subwrd(Values, 1)
+      EventLat = subwrd(Values, 2)
+
+      if (EventLon != '\N' & EventLat != '\N')
+         MarkCnt.Counter = MarkCnt.Counter + 1
+         'q w2xy 'EventLon' 'EventLat
+         MarkX = subwrd(result, 3)
+         MarkY = subwrd(result, 6)
+         'q w2gr 'EventLon' 'EventLat
+         Xix = subwrd(result, 3)
+         Yix = subwrd(result, 6)
+         Xix = math_int(Xix)
+         Yix = math_int(Yix)
+         
+         say 'Xix: 'Xix'  Yix: 'Yix' EventLon: 'EventLon'  EventLat: 'EventLat' Count: 'MarkCnt.Counter
+         BigCnt.Xix.Yix = BigCnt.Xix.Yix + Increm
+         if (BigCnt.Xix.Yix > 1)
+            BigCnt.Xix.Yix = 1
+         endif
+         
+         if (BigCnt.Xix.Yix = ((Increm * (Ignore + 1)) + InitSize))
+            TempCnt = 1
+            while (TempCnt <= Ignore)
+               TempHold = (Increm * TempCnt) + InitSize
+               'draw mark 'Markers.Counter' 'MarkX' 'MarkY' 'TempHold
+               TempCnt = TempCnt + 1
+            endwhile
+         endif
+
+         if (BigCnt.Xix.Yix > ((Increm * Ignore) + InitSize))
+            'draw mark 'Markers.Counter' 'MarkX' 'MarkY' 'BigCnt.Xix.Yix
+            IsDraw = 1
+         endif
+      endif
+
+      LineRead = read(Names.Counter)
+      IOCode = sublin(LineRead, 1)
+   endwhile
+
+   TitleStr = TitleStr' Count: 'MarkCnt.Counter
+   Counter = Counter + 1
+endwhile
+
+if (IsDraw != 0)
+   'set string 1 tc 8'
+   'set strsiz 0.15'
+   'draw string 5.5 8.45 'TitleStr
+   'printim 'OutName' gif x640 y480 white'
+endif
+'quit'
+
+function GridBoundaries()
+   'q dims'
+   XLine = sublin(result, 2)
+   YLine = sublin(result, 3)
+                                                                                                                                                                                    
+   X1 = subwrd(XLine, 11)
+   X2 = subwrd(XLine, 13)
+                                                                                                                                                                                    
+   offset = 0
+   if (math_fmod(X1, 1) != 0)
+      offset = 1
+   endif
+   X1 = math_int(X1) + offset
+   X2 = math_int(X2)
+                                                                                                                                                                                    
+   Y1 = subwrd(YLine, 11)
+   Y2 = subwrd(YLine, 13)
+   offset = 0
+   if (math_fmod(Y1, 1) != 0)
+      offset = 1
+   endif
+   Y1 = math_int(Y1) + offset
+   Y2 = math_int(Y2)
+                                                                                                                                                                                    
+return(X1' 'X2' 'Y1' 'Y2)
+

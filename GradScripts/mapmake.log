@@ -1,0 +1,16 @@
+
+Grid Analysis and Display System (GrADS) Version 1.9b3
+Copyright (c) 1988-2003 by Brian Doty 
+Center for Ocean-Land-Atmosphere Studies
+Institute for Global Environment and Society 
+All Rights Reserved
+
+Config: v1.9b3 32-bit little-endian readline sdf/xdf netcdf lats printim
+
+Issue 'q config' command for more information.
+
+GX Package Initialization: Size = 11 8.5 
+Running in Batch mode
+Description file warning: Missing title string
+No hardcopy metafile open
+GX package terminated 

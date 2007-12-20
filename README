@@ -1,0 +1,60 @@
+CAFE-1.0
+
+These instructions were designed with the PSU Meteorology network in mind.
+The typical profile on this network uses csh for the terminal interface.
+
+LICENSE
+=======
+
+Tenatively,
+ASSUME THAT EVERYTHING IN THIS PACKAGE IS OWNED AND LICENSED BY THE PENNSYLVANIA STATE UNIVERSITY
+
+I hope to eventually release this under some form of the GPL.
+
+
+Installation
+============
+
+First, add the following two lines to your ~/.cshrc.cat file:
+
+  setenv CAFE_PATH ====GIVE PATH TO CAFE INSTALLATION HERE====
+  setenv LD_LIBRARY_PATH $CAFE_PATH/lib
+
+Make sure that there is a new line after the last setenv command.
+Then, at the command line, type the following:
+
+  % source ~/.cshrc.cat
+
+Then, cd over to the CAFE directory.
+To build all of the programs, type:
+
+  % make all
+
+Assuming everything worked as expected, you can then begin training.
+
+
+Notes
+=====
+
+If compilation does not finish successfully, then you may need to
+modify the 'include.mk' file.  If you have all of the dependencies
+installed (BUtils, mysqlpp, etc...), then you may have the locations
+wrong.  Typically, if it isn't in /usr/include, then it might be in
+/usr/local/include, or /usr/global/include.  The same goes for /usr/lib.
+
+
+Running CAFE
+============
+
+CAFE commands should be executed from the CAFE directory.  The executables
+are kept in the bin/ folder.  For example, to execute 'TableMaker'
+program, type the following in the command line:
+
+  % bin/TableMaker
+
+Note that the current working directory should be the CAFE_PATH.
+
+This odd-ball convention is due to a design flaw in some of the programs,
+and it will be worked out in later releases of CAFE.
+
+

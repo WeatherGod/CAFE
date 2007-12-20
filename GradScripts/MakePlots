@@ -1,0 +1,2915 @@
+grads -lbc 'PlottingScript2 2 Event/Cold_Temp_850_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Cold_Temp_850_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Cold_Temp_850_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Cold_Temp_850_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Cold_Uwnd_850_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Cold_Uwnd_850_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Cold_Uwnd_850_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Cold_Uwnd_850_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Cold_Vwnd_850_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Cold_Vwnd_850_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Cold_Vwnd_850_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Cold_Vwnd_850_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Cold_SpecHum_925_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Cold_SpecHum_925_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Cold_SpecHum_925_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Cold_SpecHum_925_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Cold_Hgt_500_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Cold_Hgt_500_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Cold_Hgt_500_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Cold_Hgt_500_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Cold_MSLP_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Cold_MSLP_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Cold_MSLP_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Cold_MSLP_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Cold_Thk_1000_500_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Cold_Thk_1000_500_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Cold_Thk_1000_500_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Cold_Thk_1000_500_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Cold_PWAT_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Cold_PWAT_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Cold_PWAT_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Cold_PWAT_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Heat_Temp_850_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Heat_Temp_850_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Heat_Temp_850_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Heat_Temp_850_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Heat_Uwnd_850_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Heat_Uwnd_850_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Heat_Uwnd_850_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Heat_Uwnd_850_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Heat_Vwnd_850_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Heat_Vwnd_850_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Heat_Vwnd_850_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Heat_Vwnd_850_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Heat_SpecHum_925_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Heat_SpecHum_925_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Heat_SpecHum_925_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Heat_SpecHum_925_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Heat_Hgt_500_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Heat_Hgt_500_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Heat_Hgt_500_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Heat_Hgt_500_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Heat_MSLP_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Heat_MSLP_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Heat_MSLP_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Heat_MSLP_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Heat_Thk_1000_500_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Heat_Thk_1000_500_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Heat_Thk_1000_500_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Heat_Thk_1000_500_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Heat_PWAT_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Heat_PWAT_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Heat_PWAT_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Heat_PWAT_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Fire_PWAT_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Fire_PWAT_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Fire_PWAT_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Fire_PWAT_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Fire_SpecHum_925_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Fire_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Fire_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Fire_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Fire_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Fire_Shear_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Shear_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Shear_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Shear_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Fire_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Fire_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Snow_MSLP_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Snow_MSLP_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Snow_MSLP_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Snow_MSLP_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Snow_PWAT_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Snow_PWAT_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Snow_PWAT_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Snow_PWAT_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Snow_SpecHum_925_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Snow_SpecHum_925_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Snow_SpecHum_925_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Snow_SpecHum_925_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Snow_Uwnd_850_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Uwnd_850_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Snow_Uwnd_850_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Uwnd_850_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Snow_Uwnd_250_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Uwnd_250_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Snow_Uwnd_250_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Uwnd_250_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Snow_Vwnd_850_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Vwnd_850_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Snow_Vwnd_850_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Vwnd_850_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Snow_Vwnd_250_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Vwnd_250_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Snow_Vwnd_250_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Vwnd_250_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Snow_Temp_850_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Temp_850_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Snow_Temp_850_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Temp_850_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Snow_Hgt_500_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Hgt_500_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Snow_Hgt_500_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Snow_Hgt_500_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Ice_Thk_1000_500_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Ice_Thk_1000_500_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Ice_Thk_1000_500_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Ice_Thk_1000_500_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Ice_MSLP_Peak1'
+grads -lbc 'PlottingScript2 2 Event/Ice_MSLP_Peak2'
+grads -lbc 'PlottingScript2 2 Event/Ice_MSLP_Valley1'
+grads -lbc 'PlottingScript2 2 Event/Ice_MSLP_Valley2'
+
+grads -lbc 'PlottingScript2 2 Event/Ice_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Ice_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Ice_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Ice_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Ice_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Wind_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Wind_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Wind_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Tornado_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Tornado_Uwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Uwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Uwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Uwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Tornado_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Tornado_Vwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Vwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Vwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_Vwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Tornado_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Tornado_SpecHum_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_SpecHum_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_SpecHum_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_SpecHum_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event/Tornado_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event/Tornado_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Cold_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Heat_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Shear_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Shear_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Shear_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Shear_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Fire_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Snow_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Ice_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Wind_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Uwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Uwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Uwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Uwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Vwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Vwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Vwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_Vwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_SpecHum_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_SpecHum_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_SpecHum_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_SpecHum_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T06/Tornado_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Cold_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Heat_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Shear_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Shear_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Shear_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Shear_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Fire_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Snow_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Ice_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Wind_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Uwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Uwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Uwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Uwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Vwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Vwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Vwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_Vwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_SpecHum_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_SpecHum_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_SpecHum_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_SpecHum_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T12/Tornado_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Cold_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Heat_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Shear_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Shear_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Shear_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Shear_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Fire_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Snow_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Ice_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Wind_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Uwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Uwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Uwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Uwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Vwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Vwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Vwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_Vwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_SpecHum_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_SpecHum_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_SpecHum_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_SpecHum_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T18/Tornado_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Cold_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Heat_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Shear_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Shear_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Shear_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Shear_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Fire_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Snow_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Ice_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Wind_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Uwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Uwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Uwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Uwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Vwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Vwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Vwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_Vwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_SpecHum_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_SpecHum_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_SpecHum_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_SpecHum_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T24/Tornado_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Cold_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Heat_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Shear_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Shear_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Shear_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Shear_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Fire_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Snow_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Ice_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Wind_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Uwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Uwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Uwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Uwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Vwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Vwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Vwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_Vwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_SpecHum_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_SpecHum_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_SpecHum_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_SpecHum_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T30/Tornado_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Cold_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Heat_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Shear_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Shear_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Shear_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Shear_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Fire_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Snow_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Ice_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Wind_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Uwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Uwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Uwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Uwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Vwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Vwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Vwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_Vwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_SpecHum_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_SpecHum_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_SpecHum_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_SpecHum_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T36/Tornado_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Cold_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Heat_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Shear_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Shear_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Shear_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Shear_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Fire_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Snow_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Ice_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Wind_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Uwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Uwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Uwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Uwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Vwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Vwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Vwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_Vwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_SpecHum_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_SpecHum_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_SpecHum_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_SpecHum_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T42/Tornado_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Cold_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Heat_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Shear_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Shear_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Shear_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Shear_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Fire_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Snow_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Ice_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Wind_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Uwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Uwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Uwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Uwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Vwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Vwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Vwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_Vwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_SpecHum_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_SpecHum_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_SpecHum_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_SpecHum_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_T48/Tornado_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Cold_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Heat_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Shear_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Shear_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Shear_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Shear_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Fire_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Snow_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Ice_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Wind_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Uwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Uwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Uwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Uwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Vwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Vwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Vwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_Vwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_SpecHum_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_SpecHum_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_SpecHum_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_SpecHum_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT06/Tornado_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Cold_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Heat_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Shear_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Shear_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Shear_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Shear_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Fire_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_SpecHum_925_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_SpecHum_925_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_SpecHum_925_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_SpecHum_925_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Snow_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Thk_1000_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Thk_1000_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Thk_1000_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Thk_1000_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Temp_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Temp_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Temp_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Temp_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Ice_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_MSLP_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Uwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_250_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_250_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_250_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Vwnd_250_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Hgt_500_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Hgt_500_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Hgt_500_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Wind_Hgt_500_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Uwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Uwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Uwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Uwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Uwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Uwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Uwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Uwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Vwnd_850_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Vwnd_850_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Vwnd_850_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Vwnd_850_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Vwnd_300_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Vwnd_300_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Vwnd_300_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_Vwnd_300_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_PWAT_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_PWAT_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_PWAT_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_PWAT_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_SpecHum_700_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_SpecHum_700_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_SpecHum_700_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_SpecHum_700_Valley2' > /dev/null
+
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_MSLP_Peak1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_MSLP_Peak2' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_MSLP_Valley1' > /dev/null
+grads -lbc 'PlottingScript2 2 Event_PlusT12/Tornado_MSLP_Valley2' > /dev/null
+
