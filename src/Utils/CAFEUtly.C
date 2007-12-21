@@ -24,8 +24,8 @@ using namespace std;
 
 #include <Projection_t.h>			// for the Projection_t base class
 
-#define MYSQLPP_SSQLS_NO_STATICS        // makes sure that the SSQL structs are only declared, not defined.
-#include "Utils/CAFE_SQLStructs.h"		// for LonLatAnomDate, LonLatAnom type
+#include "Utils/LonLatAnom.h"		// for LonLatAnomDate, LonLatAnom type
+#include "Utils/FieldMeasure.h"		// for FieldMeasure structure
 
 #include "Utils/CAFEUtly.h"
 
@@ -37,6 +37,8 @@ bool GetGridInfo(const Configuration &ConfigInfo, BoardConvertor &ProjectionInfo
         double Y1 = 0.0;
         double Y2 = 0.0;
 
+	// The Configuration class guarrentees to give a non-NULL pointer.
+	// TODO: Check best practices for dealing with pointers.
 	const Projection_t* TheProjection = ConfigInfo.Give_DataSource_Projection();
         vector <float> BoundingBox = ConfigInfo.GiveCAFEDomainBoundingBox();
 
@@ -143,10 +145,7 @@ LonLatAnom LoadForecast(const string &FileName, const string &DateOfEvent)
 	InputList.close();
 
 	cerr << "ERROR: Could not find the forecast!" << endl;
-	LonLatAnom BadState;
-	BadState.Lon = NAN;
-	BadState.Lat = NAN;
-	BadState.StdAnom = NAN;
+	LonLatAnom BadState;		// Default constructor initializes with NANs
 
 	return(BadState);
 }
@@ -182,12 +181,8 @@ bool WriteFieldMeasure(const double &Alpha, const double &Phi, const double &Gam
                 return(false);
 	}
                 
-	FieldMeasure theFieldMeasure;
-	theFieldMeasure.Alpha = Alpha;
-	theFieldMeasure.Phi = Phi;
-	theFieldMeasure.GammaMax = GammaMaxValue;
-	theFieldMeasure.ChiMax = ChiMaxValue;
-
+	FieldMeasure theFieldMeasure(Alpha, Phi, GammaMaxValue, ChiMaxValue);
+	
 	bool saveState = fieldMeasStream.SaveFieldMeasure(theFieldMeasure);
 
 	fieldMeasStream.close();
@@ -223,9 +218,9 @@ bool SaveEventScores(const string &FileName, const vector <double> &EventScores,
 	return(saveState);
 }
 
-// Not the best way of doing things, but, oh well...
 bool LoadEventScores(vector <double> &EventScores, vector <string> &Dates, const string &Filename, const string &TableName)
 // This function is designed to retrieve ONE event type's eventscores.
+// And it doesn't even do that well enough.
 // I do not like this function very much and plan on changing this around...
 {
 	EventScoreFile scoreStream(Filename.c_str(), ios::in);
@@ -254,6 +249,7 @@ bool LoadEventScores(vector <double> &EventScores, vector <string> &Dates, const
 	return(readState);
 }
 
+// TODO: These threshold value things might get refactored into a ThresholdValueFile class interface.
 bool SaveThresholdVals(const string &Filename, const vector <string> &TableNames, const vector <double> &ThresholdVals)
 {
 	ofstream ThreshStream(Filename.c_str());

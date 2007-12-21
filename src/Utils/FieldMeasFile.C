@@ -15,6 +15,7 @@ FieldMeasFile::~FieldMeasFile()
 	close();
 }
 
+// TODO: Test this function!
 FieldMeasure
 FieldMeasFile::RetrieveFieldMeasure()
 {

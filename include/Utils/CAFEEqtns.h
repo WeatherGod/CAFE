@@ -4,8 +4,7 @@
 #include <vector>
 #include <Histogram.h>                  // for the Histogram class
 
-#define MYSQLPP_SSQLS_NO_STATICS 	// makes sure that the SSQL structs are only declared, not defined.
-#include "CAFE_SQLStructs.h"            // for LonLatAnom and LonLatAnomDate and LonLatCount
+#include "Utils/LonLatAnom.h"            // for LonLatAnom and LonLatAnomDate and LonLatCount structures
 
 double CalcEventScore(const vector <double> &Upsilons);
 

@@ -6,10 +6,8 @@
 #include <mysql++/mysql++.h>
 #include <ctime>
 
-#include "LonLatAnom.h"			// for LonLatAnom structure
-
-#define MYSQLPP_SSQLS_NO_STATICS       // makes sure that the SSQL structs are only declared, not defined.
-#include "CAFE_SQLStructs.h"		// for LonLatAnomDate
+#include "Utils/LonLatAnom.h"		// for LonLatAnom and LonLatAnomDate structure (the LonLatAnomDate is only temporary)
+#include "Utils/FieldMeasure.h"		// for the FieldMeasure structure
 
 #include "SPAnalysis/BoardConvertor.h"
 #include "SPAnalysis/ClusterBoard.h"
@@ -28,10 +26,6 @@ string DateTimeToStr(const mysqlpp::DateTime &SQLTime);
 
 //------------------------------------------------------------------------------------------------------
 // SQLstructs utilities.  Some may soon be deprecated...
-void SplitIntoVects(const vector <LonLatAnomDate> &TheMembers,
-                    vector <double> &Lons, vector <double> &Lats, vector <double> &Anoms, vector <time_t> &DateTimes);
-void SplitIntoVects(const vector <LonLatAnom> &TheMembers,
-                    vector <double> &Lons, vector <double> &Lats, vector <double> &Anoms);
 vector <mysqlpp::DateTime> SplitIntoTime(const vector <LonLatAnomDate> &TheMembers);
 vector <mysqlpp::DateTime> GiveClusteredDates(const ClusterBoard &TheBoard, const BoardConvertor &ProjectionInfo);
 //------------------------------------------------------------------------------------------------------

@@ -27,9 +27,8 @@ vector <LonLatAnom>
 PeakValleyFile::RetrieveExtrema(const size_t &variableCnt, const size_t &extremumCnt)
 {
 	string lineRead = "";
-	vector<LonLatAnom> extremaInfo(variableCnt * extremumCnt);
-
-	size_t posOffset = 0;
+	vector<LonLatAnom> extremaInfo(0);
+	extremaInfo.reserve(variableCnt * extremumCnt);
 
 	for (size_t variableIndex = 0; variableIndex < variableCnt && good(); variableIndex++)
 	{
@@ -57,7 +56,7 @@ PeakValleyFile::RetrieveExtrema(const size_t &variableCnt, const size_t &extremu
 		// At this point, the read head for the file will be
 		// on the line after the "---^^^---Start" line.
 
-		for (size_t extremumIndex = 0; extremumIndex < extremumCnt && good(); extremumIndex++, posOffset++)
+		for (size_t extremumIndex = 0; extremumIndex < extremumCnt && good(); extremumIndex++)
 		{
 			if (lineRead.find("---^^^---End") == string::npos)
 			{
@@ -81,12 +80,18 @@ PeakValleyFile::RetrieveExtrema(const size_t &variableCnt, const size_t &extremu
 					lineList[2] = "NAN";
 				}
 
+				extremaInfo.push_back(LonLatAnom(StrToDouble(lineList[1]),
+								 StrToDouble(lineList[2]),
+								 StrToDouble(lineList[0])));
+
+/*
 				// Standard Anomaly
 				extremaInfo[posOffset].StdAnom = StrToDouble(lineList[0]);
 				// Longitude
 				extremaInfo[posOffset].Lon = StrToDouble(lineList[1]);
 				// Latitude
 				extremaInfo[posOffset].Lat = StrToDouble(lineList[2]);
+*/
 			}
 			else
 			{

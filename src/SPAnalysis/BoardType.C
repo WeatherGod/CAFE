@@ -5,8 +5,7 @@ using namespace std;
 
 #include <vector>
 
-#define MYSQLPP_SSQLS_NO_STATICS       // makes sure that the SSQL structs are only declared, not defined.
-#include "Utils/CAFE_SQLStructs.h"		//for LonLatAnomDate type
+#include "Utils/LonLatAnom.h"		//for LonLatAnomDate structure
 
 #include "SPAnalysis/BoardType.h"
 #include "SPAnalysis/ClusterConfig.h"		// for ClusterConfig class
@@ -75,11 +74,35 @@ void operator += (BoardType &Lefty, const BoardType &Righty)
 
 bool operator == (const BoardType &Lefty, const BoardType &Righty)
 {
+/*
+	for (vector<LonLatAnomDate>::const_iterator LeftyMember( Lefty.myMembers.begin() ), RightyMember( Righty.myMembers.begin() );
+	     LeftyMember != Lefty.myMembers.end() && RightyMember != Righty.myMembers.end();
+	     LeftyMember++, RightyMember++)
+	{
+		if ((*LeftyMember) != (*RightyMember))
+		{
+			return(false);
+		}
+	}
+*/
+
 	return(Lefty.myMembers == Righty.myMembers);
 }
 
 bool operator != (const BoardType &Lefty, const BoardType &Righty)
 {
+/*
+	for (vector<LonLatAnomDate>::const_iterator LeftyMember( Lefty.myMembers.begin() ), RightyMember( Righty.myMembers.begin() );
+             LeftyMember != Lefty.myMembers.end() && RightyMember != Righty.myMembers.end();
+             LeftyMember++, RightyMember++)
+        {
+		if ((*LeftyMember) != (*RightyMember))
+		{
+			return(true);
+		}
+	}
+*/
+
 	return(Lefty.myMembers != Righty.myMembers);
 }
 

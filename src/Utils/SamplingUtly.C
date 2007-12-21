@@ -6,14 +6,13 @@ using namespace std;
 #include <fstream>
 #include <mysql++/mysql++.h>		// for mysqlpp::DateTime
 #include <vector>
-#include <algorithm>		// for lower_bound() and binary_search()
+#include <algorithm>			// for lower_bound() and binary_search()
 #include <string>
 #include <ctime>
-#include <StrUtly.h>		// for IntToStr()
+#include <StrUtly.h>			// for IntToStr()
 
-#define MYSQLPP_SSQLS_NO_STATICS       // makes sure that the SSQL structs are only declared, not defined.
-#include "Utils/CAFE_SQLStructs.h"	// for LonLatAnomDate type
-#include "Utils/CAFE_SQLUtly.h"	// for DateTimeToTime_t() and Time_tToDateTime()
+#include "Utils/LonLatAnom.h"		// for LonLatAnomDate structure
+#include "Utils/CAFE_SQLUtly.h"		// for DateTimeToTime_t() and Time_tToDateTime()
 
 
 string GetCaseFilename(const string &CAFEPath, const string &Database, const string &EventTypeName, const int &CaseNumber)
@@ -81,7 +80,7 @@ void RemoveCaseDates(vector <LonLatAnomDate> &TheMembers, const vector <mysqlpp:
         for (vector<LonLatAnomDate>::iterator AMember( TheMembers.begin() ); AMember != TheMembers.end();)
         /* no increments here since I will increment myself */
         {
-                if (binary_search(CaseDates.begin(), CaseDates.end(), AMember->DateInfo))
+                if (binary_search(CaseDates.begin(), CaseDates.end(), Time_tToDateTime(AMember->DateInfo)))
                 {
                         // Lets take out the member!
                         AMember = TheMembers.erase( AMember );

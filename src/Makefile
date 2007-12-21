@@ -64,7 +64,9 @@ UTIL_OBJECTS := $(addprefix Utils/, CAFEEqtns.o \
 				    PeakValleyFile.o \
 				    ClusterFile.o \
 				    EventScoreFile.o \
-				    FieldMeasFile.o)
+				    FieldMeasFile.o \
+				    LonLatAnom.o \
+				    FieldMeasure.o)
 UTIL_DEPENDS := $(UTIL_OBJECTS:.o=.d)
 SPA_OBJECTS := $(addprefix SPAnalysis/, BoardConvertor.o \
 					BoardType.o \

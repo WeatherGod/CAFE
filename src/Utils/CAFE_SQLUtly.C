@@ -7,16 +7,17 @@ using namespace std;
 #include <string>
 #include <mysql++/mysql++.h>
 
-#include "Utils/LonLatAnom.h"		// for LonLatAnom structure
+#include "Utils/LonLatAnom.h"		// for LonLatAnom, LonLatAnomDate, and LonLatCount structure
+
 #define MYSQLPP_SSQLS_NO_STATICS       // makes sure that the SSQL structs are only declared, not defined.
-#include "Utils/CAFE_SQLStructs.h"			// for LonLatAnom and LonLatAnomDate
+#include "Utils/CAFE_SQLStructs.h"			// for LonLatAnom_sql and LonLatAnomDate_sql and LonLatCount_sql
 
 #include <cmath>
 #include <ctime>
 #include <unistd.h>				// for getpass()
 
 #include <StrUtly.h>
-#include <TimeUtly.h>				// for GiveTime()
+#include <TimeUtly.h>				// for GiveTimeUTC()
 
 #include "Config/Configuration.h"
 #include "Utils/CAFE_CmdLine.h"
@@ -88,6 +89,7 @@ time_t DateTimeToTime_t(const mysqlpp::DateTime &SQLTime)
 
 mysqlpp::DateTime Time_tToDateTime(const time_t &TheTime)
 // warning, this uses localtime_r(), so be careful!
+// TODO: Double-check documentation to see if it still does that in the DateTime constructor
 {
 	mysqlpp::DateTime SQLTime(TheTime);
 /*
@@ -121,48 +123,6 @@ string DateTimeToStr(const mysqlpp::DateTime &SQLTime)
 	}
 
 	return((string) DateStr);
-}
-
-
-// Temporary code...
-void SplitIntoVects(const vector <LonLatAnomDate> &TheMembers, 
-		    vector <double> &Lons, vector <double> &Lats, vector <double> &Anoms, vector <time_t> &DateTimes)
-{
-	Lons.resize(TheMembers.size());
-	Lats.resize(TheMembers.size());
-	Anoms.resize(TheMembers.size());
-	DateTimes.resize(TheMembers.size());
-
-	vector<double>::iterator ALon( Lons.begin() ), ALat( Lats.begin() ), AnAnom( Anoms.begin() );
-	vector<time_t>::iterator ADate( DateTimes.begin() );
-
-	for (vector<LonLatAnomDate>::const_iterator AMember( TheMembers.begin() ); AMember != TheMembers.end(); 
-	     AMember++, ALon++, ALat++, AnAnom++, ADate++)
-	{
-		*ALon = AMember->Lon;
-		*ALat = AMember->Lat;
-		*AnAnom = AMember->StdAnom;
-		*ADate = DateTimeToTime_t(AMember->DateInfo);
-	}
-}
-
-// Temporary code
-void SplitIntoVects(const vector <LonLatAnom> &TheMembers,
-                    vector <double> &Lons, vector <double> &Lats, vector <double> &Anoms)
-{
-        Lons.resize(TheMembers.size());
-        Lats.resize(TheMembers.size());
-        Anoms.resize(TheMembers.size());
-
-        vector<double>::iterator ALon( Lons.begin() ), ALat( Lats.begin() ), AnAnom( Anoms.begin() );
-
-        for (vector<LonLatAnom>::const_iterator AMember( TheMembers.begin() ); AMember != TheMembers.end();
-             AMember++, ALon++, ALat++, AnAnom++)
-        {
-                *ALon = AMember->Lon;
-                *ALat = AMember->Lat;
-                *AnAnom = AMember->StdAnom;
-        }
 }
 
 // Temporary code...
@@ -206,11 +166,111 @@ mysqlpp::Query MakeLoader_LonLatAnoms(mysqlpp::Connection &TheConnection)
 	return(TheQuery);
 }
 
+
+LonLatAnom SQLtoCAFE(const LonLatAnom_sql &sqlValue)
+{
+	return(LonLatAnom(sqlValue.Lon, sqlValue.Lat, sqlValue.StdAnom));
+}
+
+LonLatAnomDate SQLtoCAFE(const LonLatAnomDate_sql &sqlValue)
+{
+        return(LonLatAnomDate(sqlValue.Lon, sqlValue.Lat, sqlValue.StdAnom, DateTimeToTime_t(sqlValue.DateInfo)));
+}
+
+LonLatCount SQLtoCAFE(const LonLatCount_sql &sqlValue)
+{
+        return(LonLatCount(sqlValue.Lon, sqlValue.Lat, sqlValue.Count));
+}
+
+LonLatAnom_sql CAFEtoSQL(const LonLatAnom &cafeValue)
+{
+        return((LonLatAnom_sql)(cafeValue.Lon, cafeValue.Lat, cafeValue.StdAnom));
+}
+
+LonLatAnomDate_sql CAFEtoSQL(const LonLatAnomDate &cafeValue)
+{
+        return((LonLatAnomDate_sql)(cafeValue.Lon, cafeValue.Lat, cafeValue.StdAnom, Time_tToDateTime(cafeValue.DateInfo)));
+}
+
+LonLatCount_sql CAFEtoSQL(const LonLatCount &cafeValue)
+{
+        return((LonLatCount_sql)(cafeValue.Lon, cafeValue.Lat, cafeValue.Count));
+}
+
+
+vector<LonLatAnom> SQLtoCAFE(const vector<LonLatAnom_sql> &sqlVals)
+{
+	vector<LonLatAnom> cafeVals(sqlVals.size());
+	for (size_t index = 0; index < sqlVals.size(); index++)
+	{
+		cafeVals[index] = SQLtoCAFE(sqlVals[index]);
+	}
+
+	return(cafeVals);
+}
+
+vector<LonLatAnomDate> SQLtoCAFE(const vector<LonLatAnomDate_sql> &sqlVals)
+{
+        vector<LonLatAnomDate> cafeVals(sqlVals.size());
+        for (size_t index = 0; index < sqlVals.size(); index++)
+        {
+                cafeVals[index] = SQLtoCAFE(sqlVals[index]);
+        }
+
+        return(cafeVals);
+}
+
+vector<LonLatCount> SQLtoCAFE(const vector<LonLatCount_sql> &sqlVals)
+{
+        vector<LonLatCount> cafeVals(sqlVals.size());
+        for (size_t index = 0; index < sqlVals.size(); index++)
+        {
+                cafeVals[index] = SQLtoCAFE(sqlVals[index]);
+        }
+
+        return(cafeVals);
+}
+
+vector<LonLatAnom_sql> CAFEtoSQL(const vector<LonLatAnom> &cafeVals)
+{
+        vector<LonLatAnom_sql> sqlVals(cafeVals.size());
+        for (size_t index = 0; index < cafeVals.size(); index++)
+        {
+                sqlVals[index] = CAFEtoSQL(cafeVals[index]);
+        }
+
+        return(sqlVals);
+}
+
+vector<LonLatAnomDate_sql> CAFEtoSQL(const vector<LonLatAnomDate> &cafeVals)
+{
+        vector<LonLatAnomDate_sql> sqlVals(cafeVals.size());
+        for (size_t index = 0; index < cafeVals.size(); index++)
+        {
+                sqlVals[index] = CAFEtoSQL(cafeVals[index]);
+        }
+
+        return(sqlVals);
+}
+
+vector<LonLatCount_sql> CAFEtoSQL(const vector<LonLatCount> &cafeVals)
+{
+        vector<LonLatCount_sql> sqlVals(cafeVals.size());
+        for (size_t index = 0; index < cafeVals.size(); index++)
+        {
+                sqlVals[index] = CAFEtoSQL(cafeVals[index]);
+        }
+
+        return(sqlVals);
+}
+
+
+
 vector <LonLatAnom> LoadLonLatAnoms(mysqlpp::Query &TheQuery, const string &FieldStem)
 {
 //        TheQuery << "select " << FieldStem << "_Lon as Lon, " << FieldStem << "_Lat as Lat, " << FieldStem << "_StdAnom as StdAnom"
 //                 << " from " << EventTypeName << " where " << FieldStem << "_Lon IS NOT NULL";
-        vector <LonLatAnom> TheResults;
+        vector <LonLatAnom_sql> TheResults;
 
 	try
 	{
@@ -231,7 +291,7 @@ vector <LonLatAnom> LoadLonLatAnoms(mysqlpp::Query &TheQuery, const string &Fiel
 		throw;
 	}
 
-	return(TheResults);
+	return(SQLtoCAFE(TheResults));
 }
 
 
@@ -267,7 +327,7 @@ vector <LonLatAnomDate> LoadLonLatAnomDates(mysqlpp::Query &TheQuery, const stri
 //        TheQuery << "select " << FieldStem << "_Lon as Lon, " << FieldStem << "_Lat as Lat, " << FieldStem << "_StdAnom as StdAnom, "
 //		 << "DateInfo from " << EventTypeName << " where " << FieldStem << "_Lon IS NOT NULL";
 
-        vector <LonLatAnomDate> TheResults;
+        vector <LonLatAnomDate_sql> TheResults;
 
         TheQuery.storein(TheResults, FieldStem);
 
@@ -276,7 +336,7 @@ vector <LonLatAnomDate> LoadLonLatAnomDates(mysqlpp::Query &TheQuery, const stri
 		throw("Problem loading lonlats for field " + FieldStem + " and event type " + TheQuery.def["table"] + "\nMySQL message: " + TheQuery.error());
 	}
 
-        return(TheResults);
+        return(SQLtoCAFE(TheResults));
 }
 
 mysqlpp::Query MakeLoader_MemberCnt(mysqlpp::Connection &TheConnection)
@@ -331,13 +391,14 @@ size_t LoadMemberCnt(mysqlpp::Query &TheQuery, const string &FieldStem, const st
                 return((*ARow)["MemberCount"]);
         }
 
-        return(0);
 	}
 	catch(...)
 	{
 		cerr << "ERROR: Problem with query: " << TheQuery.preview(FieldStem, TableName) << endl;
 		throw;
 	}
+
+	return(0);
 }
 
 mysqlpp::Query MakeLoader_EventCnt(mysqlpp::Connection &TheConnection)
@@ -578,9 +639,9 @@ void SaveBoardToDatabase(const ClusterBoard &TheBoard, mysqlpp::Query &TheQuery,
 				     AMember != TheMembers.end();
 				     AMember++)
         	                {
-					TheQuery.execute(FieldStem, AMember->Lon, AMember->Lat, AMember->StdAnom, DateTimeToStr(AMember->DateInfo));
+					TheQuery.execute(FieldStem, AMember->Lon, AMember->Lat, AMember->StdAnom, DateTimeToStr(Time_tToDateTime(AMember->DateInfo)));
 //					cout << SphericalLon << ", " << SphericalLat << ", " << TempGridPoint.GiveMemberValue(MemberIndex)
-//					     << ", " << GiveTime(TempGridPoint.GiveMemberDate(MemberIndex)) << "\n";
+//					     << ", " << GiveTimeUTC(TempGridPoint.GiveMemberDate(MemberIndex)) << "\n";
 				}
 			}
 		}
@@ -611,8 +672,8 @@ vector <mysqlpp::DateTime> GiveClusteredDates(const ClusterBoard &TheBoard, cons
 
 			for (size_t MemberIndex = 0; MemberIndex < TheMembers.size(); MemberIndex++)
                         {
-				TheDates.insert(lower_bound(TheDates.begin(), TheDates.end(), TheMembers[MemberIndex].DateInfo), 
-						TheMembers[MemberIndex].DateInfo);
+				TheDates.insert(lower_bound(TheDates.begin(), TheDates.end(), Time_tToDateTime(TheMembers[MemberIndex].DateInfo)), 
+						Time_tToDateTime(TheMembers[MemberIndex].DateInfo));
 			}
 		}
 	}
@@ -840,7 +901,7 @@ void LoadAlphaPhiValues(mysqlpp::Query &TheQuery, const string &FieldName,
         }
 	else
 	{
-		AlphaVal = PhiVal = nan("nan");
+		AlphaVal = PhiVal = NAN;
 	}
 
 //	TheQuery.reset();
@@ -894,7 +955,7 @@ void LoadGammaChiMaxValues(mysqlpp::Query &TheQuery, const string &FieldName,
         }
         else
         {
-                GammaMax = ChiMax = nan("nan");
+                GammaMax = ChiMax = NAN;
         }
 }
 
@@ -945,14 +1006,14 @@ void LoadFieldMeasValues(mysqlpp::Query &TheQuery, const string &FieldName, cons
         if (TheResult)
         {
                 mysqlpp::Result::iterator ARow( TheResult.begin() );
-		AlphaVal = ((*ARow)["Alpha"].get_string() == "NULL" ? nan("nan") : (*ARow)["Alpha"]);
-		PhiVal = ((*ARow)["Phi"].get_string() == "NULL" ? nan("nan") : (*ARow)["Phi"]);
-                GammaMax = ((*ARow)["Gamma_Max"].get_string() == "NULL" ? nan("nan") : (*ARow)["Gamma_Max"]);
-                ChiMax = ((*ARow)["Chi_Max"].get_string() == "NULL" ? nan("nan") : (*ARow)["Chi_Max"]);
+		AlphaVal = ((*ARow)["Alpha"].get_string() == "NULL" ? NAN : (*ARow)["Alpha"]);
+		PhiVal = ((*ARow)["Phi"].get_string() == "NULL" ? NAN : (*ARow)["Phi"]);
+                GammaMax = ((*ARow)["Gamma_Max"].get_string() == "NULL" ? NAN : (*ARow)["Gamma_Max"]);
+                ChiMax = ((*ARow)["Chi_Max"].get_string() == "NULL" ? NAN : (*ARow)["Chi_Max"]);
         }
         else
         {
-		AlphaVal = PhiVal = GammaMax = ChiMax = nan("nan");
+		AlphaVal = PhiVal = GammaMax = ChiMax = NAN;
         }
 	}
 	catch (...)

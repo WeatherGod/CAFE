@@ -10,8 +10,7 @@ using namespace std;
 #include <StatUtly.h>                   // for Avg(), Variance()
 #include <Histogram.h>			// for the Histogram class
 
-#define MYSQLPP_SSQLS_NO_STATICS       // makes sure that the SSQL structs are only declared, not defined.
-#include "Utils/CAFE_SQLStructs.h"		// for LonLatAnom and LonLatAnomDate and LonLatCount
+#include "Utils/LonLatAnom.h"		// for LonLatAnom and LonLatAnomDate and LonLatCount structures
 					// and associated helper functions.
 
 #include "Utils/CAFEEqtns.h"
@@ -142,7 +141,7 @@ double CalcGamma(vector<LonLatAnom>::const_iterator MemberIter, const vector<Lon
 
 // Use in conjunction with GetMemberCounts()
 // This optimized version works well when you already have the vector of LonLatCounts and are using it
-// Repeatedly.  The penalty of generating the member counts will wash out the gain of using the optimized CalcGamma once.
+// repeatedly.  The penalty of generating the member counts will wash out the gain of using the optimized CalcGamma once.
 double CalcGamma_Opt(const vector <LonLatCount> &MemberCounts, const double &PredictedLon, const double &PredictedLat)
 {
 	double RunningSum = 0.0;

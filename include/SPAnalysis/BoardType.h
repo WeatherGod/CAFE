@@ -4,8 +4,7 @@
 #include <vector>
 #include <string>
 
-#define MYSQLPP_SSQLS_NO_STATICS       // makes sure that the SSQL structs are only declared, not defined.
-#include "../Utils/CAFE_SQLStructs.h"			// for LonLatAnomDate type.
+#include "Utils/LonLatAnom.h"			// for LonLatAnomDate structure
 
 #include "ClusterConfig.h"			// for ClusterConfig class
 

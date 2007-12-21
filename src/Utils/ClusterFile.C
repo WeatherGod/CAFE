@@ -23,10 +23,7 @@ ClusterFile::RetrieveMember()
 {
 	float tempLon, tempLat, tempStdAnom;
 	*this >> tempLon >> tempLat >> tempStdAnom;
-	LonLatAnom theMember;
-	theMember.Lon = tempLon;
-	theMember.Lat = tempLat;
-	theMember.StdAnom = tempStdAnom;
+	LonLatAnom theMember(tempLon, tempLat, tempStdAnom);
 
 	return(theMember);
 }
