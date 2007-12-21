@@ -2,6 +2,7 @@
 #define _BOARDCONVERTOR_H
 
 #include <Projection_t.h>
+#include <cctype>		// for size_t
 
 class BoardConvertor
 {

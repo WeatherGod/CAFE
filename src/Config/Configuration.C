@@ -9,6 +9,7 @@ using namespace std;
 #include <fstream>
 #include <algorithm>			// for find(), lower_bound()
 #include <ctime>
+#include <cctype>			// for size_t
 #include <map>
 
 #include <StrUtly.h>				// for TakeDelimitedList()

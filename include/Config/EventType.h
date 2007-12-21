@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <cctype>		// for size_t
 
 #include "Variable.h"
 

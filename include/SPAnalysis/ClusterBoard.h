@@ -2,6 +2,7 @@
 #define _CLUSTERBOARD_H
 
 #include <vector>
+#include <cctype>			// for size_t
 #include "ClusterConfig.h"
 #include "BoardType.h"
 

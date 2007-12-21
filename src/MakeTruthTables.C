@@ -5,6 +5,7 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cctype>			// for size_t
 #include <cmath>			// for sqrt()
 
 #include "Config/Configuration.h"

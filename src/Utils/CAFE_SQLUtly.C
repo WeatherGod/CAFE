@@ -126,12 +126,12 @@ string DateTimeToStr(const mysqlpp::DateTime &SQLTime)
 }
 
 // Temporary code...
-vector <mysqlpp::DateTime> SplitIntoTime(const vector <LonLatAnomDate> &TheMembers)
+vector <time_t> SplitIntoTime(const vector <LonLatAnomDate> &TheMembers)
 {
-	vector <mysqlpp::DateTime> TheTimes(TheMembers.size());
+	vector <time_t> TheTimes(TheMembers.size());
 
 	vector<LonLatAnomDate>::const_iterator AMember( TheMembers.begin() );
-	for (vector<mysqlpp::DateTime>::iterator ATime( TheTimes.begin() ); ATime != TheTimes.end(); ATime++, AMember++)
+	for (vector<time_t>::iterator ATime( TheTimes.begin() ); ATime != TheTimes.end(); ATime++, AMember++)
 	{
 		*ATime = AMember->DateInfo;
 	}
@@ -593,7 +593,7 @@ void SaveLonLatAnom(const double &Lon, const double &Lat, const double &Anom, co
 }
 
 
-void SaveLonLatAnoms(const vector <double> &Lons, const vector <double> &Lats, const vector <double> &Anoms, const vector <mysqlpp::DateTime> &DateTimes, 
+void SaveLonLatAnoms(const vector <double> &Lons, const vector <double> &Lats, const vector <double> &Anoms, const vector <time_t> &DateTimes, 
 		     mysqlpp::Query &TheQuery, const string &FieldStem)
 {
 	if (Lons.size() != Lats.size() || Lons.size() != Anoms.size() || Lons.size() != DateTimes.size())
@@ -601,11 +601,11 @@ void SaveLonLatAnoms(const vector <double> &Lons, const vector <double> &Lats, c
 		throw((string) "SaveLonLatAnoms(): These are not parallel vectors...");
 	}
 
-	vector<mysqlpp::DateTime>::const_iterator ATime( DateTimes.begin() );
+	vector<time_t>::const_iterator ATime( DateTimes.begin() );
 	for (vector<double>::const_iterator ALon( Lons.begin() ), ALat( Lats.begin() ), AnAnom( Anoms.begin() ); ALon != Lons.end();
 	     ALon++, ALat++, AnAnom++, ATime++)
 	{
-		TheQuery.execute(FieldStem, DoubleToStr(*ALon), DoubleToStr(*ALat), DoubleToStr(*AnAnom), DateTimeToStr(*ATime));
+		TheQuery.execute(FieldStem, DoubleToStr(*ALon), DoubleToStr(*ALat), DoubleToStr(*AnAnom), DateTimeToStr(Time_tToDateTime(*ATime)));
 	}
 
 	if (!TheQuery.success())
@@ -659,11 +659,11 @@ void SaveBoardToDatabase(const ClusterBoard &TheBoard, mysqlpp::Query &TheQuery,
         }
 }
 
-vector <mysqlpp::DateTime> GiveClusteredDates(const ClusterBoard &TheBoard, const BoardConvertor &ProjectionInfo)
+vector <time_t> GiveClusteredDates(const ClusterBoard &TheBoard, const BoardConvertor &ProjectionInfo)
 // Temporary until I fix and reorganize the clustering algorithm.
 // The dates will be in ascending order.
 {
-	vector <mysqlpp::DateTime> TheDates(0);
+	vector <time_t> TheDates(0);
         for (size_t XLoc = 0; XLoc < ProjectionInfo.Xsize(); XLoc++)
         {
                 for (size_t YLoc = 0; YLoc < ProjectionInfo.Ysize(); YLoc++)
@@ -672,8 +672,8 @@ vector <mysqlpp::DateTime> GiveClusteredDates(const ClusterBoard &TheBoard, cons
 
 			for (size_t MemberIndex = 0; MemberIndex < TheMembers.size(); MemberIndex++)
                         {
-				TheDates.insert(lower_bound(TheDates.begin(), TheDates.end(), Time_tToDateTime(TheMembers[MemberIndex].DateInfo)), 
-						Time_tToDateTime(TheMembers[MemberIndex].DateInfo));
+				TheDates.insert(lower_bound(TheDates.begin(), TheDates.end(), TheMembers[MemberIndex].DateInfo), 
+						TheMembers[MemberIndex].DateInfo);
 			}
 		}
 	}

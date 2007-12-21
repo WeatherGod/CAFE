@@ -6,6 +6,7 @@ using namespace std;
 #include <vector>
 #include <string>
 #include <ctime>
+#include <cctype>			// for size_t
 #include <algorithm>			// for lower_bound()
 
 #include "Config/Configuration.h"

@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "../Config/Configuration.h"
+#include "Config/Configuration.h"
 
 
 class CmdOptions

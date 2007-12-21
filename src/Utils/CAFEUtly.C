@@ -6,6 +6,7 @@ using namespace std;
 #include <vector>
 #include <iostream>
 #include <cmath>			// for isnan(), NAN
+#include <cctype>			// for size_t
 #include <string>
 
 #include <StrUtly.h>			// for StrToDouble(), DoubleToStr(),
@@ -16,7 +17,7 @@ using namespace std;
 #include "Utils/ClusterFile.h"
 
 
-// These might go away soon...
+// TODO: Refactor away...
 #include "SPAnalysis/ClusterBoard.h"		// for the ClusterBoard class
 #include "SPAnalysis/BoardConvertor.h"		// for the BoardConvertor class
 #include "Config/Configuration.h"
@@ -24,7 +25,7 @@ using namespace std;
 
 #include <Projection_t.h>			// for the Projection_t base class
 
-#include "Utils/LonLatAnom.h"		// for LonLatAnomDate, LonLatAnom type
+#include "Utils/LonLatAnom.h"		// for LonLatAnomDate, LonLatAnom structures
 #include "Utils/FieldMeasure.h"		// for FieldMeasure structure
 
 #include "Utils/CAFEUtly.h"
@@ -171,6 +172,7 @@ bool WriteLonLatAnoms(const vector <LonLatAnom> &TheMembers, const string &OutFi
 
 
 // Still needed for backwards-compatibility programs...
+// TODO: Adopt the use of FieldMeasure structure.
 bool WriteFieldMeasure(const double &Alpha, const double &Phi, const double &GammaMaxValue, const double &ChiMaxValue, const string &OutFileName)
 {
         FieldMeasFile fieldMeasStream(OutFileName.c_str(), ios::out);

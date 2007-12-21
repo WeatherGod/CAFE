@@ -4,18 +4,19 @@ using namespace std;
 #include <string>
 #include <vector>
 #include <fstream>
+#include <cctype>			// for size_t
 #include <mysql++/mysql++.h>
 
 #include "Config/Configuration.h"
-#include <StrUtly.h>		// for StrToUpper(), TakeDelimitedList(), StripWhiteSpace()
-#include <TimeUtly.h>		// for GiveTime()
+#include <StrUtly.h>			// for StrToUpper(), TakeDelimitedList(), StripWhiteSpace()
+#include <TimeUtly.h>			// for GiveTimeUTC()
 
-#include "Utils/CAFE_SQLUtly.h"	// for LoadEventDateTimes(), EstablishConnection()
+#include "Utils/CAFE_SQLUtly.h"		// for LoadEventDateTimes(), EstablishConnection()
 
-#include <CmdLineUtly.h>        // for ProcessFlatCommandLine()
-#include "Utils/CAFE_CmdLine.h"       // for handling generic commandline options available to most programs in the CAFE system.
+#include <CmdLineUtly.h>        	// for ProcessFlatCommandLine()
+#include "Utils/CAFE_CmdLine.h"       	// for handling generic commandline options available to most programs in the CAFE system.
 
-#include <FormatUtly.h>		// for Bold(), Underline()
+#include <FormatUtly.h>			// for Bold(), Underline()
 
 #define _PROG_NAME ((string) "Hindcast")
 
@@ -438,11 +439,11 @@ int main(int argc, char *argv[])
 				{
 					if (!NeedRecovery)
 					{
-						DateStrs.push_back(GiveTime(*ADate, "%HZ%d%b%Y"));
+						DateStrs.push_back(GiveTimeUTC(*ADate, "%HZ%d%b%Y"));
 					}
 
                                         if (NeedRecovery && (*ADatabase == RedoDatabase) 
-					    && (*EventTypeName == RedoTable) && (GiveTime(*ADate, "%HZ%d%b%Y") == RedoDate))
+					    && (*EventTypeName == RedoTable) && (GiveTimeUTC(*ADate, "%HZ%d%b%Y") == RedoDate))
                                         {
                                                 NeedRecovery = false;
                                         }
@@ -474,11 +475,11 @@ int main(int argc, char *argv[])
 				{
 					if (!NeedRecovery)
 					{
-						FoldDateStrs.push_back(GiveTime(*ADate, "%HZ%d%b%Y"));
+						FoldDateStrs.push_back(GiveTimeUTC(*ADate, "%HZ%d%b%Y"));
 					}
 
 					if (NeedRecovery && (*ADatabase == RedoDatabase)
-					    && (("UNTRAINED." + *EventTypeName) == RedoTable) && (GiveTime(*ADate, "%HZ%d%b%Y") == RedoDate))
+					    && (("UNTRAINED." + *EventTypeName) == RedoTable) && (GiveTimeUTC(*ADate, "%HZ%d%b%Y") == RedoDate))
 					{
 						NeedRecovery = false;
 					}

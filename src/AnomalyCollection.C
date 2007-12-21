@@ -6,7 +6,8 @@ using namespace std;
 #include <string>
 #include <fstream>
 #include <ctime>
-#include <cmath>
+#include <cmath>				// for (TODO: get list of things I need cmath for)
+#include <cctype>				// for size_t
 #include <errno.h>
 
 #include <CmdLineUtly.h>			// for ProcessFlatCommandLine()

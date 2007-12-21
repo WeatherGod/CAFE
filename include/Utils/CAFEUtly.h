@@ -5,16 +5,15 @@
 #include <string>
 #include <vector>
 
-#define MYSQLPP_SSQLS_NO_STATICS       // makes sure that the SSQL structs are only declared, not defined.
-#include "CAFE_SQLStructs.h"		// for LonLatAnom, LonLatAnomDate
+#include "Utils/LonLatAnom.h"		// for LonLatAnom, LonLatAnomDate structures
 
-// This might go away soon...
-#include "../SPAnalysis/BoardConvertor.h"
-#include "../SPAnalysis/ClusterBoard.h"
-#include "../Config/Configuration.h"
+// TODO: Refactor this need away.
+#include "SPAnalysis/BoardConvertor.h"
+#include "SPAnalysis/ClusterBoard.h"
+#include "Config/Configuration.h"
 
 
-// Consider redesigning...
+// TODO: Consider redesigning...
 bool GetGridInfo(const Configuration &ConfigInfo, BoardConvertor &ProjectionInfo, const size_t &Radius);
 bool LoadClusterBoard(ClusterBoard &EmptyBoard, const vector <LonLatAnomDate> &TheMembers,
                       const BoardConvertor &ProjectionTranslator);
@@ -22,6 +21,8 @@ bool LoadClusterBoard(ClusterBoard &EmptyBoard, const vector <LonLatAnomDate> &T
 
 LonLatAnom LoadForecast(const string &FileName, const string &DateOfEvent);
 bool WriteLonLatAnoms(const vector <LonLatAnom> &TheMembers, const string &OutFileName);
+
+// TODO: Adopt the use of the FieldMeasure structure.
 bool WriteFieldMeasure(const double &Alpha, const double &Phi, 
 		       const double &GammaMaxValue, const double &ChiMaxValue,
 		       const string &OutFileName);

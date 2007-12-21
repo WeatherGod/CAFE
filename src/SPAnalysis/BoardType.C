@@ -4,6 +4,7 @@
 using namespace std;
 
 #include <vector>
+#include <cctype>			// for size_t
 
 #include "Utils/LonLatAnom.h"		//for LonLatAnomDate structure
 

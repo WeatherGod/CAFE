@@ -6,6 +6,7 @@ using namespace std;
 #include <string>
 #include <ctime>
 #include <cstdlib>			// for rand()
+#include <cctype>			// for size_t
 
 #include <mysql++/mysql++.h>
 

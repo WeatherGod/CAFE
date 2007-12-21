@@ -4,25 +4,27 @@ using namespace std;
 #include <string>
 #include <vector>
 #include <cmath>
-#include <algorithm>		// for max_element()
+#include <ctime>
+#include <cctype>				// for size_t
+#include <algorithm>				// for max_element(), set_difference()
 
-#include <StrUtly.h>		// for TakeDelimitedList(), StrToDouble(), DoubleToStr(), ValidNumber()
+#include <StrUtly.h>				// for TakeDelimitedList(), StrToDouble(), DoubleToStr(), ValidNumber()
 #include "Config/Configuration.h"
 
 #include <mysql++/mysql++.h>
 
-#include "Utils/CAFEUtly.h"		// for GetGridInfo(). LoadClusterBoard()
-#include "Utils/CAFE_SQLUtly.h"	// for LoadLonLatAnoms(), SaveLonLatAnoms(), SaveBoardToDatabase()
+#include "Utils/CAFEUtly.h"			// for GetGridInfo(). LoadClusterBoard()
+#include "Utils/CAFE_SQLUtly.h"			// for LoadLonLatAnoms(), SaveLonLatAnoms(), SaveBoardToDatabase()
 
 #include "SPAnalysis/ClusterConfig.h"
-#include "SPAnalysis/BoardConvertor.h"	// for BoardConvertor class
-#include "SPAnalysis/StrongPointAnalysis.h" // for the StrongPointAnalysis class
+#include "SPAnalysis/BoardConvertor.h"		// for BoardConvertor class
+#include "SPAnalysis/StrongPointAnalysis.h" 	// for the StrongPointAnalysis class
 
-#include <CmdLineUtly.h>	// for ProcessFlatCommandLine()
-#include "Utils/CAFE_CmdLine.h"	// for handling generic commandline options available to most programs in the CAFE system.
-#include "Utils/Cluster_CmdLine.h"	// for handling command line options available for the clustering algorithm.
+#include <CmdLineUtly.h>			// for ProcessFlatCommandLine()
+#include "Utils/CAFE_CmdLine.h"			// for handling generic commandline options available to most programs in the CAFE system.
+#include "Utils/Cluster_CmdLine.h"		// for handling command line options available for the clustering algorithm.
 
-#include <FormatUtly.h>		// for Underline(), Bold()
+#include <FormatUtly.h>				// for Underline(), Bold()
 
 
 #define DEBUG_VERBOSE_LEVEL 5
@@ -289,7 +291,7 @@ int main(int argc, char *argv[])
 				}
 
 				string FoldName = GetCaseFilename(CAFEOptions.CAFEPath, Database, *EventTypeName, FoldNumber);
-				vector <mysqlpp::DateTime> FoldDates = LoadCaseTimes(FoldName);
+				vector <time_t> FoldDates = LoadCaseTimes(FoldName);
 				OccurranceCnt -= FoldDates.size();
 #endif
 //-------------------------------------------------------------------------------------------------------------------------------------------
@@ -437,12 +439,12 @@ int main(int argc, char *argv[])
 								// database to nulls (or NANs).
 
 								// The dates come in ascending order.
-								vector <mysqlpp::DateTime> ClusteredDates = GiveClusteredDates(TheCluster, 
-															       ProjectionTranslator);
-								vector <mysqlpp::DateTime> OrigDates = SplitIntoTime(TheMembers);
+								vector <time_t> ClusteredDates = GiveClusteredDates(TheCluster, 
+														    ProjectionTranslator);
+								vector <time_t> OrigDates = SplitIntoTime(TheMembers);
 								sort(OrigDates.begin(), OrigDates.end());
 
-								vector <mysqlpp::DateTime> UnusedDates(OrigDates.size() - ClusteredDates.size());
+								vector <time_t> UnusedDates(OrigDates.size() - ClusteredDates.size());
 
 								if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "set difference...";}
 

@@ -4,6 +4,7 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cctype>			// for size_t
 
 #include "Config/Configuration.h"
 #include <CmdLineUtly.h>		// for ProcessFlatCommandLine()

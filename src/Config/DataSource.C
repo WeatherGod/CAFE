@@ -9,6 +9,7 @@ using namespace std;
 #include <map>
 #include <string>
 #include <algorithm>					// for binary_search(), lower_bound()
+#include <cctype>					// for size_t
 
 #include "Config/DataSource.h"
 #include "Config/DataVar.h"

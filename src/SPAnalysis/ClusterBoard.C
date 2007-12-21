@@ -12,6 +12,7 @@ using namespace std;
 #include <StatUtly.h>			// for Avg()
 #include <DistUtly.h>			// for Distance()
 #include <cmath>			// for powl()
+#include <cctype>			// for size_t
 
 #include "Utils/CAFEEqtns.h"			// for PhiCalc()
 

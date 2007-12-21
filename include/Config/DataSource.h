@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 #include <ctime>
+#include <cctype>			// for size_t
 
 #include "DataVar.h"
 

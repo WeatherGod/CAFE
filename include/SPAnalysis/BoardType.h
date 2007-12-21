@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <cctype>				// for size_t
 
 #include "Utils/LonLatAnom.h"			// for LonLatAnomDate structure
 

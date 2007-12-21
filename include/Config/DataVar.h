@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <cctype>			// for size_t
 
 class DataVar
 {

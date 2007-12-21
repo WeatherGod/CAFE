@@ -26,8 +26,8 @@ string DateTimeToStr(const mysqlpp::DateTime &SQLTime);
 
 //------------------------------------------------------------------------------------------------------
 // SQLstructs utilities.  Some may soon be deprecated...
-vector <mysqlpp::DateTime> SplitIntoTime(const vector <LonLatAnomDate> &TheMembers);
-vector <mysqlpp::DateTime> GiveClusteredDates(const ClusterBoard &TheBoard, const BoardConvertor &ProjectionInfo);
+vector <time_t> SplitIntoTime(const vector <LonLatAnomDate> &TheMembers);
+vector <time_t> GiveClusteredDates(const ClusterBoard &TheBoard, const BoardConvertor &ProjectionInfo);
 //------------------------------------------------------------------------------------------------------
 
 
@@ -61,7 +61,7 @@ mysqlpp::Query MakeSaver_LonLatAnomDate(mysqlpp::Connection &TheConnection);
 void SaveLonLatAnom(const double &Lon, const double &Lat, const double &Anom, const time_t ADateTime,
                      mysqlpp::Query &TheQuery, const string &FieldStem);
 void SaveLonLatAnoms(const vector <double> &Lons, const vector <double> &Lats,
-                     const vector <double> &Anoms, const vector <mysqlpp::DateTime> &DateTimes,
+                     const vector <double> &Anoms, const vector <time_t> &DateTimes,
                      mysqlpp::Query &TheQuery, const string &FieldStem);
 // Consider Redesigning...
 void SaveBoardToDatabase(const ClusterBoard &TheBoard, mysqlpp::Query &TheQuery, const string &FieldStem,

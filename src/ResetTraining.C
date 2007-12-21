@@ -6,7 +6,7 @@ using namespace std;
 #include <string>
 
 #include <cstdio>		// for getchar()
-#include <cctype>		// for toupper()
+#include <cctype>		// for toupper(), size_t
 
 #include "Config/Configuration.h"
 

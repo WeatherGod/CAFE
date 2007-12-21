@@ -5,6 +5,7 @@ using namespace std;
 
 #include <iostream>
 #include <vector>
+#include <cctype>		// for size_t
 #include <string>
 #include <algorithm>		// for set_intersection(), set_difference(), sort(), find()
 

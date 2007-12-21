@@ -2,6 +2,7 @@
 #define _STRONGPOINTANALYSIS_H
 
 #include <vector>
+#include <cctype>		// for size_t
 #include "BoardType.h"		// for the BoardType class
 #include "ClusterBoard.h"	// for the ClusterBoard class
 

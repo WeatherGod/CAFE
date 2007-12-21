@@ -3,6 +3,8 @@ using namespace std;
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cctype>			// for size_t
+#include <algorithm>			// for binary_search()
 #include <fstream>
 
 #include "Config/Configuration.h"

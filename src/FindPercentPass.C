@@ -6,6 +6,7 @@ using namespace std;
 #include <string>
 #include <vector>
 #include <cmath>			// for sqrt()
+#include <cctype>			// for size_t
 
 #include "Config/Configuration.h"
 

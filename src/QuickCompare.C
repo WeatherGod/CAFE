@@ -5,6 +5,7 @@ using namespace std;
 #include <vector>
 #include <string>
 #include <ctime>
+#include <cctype>			// for size_t
 #include <cstdlib>			// for rand()
 
 #include <mysql++/mysql++.h>

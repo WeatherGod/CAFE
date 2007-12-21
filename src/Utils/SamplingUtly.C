@@ -4,7 +4,6 @@
 using namespace std;
 
 #include <fstream>
-#include <mysql++/mysql++.h>		// for mysqlpp::DateTime
 #include <vector>
 #include <algorithm>			// for lower_bound() and binary_search()
 #include <string>
@@ -20,7 +19,7 @@ string GetCaseFilename(const string &CAFEPath, const string &Database, const str
 	return(CAFEPath + "/AnalysisInfo/" + Database + '/' + EventTypeName + "_OutOfSample_Fold" + IntToStr(CaseNumber));
 }
 
-vector <mysqlpp::DateTime> LoadCaseTimes(const string &CaseFilename)
+vector <time_t> LoadCaseTimes(const string &CaseFilename)
 {
         ifstream CaseStream( CaseFilename.c_str() );
 
@@ -29,16 +28,14 @@ vector <mysqlpp::DateTime> LoadCaseTimes(const string &CaseFilename)
                 throw("Could not open the OutOfSample file: " + CaseFilename + " for reading...");
         }
 
-        vector <mysqlpp::DateTime> CaseDates(0);
+        vector <time_t> CaseDates(0);
 	time_t TimeRead;
 	
         CaseStream >> TimeRead;
 
         while (!CaseStream.eof())
         {
-		mysqlpp::DateTime TempTime( Time_tToDateTime(TimeRead) );
-		CaseDates.insert(lower_bound(CaseDates.begin(), CaseDates.end(), TempTime), TempTime);
-
+		CaseDates.insert(lower_bound(CaseDates.begin(), CaseDates.end(), TimeRead), TimeRead);
                 CaseStream >> TimeRead;
         }
 
@@ -48,6 +45,8 @@ vector <mysqlpp::DateTime> LoadCaseTimes(const string &CaseFilename)
 }
 
 
+
+// TODO: Refactor these so that I use std::set instead.  Would be a whole lot more efficient.
 void RemoveCaseDates(vector <double> &Lons, vector <double> &Lats, vector <double> &Anoms, vector <time_t> &DateTimes,
                      const vector <time_t> &CaseDates)
 {
@@ -75,12 +74,12 @@ void RemoveCaseDates(vector <double> &Lons, vector <double> &Lats, vector <doubl
 }
 
 
-void RemoveCaseDates(vector <LonLatAnomDate> &TheMembers, const vector <mysqlpp::DateTime> &CaseDates)
+void RemoveCaseDates(vector <LonLatAnomDate> &TheMembers, const vector <time_t> &CaseDates)
 {
         for (vector<LonLatAnomDate>::iterator AMember( TheMembers.begin() ); AMember != TheMembers.end();)
         /* no increments here since I will increment myself */
         {
-                if (binary_search(CaseDates.begin(), CaseDates.end(), Time_tToDateTime(AMember->DateInfo)))
+                if (binary_search(CaseDates.begin(), CaseDates.end(), AMember->DateInfo))
                 {
                         // Lets take out the member!
                         AMember = TheMembers.erase( AMember );

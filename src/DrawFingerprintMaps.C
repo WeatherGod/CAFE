@@ -4,6 +4,7 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cctype>			// for size_t
 
 #include <StrUtly.h>			// for GiveDelimitedList()
 #include "Config/Configuration.h"

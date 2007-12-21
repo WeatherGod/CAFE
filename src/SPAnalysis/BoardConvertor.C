@@ -4,7 +4,8 @@
 using namespace std;
 
 #include <iostream>
-#include <cmath>
+#include <cmath>		// for ceil(), floor(), min(), fabs()
+#include <cctype>		// for size_t
 #include <Projection_t.h>
 #include "SPAnalysis/BoardConvertor.h"
 

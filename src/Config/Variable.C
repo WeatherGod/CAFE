@@ -6,6 +6,7 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cctype>				// for size_t
 #include <string>
 #include <algorithm>				// for binary_search(), lower_bound()
 

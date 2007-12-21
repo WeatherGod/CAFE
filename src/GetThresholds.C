@@ -4,11 +4,12 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cctype>			// for size_t
 #include <cmath>			// for sqrt()
 
 #include "Config/Configuration.h"
 
-#include "Utils/CAFEUtly.h"			// for SaveThresholdVals(), LoadEventScores()
+#include "Utils/CAFEUtly.h"		// for SaveThresholdVals(), LoadEventScores()
 #include <StrUtly.h>			// for TakeDelimitedList(), StrToDouble(), StripWhiteSpace()
 #include <StatUtly.h>			// for Variance(), Avg()
 

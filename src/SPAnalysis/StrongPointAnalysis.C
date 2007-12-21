@@ -4,12 +4,15 @@
 using namespace std;
 
 #include <vector>
+#include <cctype>			// for size_t
 #include <algorithm>			// for find()
 
 #include "SPAnalysis/StrongPointAnalysis.h"
 
-#include "SPAnalysis/BoardType.h"			// for the BoardType class
+#include "SPAnalysis/BoardType.h"		// for the BoardType class
 #include "SPAnalysis/ClusterBoard.h"		// for the ClusterBoard class
+
+// TODO: Refactor this out of the class.
 #include "Utils/CAFEEqtns.h"			// for AlphaCalc()
 
 

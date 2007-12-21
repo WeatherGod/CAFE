@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <ctime>
+#include <cctype>			// for size_t
 
 #include "CAFEDomain.h"
 #include "CAFEVar.h"

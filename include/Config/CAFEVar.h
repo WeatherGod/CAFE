@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <cctype>		// for size_t
 
 class CAFEVar
 {

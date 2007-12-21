@@ -6,6 +6,7 @@ using namespace std;
 #include <fstream>
 #include <ctime>
 #include <cmath>	// for nan
+#include <cctype>			// for size_t
 #include <errno.h>
 
 #include <algorithm>			// for lower_bound(), binary_search()

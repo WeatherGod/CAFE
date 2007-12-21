@@ -5,20 +5,21 @@ using namespace std;
 #include <string>
 #include <cmath>		// for ceil()
 #include <algorithm>		// for max()
+#include <cctype>		// for size_t
 #include <mysql++/mysql++.h>
 #include <StrUtly.h>		// for StrToSize_t()
 
 
 #include "Config/Configuration.h"
 #include "Utils/CAFEUtly.h"		// for GetGridInfo()
-#include "Utils/CAFE_SQLUtly.h"	// for LoadLonLatAnoms(), SaveGammaChiMaxValues(), EstablishConnection()
+#include "Utils/CAFE_SQLUtly.h"		// for LoadLonLatAnoms(), SaveGammaChiMaxValues(), EstablishConnection()
 
-#include "Utils/CAFE_CmdLine.h"	// for generic CAFE command line handling...
+#include "Utils/CAFE_CmdLine.h"		// for generic CAFE command line handling...
 
 #include "Utils/CAFEEqtns.h"		// for CalcGamma(), NewCalcChi()
 
-#include <Histogram.h>		// for the Histogram class
-#include <CmdLineUtly.h>	// for ProcessFlatCommandLine()
+#include <Histogram.h>			// for the Histogram class
+#include <CmdLineUtly.h>		// for ProcessFlatCommandLine()
 
 
 struct LatLon_t
@@ -260,6 +261,7 @@ int main(int argc, char *argv[])
 						for (size_t PeakValIndex = 0; PeakValIndex < ConfigInfo.ExtremaCount(); PeakValIndex++)
 						{
 							const string FieldStem = *ALabel + '_' + ConfigInfo.GiveExtremaName(PeakValIndex);
+							// TODO: Wouldn't I rather want to set these to NAN?
 							double MaxGamma = 0.0;
 							double MaxChi = 0.0;
 							const vector <LonLatAnom> TheClustMembers( LoadLonLatAnoms(LonLatAnomQuery, FieldStem) );

@@ -3,7 +3,8 @@ using namespace std;
 #include <iostream>
 #include <string>
 #include <vector>
-#include <iomanip>
+#include <cctype>			// for size_t
+#include <iomanip>			// for (TODO: find what I am using this for)
 
 #include "Config/Configuration.h"
 

@@ -5,6 +5,7 @@ using namespace std;
 
 #include <iostream>
 #include <vector>
+#include <cctype>		// for size_t
 #include <string>
 
 #include <StrUtly.h>		// for TakeDelimitedList(), StrToInt(), StrToDouble(), StripWhiteSpace()
