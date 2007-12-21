@@ -9,6 +9,11 @@ using namespace std;
 #include <TimeUtly.h>	// for GetTimeUTC(), GiveTimeUTC()
 #include "Utils/EventScoreFile.h"
 
+EventScoreFile::EventScoreFile(const char* filename, const ios::openmode &theOpenMode)
+{
+	open(filename, theOpenMode);
+}
+
 EventScoreFile::~EventScoreFile()
 {
 	close();

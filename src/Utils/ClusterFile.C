@@ -8,6 +8,15 @@ using namespace std;
 #include "Utils/ClusterFile.h"
 
 
+ClusterFile::ClusterFile(const char* filename, const ios::openmode &theOpenMode)
+{
+	open(filename, theOpenMode);
+}
+
+ClusterFile::~ClusterFile()
+{
+	close();
+}
 
 LonLatAnom
 ClusterFile::RetrieveMember()

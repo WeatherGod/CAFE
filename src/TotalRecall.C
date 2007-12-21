@@ -9,12 +9,15 @@ using namespace std;
 #include <algorithm>			// for lower_bound()
 
 #include "Config/Configuration.h"
-#include <TimeUtly.h>			// for GetTime(), GiveTime()
+#include <TimeUtly.h>			// for GetTimeUTC(), GiveTimeUTC()
 #include <CmdLineUtly.h>		// for ProcessFlatCommandLine()
+
 #include "Utils/CAFE_CmdLine.h"                       // for generic CAFE command line option handling
+#include "Utils/PeakValleyFile.h"
+#include "Utils/LonLatAnom.h"		// for LonLatAnom structure
+
 #include <FormatUtly.h>                 // for making things look nice and pretty
 #include <StrUtly.h>			// for TakeDelimitedList(), GiveDelimitedList(), StrToDouble(), Size_tToStr(), RipWhiteSpace()
-#include <VectorUtly.h>			// for MergeUnique()
 
 #define _PROG_NAME              ((string) "TotalRecall")
 
@@ -54,100 +57,35 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 }
 
 
-
-bool CheckRead(const string &LineRead)
-{
-        if (LineRead.find("---^^^---End") != string::npos)
-        {
-                cerr << "\n\tError in reading data from PeakVal output.  End of data came earlier than expected\n";
-                cerr << "If there is a filename on the next line, then PeakVal could not open this file\n";
-                cerr << LineRead.substr(12) << endl;
-                return(false);
-        }
-
-        return(true);
-}
-
-
-void CheckValues(vector <double> &ExtremumInfo, vector <string> &TempHold)
-{
-        if (TempHold[0] == "999" || TempHold[0] == "-999")
-        {
-                TempHold[0] = "\\N";
-                TempHold[1] = "\\N";
-                TempHold[2] = "\\N";
-        }
-
-        // StrToDouble() will return a NAN value if it encounters "\\N"
-        ExtremumInfo[0] = StrToDouble(TempHold[0]);
-        ExtremumInfo[1] = StrToDouble(TempHold[1]);
-        ExtremumInfo[2] = StrToDouble(TempHold[2]);
-}
-
-
-bool ProcessData(vector <double> &ExtremumInfo, const string &LineRead)
-{
-        if (CheckRead(LineRead))
-        {
-                vector <string> TempHold = TakeDelimitedList(LineRead, ' ');
-                CheckValues(ExtremumInfo, TempHold);
-                return(true);
-        }
-        else
-        {
-                return(false);
-        }
-}
-
 bool ProcessAndPrint(const string &PeakValoutputName, const vector <string> &CAFEVarLabels, const string &ForecastLocation, 
 		     const Configuration &ConfigInfo, const string &EventDate, const bool &SetCache)
-{
-        string LineRead = "";
-        ifstream PeakValStream(PeakValoutputName.c_str());
+{ 
+        PeakValleyFile peakValStream(PeakValoutputName.c_str(), ios::in);
 
-        if (!PeakValStream.is_open())
+        if (!peakValStream.is_open())
         {
-                cerr << "\n\tCould not open the PeakVal output file: " << PeakValoutputName << "  for reading.\n";
+                cerr << "ERROR: Could not open the PeakVal output file: " << PeakValoutputName << "  for reading.\n";
                 return(false);
         }
 
         for (size_t DataIndex = 0; DataIndex < CAFEVarLabels.size(); DataIndex++)
         {
-                bool FoundStart = false;
+		vector<LonLatAnom> ExtremumInfo = peakValStream.RetrieveExtrema(1, ConfigInfo.ExtremaCount());
 
-                getline(PeakValStream, LineRead);
-                while (!FoundStart && !PeakValStream.eof())
-                {
-                        if (LineRead.find("---^^^---Start") != string::npos)
-                        {
-                                FoundStart = true;
-                        }
-                        getline(PeakValStream, LineRead);
-                }
-
-                if (!FoundStart)
-                {
-			cerr << "\n\tCould not find data in the PeakVal output file.  Exiting prematurely...\n";
-                        cerr << "\tDataIndex: " << DataIndex << "    CAFEVarLabels.size(): " << CAFEVarLabels.size() << endl;
-
-                        PeakValStream.close();
-
-                        return(false);
+		if (ExtremumInfo.empty())
+		{
+			cerr << "ERROR: Problem reading the output from peakvalley file: " << PeakValoutputName << endl;
+			peakValStream.close();
+			return(false);
 		}
-                
-	        for (size_t ExtremumIndex = 0; ExtremumIndex < ConfigInfo.ExtremaCount() && !PeakValStream.eof(); ExtremumIndex++)
+
+                for (size_t ExtremumIndex = 0; ExtremumIndex < ConfigInfo.ExtremaCount() && peakValStream.good(); ExtremumIndex++)
 		{
 			const string ExtremumFilename = ForecastLocation + CAFEVarLabels[DataIndex] + '_' 
 							+ ConfigInfo.GiveExtremaName(ExtremumIndex) + ".field";
-				
-			vector <double> ExtremumInfo(3);
-			if (!ProcessData(ExtremumInfo, LineRead))
-                        {
-				cerr << "Problem reading the output from PeakVals..." << endl;
-       	                        PeakValStream.close();
-               	                return(false);
-                       	}
 
+			// TODO: Refactor into the ForecastFieldFile class
+				
 			ofstream ExtremumStream;
 
 			if (SetCache)
@@ -162,20 +100,21 @@ bool ProcessAndPrint(const string &PeakValoutputName, const vector <string> &CAF
                         if (!ExtremumStream.is_open())
                         {
                                 cerr << "Could not open the forecast file: " << ExtremumFilename << endl;
-                                PeakValStream.close();
+                                peakValStream.close();
 	                        return(false);
                         }
 
-                        ExtremumStream << DoubleToStr(ExtremumInfo[1]) << ' ' << DoubleToStr(ExtremumInfo[2]) 
-				       << ' ' << DoubleToStr(ExtremumInfo[0]) << ' ' << EventDate << '\n';
+                        ExtremumStream << DoubleToStr(ExtremumInfo[ExtremumIndex].Lon) << ' ' 
+				       << DoubleToStr(ExtremumInfo[ExtremumIndex].Lat) << ' '
+				       << DoubleToStr(ExtremumInfo[ExtremumIndex].StdAnom) << ' ' 
+				       << EventDate << '\n';
 
                         ExtremumStream.close();
-
-			getline(PeakValStream, LineRead);
 		}// end extremum loop
+
         }// end CAFEVarLabel loop
 
-        PeakValStream.close();
+        peakValStream.close();
 
         return(true);
 }
@@ -225,6 +164,7 @@ bool RunPeakValExtractor(const string &ProgName, const string &CmdLineArg, const
 
 int main(int argc, char *argv[])
 {
+	// Working on eliminating this need.
 	setenv("TZ", "UTC UTC", 1);
 
 	vector <string> CmdLineArgs = ProcessFlatCommandLine(argc, argv);

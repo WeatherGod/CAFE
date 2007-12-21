@@ -9,23 +9,25 @@ using namespace std;
 
 #include <StrUtly.h>	// TakeDelimitedList(), StrToDouble()
 
+#include "Utils/LonLatAnom.h"		// for LonLatAnom structure
 #include "Utils/PeakValleyFile.h"
 
-#define _CAFE_DATAFIELDCNT_ 3
+
+PeakValleyFile::PeakValleyFile(const char* filename, const ios::openmode &theOpenmode)
+{
+	open(filename, theOpenmode);
+}
 
 PeakValleyFile::~PeakValleyFile()
 {
 	close();
 }
 
-vector <double>
+vector <LonLatAnom>
 PeakValleyFile::RetrieveExtrema(const size_t &variableCnt, const size_t &extremumCnt)
 {
-	// Put in a check here for the read/write status of the file
-	// and handle appropriately
-
 	string lineRead = "";
-	vector<double> extremaInfo(_CAFE_DATAFIELDCNT_ * variableCnt * extremumCnt, NAN);
+	vector<LonLatAnom> extremaInfo(variableCnt * extremumCnt);
 
 	size_t posOffset = 0;
 
@@ -55,13 +57,13 @@ PeakValleyFile::RetrieveExtrema(const size_t &variableCnt, const size_t &extremu
 		// At this point, the read head for the file will be
 		// on the line after the "---^^^---Start" line.
 
-		for (size_t extremumIndex = 0; extremumIndex < extremumCnt && good(); extremumIndex++, posOffset += _CAFE_DATAFIELDCNT_)
+		for (size_t extremumIndex = 0; extremumIndex < extremumCnt && good(); extremumIndex++, posOffset++)
 		{
 			if (lineRead.find("---^^^---End") == string::npos)
 			{
 				vector<string> lineList = TakeDelimitedList(lineRead, ' ');
 
-				if (lineList.size() != _CAFE_DATAFIELDCNT_)
+				if (lineList.size() != 3)
 				{
 					cerr << "ERROR: Problem reading the peakvalley file.\n";
 					cerr << "       The line does not have the correct number of data fields:\n";
@@ -80,12 +82,11 @@ PeakValleyFile::RetrieveExtrema(const size_t &variableCnt, const size_t &extremu
 				}
 
 				// Standard Anomaly
-				extremaInfo[posOffset] = StrToDouble(lineList[0]);
+				extremaInfo[posOffset].StdAnom = StrToDouble(lineList[0]);
 				// Longitude
-				extremaInfo[posOffset + 1] = StrToDouble(lineList[1]);
+				extremaInfo[posOffset].Lon = StrToDouble(lineList[1]);
 				// Latitude
-				extremaInfo[posOffset + 2] = StrToDouble(lineList[2]);
-
+				extremaInfo[posOffset].Lat = StrToDouble(lineList[2]);
 			}
 			else
 			{
@@ -98,8 +99,6 @@ PeakValleyFile::RetrieveExtrema(const size_t &variableCnt, const size_t &extremu
 
 			std::getline(*this, lineRead);
 		}// end extremum loop
-
-
 	} // end of variable loop
 
 
@@ -114,17 +113,13 @@ PeakValleyFile::RetrieveExtrema(const size_t &variableCnt, const size_t &extremu
 
 
 bool
-PeakValleyFile::SaveExtrema(const vector<double> &extremaInfo, const size_t &variableCnt, const size_t &extremumCnt)
-// This function is likely to become redesigned.  So don't rely on its existance.
+PeakValleyFile::SaveExtrema(const vector<LonLatAnom> &extremaInfo, const size_t &variableCnt, const size_t &extremumCnt)
+// This function is likely to become refactored.  So don't rely on its existance.
 {
-	// Check for the read/write status of the file and
-	// handle appropriately
-
-	if (extremaInfo.size() != _CAFE_DATAFIELDCNT_ * variableCnt * extremumCnt)
+	if (extremaInfo.size() != (variableCnt * extremumCnt))
 	{
 		cerr << "ERROR: Size mismatch!  The number of extrema information (" << extremaInfo.size() << ") does not\n"
-		     << "       match that which is expected (" << _CAFE_DATAFIELDCNT_ * variableCnt * extremumCnt << ").\n";
-
+		     << "       match that which is expected (" << variableCnt * extremumCnt << ").\n";
 		return(false);
 	}
 
@@ -133,11 +128,11 @@ PeakValleyFile::SaveExtrema(const vector<double> &extremaInfo, const size_t &var
 	{
 		*this << "---^^^---Start\n";
 
-		for (size_t extremumIndex = 0; extremumIndex < extremumCnt; extremumIndex++, posOffset += _CAFE_DATAFIELDCNT_)
+		for (size_t extremumIndex = 0; extremumIndex < extremumCnt; extremumIndex++, posOffset++)
 		{
-			*this << extremaInfo[posOffset] << ' '
-			      << extremaInfo[posOffset + 1] << ' '
-			      << extremaInfo[posOffset + 2] << '\n';
+			*this << extremaInfo[posOffset].StdAnom << ' '
+			      << extremaInfo[posOffset].Lon << ' '
+			      << extremaInfo[posOffset].Lat << '\n';
 		}
 
 		*this << "---^^^---End\n";

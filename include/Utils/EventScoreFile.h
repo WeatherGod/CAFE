@@ -17,6 +17,9 @@
 class EventScoreFile : public fstream
 {
 	public:
+		EventScoreFile(const char* filename, const ios::openmode &theOpenMode);
+		~EventScoreFile();
+
 		pair< vector<double>, vector<string> > RetrieveEventScores();
 		pair<double, string> RetrieveEventScore();
 
@@ -24,8 +27,12 @@ class EventScoreFile : public fstream
 		// moment in time.
 		// The date string must be of format %HZ%d%b%Y
 		bool SaveEventScores(const vector<double> &eventScores, const string &dateOfEvent);
-		
-		~EventScoreFile();
+	
+	private:
+		// Placed in private so that it won't be used.
+		// This will not be defined.
+		EventScoreFile(const EventScoreFile &copyFile);
+
 };
 
 #endif

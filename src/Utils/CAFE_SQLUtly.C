@@ -7,6 +7,7 @@ using namespace std;
 #include <string>
 #include <mysql++/mysql++.h>
 
+#include "Utils/LonLatAnom.h"		// for LonLatAnom structure
 #define MYSQLPP_SSQLS_NO_STATICS       // makes sure that the SSQL structs are only declared, not defined.
 #include "Utils/CAFE_SQLStructs.h"			// for LonLatAnom and LonLatAnomDate
 
@@ -666,7 +667,7 @@ bool ClearTable(mysqlpp::Query &TheQuery, const string &TableName)
 	return(TheQuery.exec("DELETE FROM " + TableName));
 }
 
-bool UpdateTable(const vector <double> &TheValues, const vector <string> &ColumnNames, const time_t &ADateTime, 
+bool UpdateTable(const vector <LonLatAnom> &TheValues, const vector <string> &ColumnNames, const time_t &ADateTime, 
 		 mysqlpp::Query &TheQuery, const string &TableName)
 {
 	if (TheValues.empty())
@@ -674,10 +675,15 @@ bool UpdateTable(const vector <double> &TheValues, const vector <string> &Column
 		return(true);
 	}
 
-	TheQuery << "UPDATE " << TableName << " SET " << ColumnNames[0] << '=' << DoubleToStr(TheValues[0]);
+	// TODO: Sanitize input.
+	TheQuery << "UPDATE " << TableName << " SET " << ColumnNames[0] << "_StdAnom" << '=' << DoubleToStr(TheValues[0].StdAnom) << ", "
+						      << ColumnNames[0] << "_Lon" << '=' << DoubleToStr(TheValues[0].Lon) << ", "
+						      << ColumnNames[0] << "_Lat" << '=' << DoubleToStr(TheValues[0].Lat);
 	for (size_t Index = 1; Index < TheValues.size(); Index++)
 	{
-		TheQuery << ", " << ColumnNames[Index] << '=' << DoubleToStr(TheValues[Index]);
+		TheQuery << ", " << ColumnNames[Index] << "_StdAnom" << '=' << DoubleToStr(TheValues[Index].StdAnom) << ", "
+				 << ColumnNames[Index] << "_Lon" << '=' << DoubleToStr(TheValues[Index].Lon) << ", "
+				 << ColumnNames[Index] << "_Lat" << '=' << DoubleToStr(TheValues[Index].Lat);
 	}
 
 	TheQuery << " WHERE DateInfo = '" << Time_tToDateTime(ADateTime) << "'";

@@ -5,12 +5,15 @@ using namespace std;
 
 #include <vector>
 #include <iostream>
-#include <fstream>
-#include <cmath>	// for isnan(), nan()
+#include <cmath>			// for isnan(), NAN
 #include <string>
 
-#include <StrUtly.h>			// for StrToDouble(), DoubleToStr(), StripWhiteSpace(),
+#include <StrUtly.h>			// for StrToDouble(), DoubleToStr(),
 					// TakeDelimitedList(), GiveDelimitedList()
+
+#include "Utils/EventScoreFile.h"
+#include "Utils/FieldMeasFile.h"
+#include "Utils/ClusterFile.h"
 
 
 // These might go away soon...
@@ -20,9 +23,6 @@ using namespace std;
 
 
 #include <Projection_t.h>			// for the Projection_t base class
-#include <TimeUtly.h>				// for GetTime(), GiveTime()
-
-#include <unistd.h>				// for access()
 
 #define MYSQLPP_SSQLS_NO_STATICS        // makes sure that the SSQL structs are only declared, not defined.
 #include "Utils/CAFE_SQLStructs.h"		// for LonLatAnomDate, LonLatAnom type
@@ -112,10 +112,11 @@ LonLatAnom LoadForecast(const string &FileName, const string &DateOfEvent)
 
         getline(InputList, LineRead);
 
-	const size_t DateOfEventLength( DateOfEvent.size() );
+	const size_t DateOfEventLength = DateOfEvent.size();
 		
 	while (InputList.good())
         {
+		// The Date of the event is at the end of the line, so check there.
 		if (LineRead.find(DateOfEvent, LineRead.size() - DateOfEventLength) != string::npos)
 		{
 			const vector <string> TempHold( TakeDelimitedList(LineRead, ' ') );
@@ -143,7 +144,9 @@ LonLatAnom LoadForecast(const string &FileName, const string &DateOfEvent)
 
 	cerr << "ERROR: Could not find the forecast!" << endl;
 	LonLatAnom BadState;
-	BadState.Lon = BadState.Lat = BadState.StdAnom = nan("nan");
+	BadState.Lon = NAN;
+	BadState.Lat = NAN;
+	BadState.StdAnom = NAN;
 
 	return(BadState);
 }
@@ -152,76 +155,72 @@ LonLatAnom LoadForecast(const string &FileName, const string &DateOfEvent)
 // Still needed for some backwards-compatibility programs...
 bool WriteLonLatAnoms(const vector <LonLatAnom> &TheMembers, const string &OutFileName)
 {
-	ofstream NewFile(OutFileName.c_str());
+	ClusterFile clusterStream(OutFileName.c_str(), ios::out);
 
-        if (!NewFile.is_open())
+        if (!clusterStream.is_open())
         {
 		cerr << "ERROR: Could not open file " << OutFileName << " for writing.\n";
 		return(false);
 	}
 
+	bool saveState = clusterStream.SaveCluster(TheMembers);
 
-       	for (vector<LonLatAnom>::const_iterator AMember( TheMembers.begin() ); AMember != TheMembers.end(); AMember++)
-	{
-		NewFile << DoubleToStr(AMember->Lon, 5) << ' '
-			<< DoubleToStr(AMember->Lat, 5) << ' '
-			<< DoubleToStr(AMember->StdAnom, 7) << '\n';
-	}
+	clusterStream.close();
 
-	NewFile.close();
+	return(saveState);       	
 }
 
 
 // Still needed for backwards-compatibility programs...
 bool WriteFieldMeasure(const double &Alpha, const double &Phi, const double &GammaMaxValue, const double &ChiMaxValue, const string &OutFileName)
 {
-        ofstream OutStream(OutFileName.c_str());
+        FieldMeasFile fieldMeasStream(OutFileName.c_str(), ios::out);
 
-	if (!OutStream.is_open())
+	if (!fieldMeasStream.is_open())
         {
-        	cerr << "ERROR: Could not open the MaxGammaChi file: " << OutFileName << endl;
+        	cerr << "ERROR: Could not open the field measure file: " << OutFileName << endl;
                 return(false);
 	}
                 
-	OutStream << DoubleToStr(Alpha, 7) << ' '
-		  << DoubleToStr(Phi, 7) << '\n'
-		  << DoubleToStr(GammaMaxValue, 7) << ' '
-		  << DoubleToStr(ChiMaxValue, 7) << '\n';
+	FieldMeasure theFieldMeasure;
+	theFieldMeasure.Alpha = Alpha;
+	theFieldMeasure.Phi = Phi;
+	theFieldMeasure.GammaMax = GammaMaxValue;
+	theFieldMeasure.ChiMax = ChiMaxValue;
 
+	bool saveState = fieldMeasStream.SaveFieldMeasure(theFieldMeasure);
 
-	OutStream.close();
+	fieldMeasStream.close();
 
-	return(true);
+	return(saveState);
 }
 
 
-bool SaveEventScores(const string &FileName, const vector <double> &EventScores, const string &DateOfEvent)
+bool SaveEventScores(const string &FileName, const vector <double> &EventScores, const string &dateOfEvent)
 // NOT THE COMPLEMENT OF LoadEventScores() below...
 {
+	// I forget the reason why this is the way it is.
+	// TODO: Find out why this is done this way.
 	if (EventScores.empty())
 	{
 		return(true);
 	}
 
-	ofstream EventScoreFile(FileName.c_str(), ios::app);
+	// Typically, this file already has data in it and this is just the next set of scores to add to it.
+	// kinda like a log file.
+	EventScoreFile scoreStream(FileName.c_str(), ios::app);
 
-        if (!EventScoreFile.is_open())
+        if (!scoreStream.is_open())
         {
 	        cerr << "ERROR: Could not open EventScore file: " << FileName << " for writing." << endl;
                 return(false);
         }
 
-        EventScoreFile << GiveDelimitedList(DoubleToStr(EventScores), ',');
+        bool saveState = scoreStream.SaveEventScores(EventScores, dateOfEvent);
 
-        if (!DateOfEvent.empty())
-        {
-        	EventScoreFile << ',' << GiveTime( GetTime( StrToUpper(DateOfEvent), "%HZ%d%b%Y"), "%Y-%m-%d %H");
-        }
+        scoreStream.close();
 
-        EventScoreFile << '\n';
-        EventScoreFile.close();
-
-	return(true);
+	return(saveState);
 }
 
 // Not the best way of doing things, but, oh well...
@@ -229,49 +228,30 @@ bool LoadEventScores(vector <double> &EventScores, vector <string> &Dates, const
 // This function is designed to retrieve ONE event type's eventscores.
 // I do not like this function very much and plan on changing this around...
 {
-	size_t colIndex = 0;
+	EventScoreFile scoreStream(Filename.c_str(), ios::in);
 
-	ifstream EventScoreStream(Filename.c_str());
-
-	const size_t OrigSize = EventScores.size();
-	const size_t OrigDateSize = Dates.size();
-
-	if (!EventScoreStream.is_open())
+	if (!scoreStream.is_open())
         {
-		cerr << "\n\tCould not open event score file: " << Filename << endl;
+		cerr << "ERROR: Could not open event score file: " << Filename << endl;
                 return(false);
 	}
 
-        string ReadLine = "";
-        
-        getline(EventScoreStream, ReadLine);
+        pair< vector<double>, vector<string> > scoreInfo = scoreStream.RetrieveEventScores();
 
-        while (!EventScoreStream.eof())
-        {
-               	StripWhiteSpace(ReadLine);
-                vector <string> TempHold = TakeDelimitedList(ReadLine, ',');
+        scoreStream.close();
 
-                if (TempHold.size() == 2)			// at least one column of event scores and one for the date
-                {
-                       	EventScores.push_back(StrToDouble(TempHold[colIndex]));
-			Dates.push_back(TempHold.back());
-                }
-                else
-                {
-                       	cerr << "\n\tCould not read properly from the event score file: " << Filename << endl;
-                        cerr << "\t\tThe line: " << ReadLine << endl;
-			EventScores.resize(OrigSize);
-			Dates.resize(OrigDateSize);
-                        EventScoreStream.close();
-                        return(false);
-                }
+	bool readState = true;
 
-                getline(EventScoreStream, ReadLine);
+	if (scoreInfo.first.empty())
+	{
+		cerr << "ERROR: Could not read the event score file, " << Filename << " properly\n";
+		readState = false;
 	}
 
-        EventScoreStream.close();
+	EventScores.insert(EventScores.end(), scoreInfo.first.begin(), scoreInfo.first.end());
+	Dates.insert(Dates.end(), scoreInfo.second.begin(), scoreInfo.second.end());
 
-	return(true);
+	return(readState);
 }
 
 bool SaveThresholdVals(const string &Filename, const vector <string> &TableNames, const vector <double> &ThresholdVals)

@@ -8,9 +8,16 @@
 class FieldMeasFile : public fstream
 {
 	public:
+		FieldMeasFile(const char* filename, const ios::openmode &theOpenMode);
+		~FieldMeasFile();
+
 		FieldMeasure RetrieveFieldMeasure();
 		bool SaveFieldMeasure(const FieldMeasure &theFieldMeasure);
-		~FieldMeasFile();
+
+	private:
+		// Placed in private so that it won't be used.
+		// This will not be defined.
+		FieldMeasFile(const FieldMeasFile &copyFile);
 };
 
 #endif

@@ -11,11 +11,12 @@ using namespace std;
 
 #include <CmdLineUtly.h>			// for ProcessFlatCommandLine()
 #include <StrUtly.h>				// for TakeDelimitedList(), ToUpper(), StrToDouble(), Size_tToStr()
-#include <Utils/CAFEUtly.h>				// for WriteLonLatAnoms()
 #include <Utils/CAFE_SQLUtly.h>			// for InsertEvent(), SaveLonLatAnom(), EstablishConnection()
 #include <Config/Configuration.h>
 
 #include <Utils/CAFE_CmdLine.h>			// for generic CAFE command line option handling...
+#include <Utils/LonLatAnom.h>			// for LonLatAnom structure
+#include <Utils/PeakValleyFile.h>
 
 #include <TimeUtly.h>				// for RoundHour() and others
 #include <FormatUtly.h>				// for Bold(), Underline()
@@ -24,133 +25,46 @@ using namespace std;
 
 
 
-bool CheckRead(const string &LineRead)
-{
-	if (LineRead.find("---^^^---End") != string::npos)
-	{
-		cerr << "\n\tError in reading data from GrAD output.  End of data came earlier than expected\n";
-		cerr << "If there is a filename on the next line, then GrAD could not open this file\n";
-		cerr << LineRead.substr(12) << endl;
-		return(false);
-	}
-
-	return(true);
-}
-
-
-void CheckValues(vector <double> &ExtremumInfo, vector <string> TempHold, const size_t &PosOffset)
-{
-	if (TempHold[0] == "999" || TempHold[0] == "-999")
-	{
-		TempHold[0] = "\\N";
-		TempHold[1] = "\\N";
-		TempHold[2] = "\\N";
-	}
-
-	// StrToDouble() will return a NAN value if it encounters "\\N"
-	// This is standard anomaly
-	ExtremumInfo[PosOffset] = StrToDouble(TempHold[0]);
-	// This is longitude
-	ExtremumInfo[PosOffset + 1] = StrToDouble(TempHold[1]);
-	// This is latitude
-	ExtremumInfo[PosOffset + 2] = StrToDouble(TempHold[2]);
-}
-
-
-bool ProcessExtrema(vector <double> &ExtremumInfo, const string &LineRead, const size_t &PosOffset)
-{
-	if (CheckRead(LineRead))
-        {
-        	vector <string> TempHold = TakeDelimitedList(LineRead, ' ');
-                CheckValues(ExtremumInfo, TempHold, PosOffset);
-		return(true);
-	}
-	else
-	{
-		return(false);
-	}
-}
-
-
 bool ProcessAndPrint(const string &ProgOutputName, const vector <string> &AllCAFEVarLabels, const time_t &EventDateTime,
 		     const double &EventLon, const double &EventLat, const string &EventType,
 		     mysqlpp::Query &TheQuery, const Configuration &ConfigInfo)
 // This funcrion will save the data to the mysql database.
 {
-	string LineRead = "";
-	ifstream ProgStream(ProgOutputName.c_str());
+	PeakValleyFile extremumStream(ProgOutputName.c_str(), ios::in);
 
-	if (!ProgStream.is_open())
+	if (!extremumStream.is_open())
 	{
-		cerr << "\n\tCould not open the program's output file: " << ProgOutputName << "  for reading.\n";
+		cerr << "ERROR: Could not open the program's output file: " << ProgOutputName << "  for reading.\n";
 		return(false);
 	}
 
-	const size_t DataFieldCount = 3;	// StdAnom, Lon, Lat
-	vector <string> ColumnStems(DataFieldCount, "");
-	vector <double> ExtremumInfo(DataFieldCount * AllCAFEVarLabels.size() * ConfigInfo.ExtremaCount(), nan("NAN"));
-	vector <string> ColumnNames(DataFieldCount * AllCAFEVarLabels.size() * ConfigInfo.ExtremaCount(), "");
+	vector<LonLatAnom> extremumInfo = extremumStream.RetrieveExtrema(AllCAFEVarLabels.size(), ConfigInfo.ExtremaCount());
 
-	ColumnStems[0] = "StdAnom";
-	ColumnStems[1] = "Lon";
-	ColumnStems[2] = "Lat";
+	extremumStream.close();
+
+	if (extremumInfo.empty())
+	{
+		cerr << "ERROR: Problem with reading the peak valley file: " << ProgOutputName << endl;
+		return(false);
+	}
+
+
+	// TODO: Refactor this into the TrainingInterface class, somehow...
+	vector <string> ColumnNames(AllCAFEVarLabels.size() * ConfigInfo.ExtremaCount(), "");
 
 	size_t PosOffset = 0;
 	for (vector<string>::const_iterator CAFELabel = AllCAFEVarLabels.begin(); CAFELabel != AllCAFEVarLabels.end(); CAFELabel++)
 	{
-		bool FoundStart = false;
-
-		getline(ProgStream, LineRead);
-		while (!FoundStart && !ProgStream.fail())
+		// PosOffset will be incremented by this for-loop
+		for (size_t ExtremumIndex = 0; ExtremumIndex < ConfigInfo.ExtremaCount(); ExtremumIndex++, PosOffset++)
 		{
-			if (LineRead.find("---^^^---Start") != string::npos)
-			{
-				FoundStart = true;
-			}
-			getline(ProgStream, LineRead);
-		}
-
-		if (!FoundStart)
-		{
-			cerr << "ERROR: Could not find data in the program output file.\n";
-                        ProgStream.close();
-                        return(false);
-		}
-
-		for (size_t ExtremumIndex = 0; ExtremumIndex < ConfigInfo.ExtremaCount() && !ProgStream.eof(); ExtremumIndex++)
-		{
-			if (!ProcessExtrema(ExtremumInfo, LineRead, PosOffset))
-			{
-				cerr << "ERROR: Problem reading the output from the peakvalley program..." << endl;
-				ProgStream.close();
-				return(false);
-			}
-
-			// PosOffset will be incremented by this for loop.
-			for (vector<string>::const_iterator AColumnStem = ColumnStems.begin(); AColumnStem != ColumnStems.end(); 
-			     AColumnStem++, PosOffset++)
-			{
-				ColumnNames[PosOffset] = *CAFELabel + '_' + ConfigInfo.GiveExtremaName(ExtremumIndex) + '_' + *AColumnStem;
-			}
-
-			getline(ProgStream, LineRead);
-		}
-
-		if (ProgStream.eof())
-		{
-			cerr << "Error: Reached end of the program output early." << endl;;
-			cerr << "\tBe sure to reset this part of the training before re-starting" << endl;;
-			
-			ProgStream.close();
-			return(false);
+			ColumnNames[PosOffset] = *CAFELabel + '_' + ConfigInfo.GiveExtremaName(ExtremumIndex);
 		}
 	}
 
-	ProgStream.close();
-
-	if (!UpdateTable(ExtremumInfo, ColumnNames, EventDateTime, TheQuery, EventType))
+	if (!UpdateTable(extremumInfo, ColumnNames, EventDateTime, TheQuery, EventType))
         {
-	        cerr << "Error: Could not add event information into database for Event Type: " << EventType << endl;
+	        cerr << "ERROR: Could not add event information into database for Event Type: " << EventType << endl;
                 return(false);
         }
 
@@ -227,6 +141,7 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 
 int main(int argc, char *argv[])
 {
+	// Working towards eliminating the need for this statement.
 	setenv("TZ", "UTC UTC", 1);		// set's the computer's locale to UTC, so all conversions are done there.
 
 	vector <string> CommandArgs = ProcessFlatCommandLine(argc, argv);
@@ -368,7 +283,7 @@ int main(int argc, char *argv[])
 			{
 				// the event type is an event type indicated by given command 
 				// line options or by the defaults (config file) if no options are given
-				time_t TheDateTime = GetTime(TempHold[0]);
+				time_t TheDateTime = GetTimeUTC(TempHold[0]);
 				TheDateTime = IncrementDateTime(TheDateTime, TimeOffset);	// by default, no change occurs
 				RoundHour(TheDateTime, RoundingHourValue);			// round to the nearest RoundingHourValue hours, starting at 00Z.
 				EventDates.push_back(TheDateTime);

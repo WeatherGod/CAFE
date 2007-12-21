@@ -3,10 +3,10 @@ SHELL = /bin/sh
 
 
 VERSION = -1.0
-CAFEDIRS = AnalysisInfo Forecast SavedTrainings CorrelationCalcs scratch logs
+CAFEDIRS = AnalysisInfo Forecast SavedTrainings CorrelationCalcs scratch logs lib bin
 MAKECAFES = SPAnalysis CAFEConfig CAFEUtils CAFE Utly PeakVal
 
-.PHONY : all clean $(MAKECAFES) tar tar.gz tar.bz2
+.PHONY : all clean clean-depends $(MAKECAFES) tar tar.gz tar.bz2
 
 all : $(CAFEDIRS)
 	cd src; $(MAKE) all
@@ -22,6 +22,9 @@ clean :
 	-rm -f "CAFE$(VERSION).tar.gz"
 	-rm -f "CAFE$(VERSION).tar.bz2"
 	cd src; $(MAKE) clean
+
+clean-depends :
+	cd src; $(MAKE) clean-depends
 
 tar : CAFE$(VERSION).tar
 

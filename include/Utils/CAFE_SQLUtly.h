@@ -6,13 +6,15 @@
 #include <mysql++/mysql++.h>
 #include <ctime>
 
+#include "LonLatAnom.h"			// for LonLatAnom structure
+
 #define MYSQLPP_SSQLS_NO_STATICS       // makes sure that the SSQL structs are only declared, not defined.
-#include "CAFE_SQLStructs.h"		// for LonLatAnom, LonLatAnomDate
+#include "CAFE_SQLStructs.h"		// for LonLatAnomDate
 
-#include "../SPAnalysis/BoardConvertor.h"
-#include "../SPAnalysis/ClusterBoard.h"
+#include "SPAnalysis/BoardConvertor.h"
+#include "SPAnalysis/ClusterBoard.h"
 
-#include "../Config/Configuration.h"
+#include "Config/Configuration.h"
 #include "CAFE_CmdLine.h"
 
 
@@ -76,7 +78,7 @@ void SaveBoardToDatabase(const ClusterBoard &TheBoard, mysqlpp::Query &TheQuery,
 vector <string> GiveTableNames(mysqlpp::Query &TheQuery, const string &Database);
 bool DropTables(mysqlpp::Query &TheQuery, const vector <string> &TableNames);
 bool ClearTable(mysqlpp::Query &TheQuery, const string &TableName);
-bool UpdateTable(const vector <double> &TheValues, const vector <string> &ColumnNames, const time_t &ADateTime,
+bool UpdateTable(const vector <LonLatAnom> &TheValues, const vector <string> &ColumnNames, const time_t &ADateTime,
                  mysqlpp::Query &TheQuery, const string &TableName);
 
 

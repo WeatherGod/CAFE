@@ -4,13 +4,23 @@
 #include <fstream>
 #include <vector>
 #include <cctype>	// for size_t
+#include "Utils/LonLatAnom.h"		// for LonLatAnom structure
 
 class PeakValleyFile : public fstream
 {
 	public:
-		vector <double> RetrieveExtrema(const size_t &variableCnt, const size_t &extremumCnt);
-		bool SaveExtrema(const vector<double> &extremaInfo, const size_t &variableCnt, const size_t &extremumCnt);
+		PeakValleyFile(const char* filename, const ios::openmode &theOpenMode);
 		~PeakValleyFile();
+
+		// This could still be improved further...
+		vector <LonLatAnom> RetrieveExtrema(const size_t &variableCnt, const size_t &extremumCnt);
+		bool SaveExtrema(const vector<LonLatAnom> &extremaInfo, const size_t &variableCnt, const size_t &extremumCnt);
+
+
+	private:
+		// Placed in private so that it won't be used.
+		// This will not be defined.
+		PeakValleyFile(const PeakValleyFile& copyFile);
 };
 
 #endif

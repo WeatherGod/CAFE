@@ -4,18 +4,24 @@
 #include <fstream>
 #include <vector>
 
-#define MYSQLPP_SSQLS_NO_STATICS       // makes sure that the SSQL structs are only declared, not defined.
-#include "CAFE_SQLStructs.h"            // for LonLatAnom
+#include "Utils/LonLatAnom.h"		// for LonLatAnom struct
 
 class ClusterFile : public fstream
 {
 	public:
+		ClusterFile(const char* filename, const ios::openmode &theOpenMode);
+		~ClusterFile();
+
 		vector<LonLatAnom> RetrieveCluster();
 		LonLatAnom RetrieveMember();
 
 		bool SaveCluster(const vector<LonLatAnom> &clusterMembers);
 		bool SaveMember(const LonLatAnom &theMember);
-		~ClusterFile();
+
+	private:
+		// Placed in private so that it won't be used.
+		// This will not be defined.
+		ClusterFile(const ClusterFile &copyFile);
 };
 
 #endif

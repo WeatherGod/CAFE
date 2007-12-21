@@ -5,6 +5,11 @@ using namespace std;
 #include "Utils/FieldMeasure.h"		// for the FieldMeasure structure
 #include "Utils/FieldMeasFile.h"
 
+FieldMeasFile::FieldMeasFile(const char* filename, const ios::openmode &theOpenMode)
+{
+	open(filename, theOpenMode);
+}
+
 FieldMeasFile::~FieldMeasFile()
 {
 	close();
