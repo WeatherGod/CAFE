@@ -46,7 +46,8 @@ UTLY_SOURCES = DrawStdAnomHist.C \
                MakeScript_ObjectiveAnalysis.C \
                MakeTruthTables.C \
                PrepareCrossFold.C \
-               QuickCompare.C
+               QuickCompare.C \
+	       CAFEStateTest.C
 UTLY_BINS = $(UTLY_SOURCES:.C=)
 UTLY_DEPENDS = $(UTLY_SOURCES:.C=.d)
 
@@ -80,7 +81,8 @@ CONF_OBJECTS := $(addprefix Config/, CAFEDomain.o \
 				     DataSource.o \
 				     DataVar.o \
 				     EventType.o \
-				     Variable.o)
+				     Variable.o \
+				     CAFEState.o)
 CONF_DEPENDS := $(CONF_OBJECTS:.o=.d)
 
 
