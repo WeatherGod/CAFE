@@ -56,27 +56,39 @@ size_t EventTypeID_t::GiveIndex(const vector <EventType> &EventTypes) const
 EventType::EventType()
 	:	myEventTypeName(""),
 		myVariables(),
-		myIsConfigured(false),
-		myTagWords(0),
-		myDummyVariable()
+		myIsConfigured(false)
+{
+}
+
+EventType::EventType(const EventType& eventCopy)
+	:	myEventTypeName(eventCopy.myEventTypeName),
+		myVariables(eventCopy.myVariables),
+		myIsConfigured(eventCopy.myIsConfigured)
+{
+}
+
+EventType::EventType(const string &eventTypeName, const map<string, Variable> &eventVars)
+	:	myEventTypeName(eventTypeName),
+		myVariables(eventVars),
+		myIsConfigured(true)
 {
 }
 
 void EventType::GetConfigInfo(string &FileLine, fstream &ReadData)
 {
-	InitTagWords();
+	const vector<string> TagWords = InitTagWords();
 
 	bool BadObject = false;
 
-	while (!FoundEndTag(FileLine, myTagWords[0]) && !ReadData.eof())
+	while (!FoundEndTag(FileLine, TagWords[0]) && !ReadData.eof())
 	{
 		if (!BadObject)
 		{
-			if (FoundStartTag(FileLine, myTagWords[1]))		//TypeName
+			if (FoundStartTag(FileLine, TagWords[1]))		//TypeName
 			{
-				myEventTypeName = RipWhiteSpace(StripTags(FileLine, myTagWords[1]));
+				myEventTypeName = RipWhiteSpace(StripTags(FileLine, TagWords[1]));
 			}
-			else if (FoundStartTag(FileLine, myTagWords[2]))	// Variable
+			else if (FoundStartTag(FileLine, TagWords[2]))	// Variable
 			{
 				FileLine = ReadNoComments(ReadData);
 				Variable TempVar;
@@ -101,8 +113,6 @@ void EventType::GetConfigInfo(string &FileLine, fstream &ReadData)
 	{
 		myIsConfigured = true;
 	}
-
-	myTagWords.resize(0);
 }
 
 bool EventType::ValidConfig() const
@@ -159,7 +169,7 @@ vector <string> EventType::GiveCAFELevels(const string &CAFEVarName) const
 	const map<string, Variable>::const_iterator AVariable = myVariables.find(CAFEVarName);
         if (AVariable == myVariables.end())
         {
-                return(myDummyVariable.GiveCAFELevels());
+                return(vector<string>(0));
         }
 
 	return(AVariable->second.GiveCAFELevels());
@@ -203,7 +213,7 @@ Variable EventType::RemoveVariable(const string &CAFEVarName)
 
 	if (VariableToRemove == myVariables.end())
 	{
-		return(myDummyVariable);
+		return(Variable());
 	}
 
 	Variable VariableCopy = VariableToRemove->second;
@@ -212,14 +222,15 @@ Variable EventType::RemoveVariable(const string &CAFEVarName)
 }
 
 
-void EventType::InitTagWords()
+vector<string> EventType::InitTagWords() const
 {
-	if (myTagWords.empty())
-	{
-		myTagWords.push_back("EventType");
-		myTagWords.push_back("TypeName");
-		myTagWords.push_back("Variable");
-	}
+	vector<string> TagWords(3);
+
+	TagWords[0] = "EventType";
+	TagWords[1] = "TypeName";
+	TagWords[2] = "Variable";
+
+	return(TagWords);
 }
 
 bool operator == (const EventType &Lefty, const EventType &Righty)

@@ -6,6 +6,7 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <map>
 #include <cctype>				// for size_t
 #include <string>
 #include <algorithm>				// for lower_bound(), binary_search(), find()
@@ -56,28 +57,53 @@ CAFEVar::CAFEVar()
 	:	myCAFEVarName(""),
 		myCAFELevelIndicies(),
 		myCAFELevelNames(),
-		myIsConfigured(false),
-		myTagWords(0)
+		myIsConfigured(false)
 {
+}
+
+CAFEVar::CAFEVar(const CAFEVar &varCopy)
+	:	myCAFEVarName(varCopy.myCAFEVarName),
+		myCAFELevelIndicies(varCopy.myCAFELevelIndicies),
+		myCAFELevelNames(varCopy.myCAFELevelNames),
+		myIsConfigured(varCopy.myIsConfigured)
+{
+}
+
+CAFEVar::CAFEVar(const string &varName, const map<string, size_t> &CAFELevels)
+	:	myCAFEVarName(varName),
+		myCAFELevelIndicies(CAFELevels.size()),
+		myCAFELevelNames(CAFELevels.size()),
+		myIsConfigured(false)
+{
+	size_t index = 0;
+	for (map<string, size_t>::const_iterator aLevel = CAFELevels.begin();
+	     aLevel != CAFELevels.end();
+	     aLevel++, index++)
+	{
+		myCAFELevelNames[index] = aLevel->first;
+		myCAFELevelIndicies[index] = aLevel->second;
+	}
+
+	myIsConfigured = (index != 0);
 }
 
 void CAFEVar::GetConfigInfo(string &FileLine, fstream &ReadData)
 {
-	InitTagWords();
+	const vector<string> TagWords = InitTagWords();
 
 	bool BadObject = false;
 	
-	while (!FoundEndTag(FileLine, myTagWords[0]) && !ReadData.eof())
+	while (!FoundEndTag(FileLine, TagWords[0]) && !ReadData.eof())
 	{
 		if (!BadObject)
 		{
-			if (FoundStartTag(FileLine, myTagWords[1]))		// Name
+			if (FoundStartTag(FileLine, TagWords[1]))		// Name
 			{
-				myCAFEVarName = RipWhiteSpace(StripTags(FileLine, myTagWords[1]));
+				myCAFEVarName = RipWhiteSpace(StripTags(FileLine, TagWords[1]));
 			}
-			else if (FoundStartTag(FileLine, myTagWords[2]))	//Level
+			else if (FoundStartTag(FileLine, TagWords[2]))	//Level
 			{
-				string LevelInfo = StripTags(FileLine, myTagWords[2]);
+				string LevelInfo = StripTags(FileLine, TagWords[2]);
 				if (RipWhiteSpace(LevelInfo) != "")
 				{
 					vector <string> TempHold = TakeDelimitedList(LevelInfo, '=');
@@ -125,8 +151,6 @@ void CAFEVar::GetConfigInfo(string &FileLine, fstream &ReadData)
 		// note, a CAFEVar can have no levels, so I am not going to check to see if there are any levels.
 		myIsConfigured = true;
 	}
-
-	myTagWords.resize(0);
 }
 
 bool CAFEVar::ValidConfig() const
@@ -242,14 +266,14 @@ bool CAFEVar::AddCAFELevel(const string &NewCAFELevel, const size_t &CAFELevelIn
 	}
 }
 
-void CAFEVar::InitTagWords()
+vector<string> CAFEVar::InitTagWords() const
 {
-	if (myTagWords.empty())
-	{
-		myTagWords.push_back("CAFEVar");
-		myTagWords.push_back("Name");
-		myTagWords.push_back("Level");
-	}
+	vector<string> TagWords(3);
+	TagWords[0] = "CAFEVar";
+	TagWords[1] = "Name";
+	TagWords[2] = "Level";
+
+	return(TagWords);
 }
 
 bool operator == (const CAFEVar &Lefty, const CAFEVar &Righty)

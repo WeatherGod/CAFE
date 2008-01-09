@@ -146,25 +146,20 @@ class Configuration
 		bool myIsConfiged;
 
 		string myConfigFileName;
-		vector <string> myTagWords;
 
 		string myDatabaseStem;
 		string myProcessedStem;
 		DataSourceID_t myDefaultDataSourceID;
 
 		CAFEDomain myCAFEDomain;
-		CAFEDomain myDummyDomain;
 
 		vector <CAFEVar> myCAFEVars;
-		CAFEVar myDummyCAFEVar;
 
 		map <DataSourceID_t, DataSource> myDataSources;
-		DataSource myDummyDataSource;
 
 		vector <EventType> myEventTypes;
-		EventType myDummyEventType;
 
-		void InitTagWords();
+		vector<string> InitTagWords() const;
 		void GetConfigInfo(string &FileLine, fstream &ReadData);
 		void CompileDatabaseNames();
 		

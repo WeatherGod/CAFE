@@ -13,7 +13,9 @@ class EventType
 {
 	public:
 		EventType();
-//		EventType(const string EventTypeName);		// does NOT make IsValid() true.
+		EventType(const EventType &eventCopy);
+		EventType(const string &eventTypeName,
+			  const map<string, Variable> &eventVars);
 
 		void GetConfigInfo(string &FileLine, fstream &ReadData);
 
@@ -38,13 +40,11 @@ class EventType
 		
 	private:
 		string myEventTypeName;
-		map <string, Variable> myVariables;
-		Variable myDummyVariable;
+		map<string, Variable> myVariables;
 
 		bool myIsConfigured;
 
-		vector <string> myTagWords;
-		void InitTagWords();
+		vector<string> InitTagWords() const;
 
 	friend bool operator == (const EventType &Lefty, const EventType &Righty);
 	friend bool operator != (const EventType &Lefty, const EventType &Righty);

@@ -11,6 +11,9 @@ class DataVar
 {
 	public:
 		DataVar();
+		DataVar(const DataVar &varCopy);
+		DataVar(const string &dataName, const string &CAFEName,
+			const map<size_t, string> &dataLevels);
 
 		void GetConfigInfo(string &FileLine, fstream &ReadData);
 
@@ -32,12 +35,11 @@ class DataVar
 	private:
 		string myDataVarName;
 		string myCAFEVarName;
-		map <size_t, string> myDataLevels;
+		map<size_t, string> myDataLevels;
 		
 		bool myIsConfigured;
 
-		vector <string> myTagWords;
-		void InitTagWords();
+		vector<string> InitTagWords() const;
 /*
 	friend bool operator > (const DataVar &TheDataVar, const string DataVarName);
 	friend bool operator < (const DataVar &TheDataVar, const string DataVarName);

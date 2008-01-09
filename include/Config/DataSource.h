@@ -14,6 +14,11 @@ class DataSource
 {
 	public:
 		DataSource();
+		DataSource(const DataSource &sourceCopy);
+		DataSource(const string &sourceName,
+			   const string &projectionName, const string &projectionConf,
+			   const map<string, DataVar> dataVars,
+			   const time_t &timeStart, const time_t &timeEnd);
 
 		void GetConfigInfo(string &FileLine, fstream &ReadData);
 
@@ -42,14 +47,12 @@ class DataSource
 		string myProjectionName;
 		string myProjectionConfig;
 		map <string, DataVar> myDataVars;
-		DataVar myDummyDataVar;
 		time_t myLowerTimeRange;
 		time_t myUpperTimeRange;
 
 		bool myIsConfigured;
 	
-		vector <string> myTagWords;
-		void InitTagWords();
+		vector<string> InitTagWords() const;
 
 	friend bool operator == (const DataSource &Lefty, const DataSource &Righty);
 	friend bool operator != (const DataSource &Lefty, const DataSource &Righty);

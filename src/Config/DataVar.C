@@ -21,33 +21,49 @@ DataVar::DataVar()
 	:	myDataVarName(""),
 		myCAFEVarName(""),
 		myDataLevels(),
-		myIsConfigured(false),
-		myTagWords(0)
+		myIsConfigured(false)
+{
+}
+
+DataVar::DataVar(const DataVar &varCopy)
+	:	myDataVarName(varCopy.myDataVarName),
+		myCAFEVarName(varCopy.myCAFEVarName),
+		myDataLevels(varCopy.myDataLevels),
+		myIsConfigured(varCopy.myIsConfigured)
+{
+}
+
+DataVar::DataVar(const string &dataName, const string &CAFEName,
+		 const map<size_t, string> &dataLevels)
+	:	myDataVarName(dataName),
+		myCAFEVarName(CAFEName),
+		myDataLevels(dataLevels),
+		myIsConfigured(true)
 {
 }
 
 
 void DataVar::GetConfigInfo(string &FileLine, fstream &ReadData)
 {
-	InitTagWords();
+	const vector<string> TagWords = InitTagWords();
 
 	bool BadObject = false;
 
-	while (!FoundEndTag(FileLine, myTagWords[0]) && !ReadData.eof())
+	while (!FoundEndTag(FileLine, TagWords[0]) && !ReadData.eof())
 	{
 		if (!BadObject)
 		{
-			if (FoundStartTag(FileLine, myTagWords[1]))		//Name
+			if (FoundStartTag(FileLine, TagWords[1]))		//Name
 			{
-				myDataVarName = RipWhiteSpace(StripTags(FileLine, myTagWords[1]));
+				myDataVarName = RipWhiteSpace(StripTags(FileLine, TagWords[1]));
 			}
-			else if (FoundStartTag(FileLine, myTagWords[2]))	//CAFEname
+			else if (FoundStartTag(FileLine, TagWords[2]))	//CAFEname
 			{
-				myCAFEVarName = RipWhiteSpace(StripTags(FileLine, myTagWords[2]));
+				myCAFEVarName = RipWhiteSpace(StripTags(FileLine, TagWords[2]));
 			}
-			else if (FoundStartTag(FileLine, myTagWords[3]))	//Level
+			else if (FoundStartTag(FileLine, TagWords[3]))	//Level
 			{
-				vector <string>	TempHold = TakeDelimitedList(StripTags(FileLine, myTagWords[3]), '=');
+				vector <string>	TempHold = TakeDelimitedList(StripTags(FileLine, TagWords[3]), '=');
 				StripWhiteSpace(TempHold);		// all elements have their whitespaces stripped.
 				
 				if (TempHold.size() == 2 && !TempHold[1].empty() && TempHold[1][0] == '$')
@@ -94,8 +110,6 @@ void DataVar::GetConfigInfo(string &FileLine, fstream &ReadData)
 	{
         	myIsConfigured = true;
 	}
-
-	myTagWords.resize(0);
 }
 
 bool DataVar::ValidConfig() const
@@ -157,15 +171,16 @@ bool DataVar::AddDataLevel(const string &NewDataLevel, const size_t &CAFELevelIn
 	return(false);		// if you can reach here, something was wrong and a level could not be added.
 }
 
-void DataVar::InitTagWords()
+vector<string> DataVar::InitTagWords() const
 {
-	if (myTagWords.empty())
-	{
-		myTagWords.push_back("DataVar");
-		myTagWords.push_back("Name");
-		myTagWords.push_back("CAFEname");
-		myTagWords.push_back("Level");
-	}
+	vector<string> TagWords(4);
+
+	TagWords[0] = "DataVar";
+	TagWords[1] = "Name";
+	TagWords[2] = "CAFEname";
+	TagWords[3] = "Level";
+
+	return(TagWords);
 }
 
 #endif

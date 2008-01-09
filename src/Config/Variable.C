@@ -19,28 +19,43 @@ using namespace std;
 Variable::Variable()
 	:	myCAFEVariableName(""),
 		myCAFELevels(0),
-		myIsConfigured(false),
-		myTagWords(0)
+		myIsConfigured(false)
 {
 }
 
+Variable::Variable(const Variable &varCopy)
+	:	myCAFEVariableName(varCopy.myCAFEVariableName),
+		myCAFELevels(varCopy.myCAFELevels),
+		myIsConfigured(varCopy.myIsConfigured)
+{
+}
+
+Variable::Variable(const string &CAFEName,
+		   const vector<string> &CAFELevels)
+	:	myCAFEVariableName(CAFEName),
+		myCAFELevels(CAFELevels),
+		myIsConfigured(true)
+{
+}
+
+
 void Variable::GetConfigInfo(string &FileLine, fstream &ReadData)
 {
-	InitTagWords();
+	const vector<string> TagWords = InitTagWords();
 
 	bool BadObject = false;
 
-	while (!FoundEndTag(FileLine, myTagWords[0]) && !ReadData.eof())
+	while (!FoundEndTag(FileLine, TagWords[0]) && !ReadData.eof())
         {
 		if (!BadObject)
 		{
-	                if (FoundStartTag(FileLine, myTagWords[1]))             // Name
+	                if (FoundStartTag(FileLine, TagWords[1]))             // Name
         	        {
-                	        myCAFEVariableName = RipWhiteSpace(StripTags(FileLine, myTagWords[1]));
+                	        myCAFEVariableName = RipWhiteSpace(StripTags(FileLine, TagWords[1]));
 	                }
-        	        else if (FoundStartTag(FileLine, myTagWords[2]))        // Levels
+        	        else if (FoundStartTag(FileLine, TagWords[2]))        // Levels
 			{
-				vector <string> TempHold = TakeDelimitedList(StripTags(FileLine, myTagWords[2]), ',');
+				vector <string> TempHold = TakeDelimitedList(StripTags(FileLine, TagWords[2]), ',');
 				StripWhiteSpace(TempHold);
 				for (size_t LevIndex = 0; LevIndex < TempHold.size(); LevIndex++)
 				{
@@ -65,8 +80,6 @@ void Variable::GetConfigInfo(string &FileLine, fstream &ReadData)
 	{
 		myIsConfigured = true;
 	}
-
-	myTagWords.resize(0);				// don't need to waste space holding these around...
 }
 
 bool Variable::ValidConfig() const
@@ -125,14 +138,15 @@ bool Variable::AddCAFELevel(const string &CAFELevelName)
 	return(true);
 }
 
-void Variable::InitTagWords()
+vector<string> Variable::InitTagWords() const
 {
-	if (myTagWords.empty())
-	{
-		myTagWords.push_back("Variable");
-		myTagWords.push_back("Name");
-		myTagWords.push_back("Levels");
-	}
+	vector<string> TagWords(3);
+
+	TagWords[0] = "Variable";
+	TagWords[1] = "Name";
+	TagWords[2] = "Levels";
+	
+	return(TagWords);
 }
 
 #endif

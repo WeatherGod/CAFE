@@ -10,6 +10,9 @@ class Variable
 {
 	public:
 		Variable();
+		Variable(const Variable &varCopy);
+		Variable(const string &CAFEName,
+			 const vector<string> &CAFELevels);
 
 		void GetConfigInfo(string &FileLine, fstream &ReadData);
 
@@ -33,8 +36,7 @@ class Variable
 
 		bool myIsConfigured;
 
-		vector <string> myTagWords;
-		void InitTagWords();
+		vector<string> InitTagWords() const;
 /*
 	friend bool operator > (const Variable &TheVar, const string VariableName);
 	friend bool operator < (const Variable &TheVar, const string VariableName);

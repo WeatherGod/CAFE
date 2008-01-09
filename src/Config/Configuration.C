@@ -32,17 +32,13 @@ Configuration::Configuration()
 		myTimePeriods(0),
 		myIsConfiged(false),
 		myConfigFileName(""),
-		myTagWords(0),
 		myDatabaseStem(""),
 		myProcessedStem(""),
 		myDefaultDataSourceID(""),
 		myCAFEDomain(),
 		myCAFEVars(0),
 		myDataSources(),
-		myEventTypes(0),
-		myDummyCAFEVar(),
-		myDummyEventType(),
-		myDummyDataSource()
+		myEventTypes(0)
 {
 }
 
@@ -53,17 +49,13 @@ Configuration::Configuration(const string &ConfigFileName)
                 myTimePeriods(0),
                 myIsConfiged(false),
                 myConfigFileName(""),
-                myTagWords(0),
                 myDatabaseStem(""),
                 myProcessedStem(""),
                 myDefaultDataSourceID(""),
                 myCAFEDomain(),
                 myCAFEVars(0),
                 myDataSources(),
-                myEventTypes(0),
-		myDummyCAFEVar(),
-		myDummyEventType(),
-		myDummyDataSource()
+                myEventTypes(0)
 {
 	myIsConfiged = ConfigFromFile(ConfigFileName);
 }
@@ -81,20 +73,21 @@ bool Configuration::IsValid() const
 	return(myIsConfiged);		// just a stub, for now...
 }
 
-void Configuration::InitTagWords()
+vector<string> Configuration::InitTagWords() const
 {
-	if (myTagWords.empty())
-	{
-		myTagWords.push_back("Config");
-		myTagWords.push_back("DatabaseStem");
-		myTagWords.push_back("ProcessedStem");
-		myTagWords.push_back("TimePeriods");
-		myTagWords.push_back("Domain");
-		myTagWords.push_back("CAFEVar");
-		myTagWords.push_back("Default");
-		myTagWords.push_back("DataSource");
-		myTagWords.push_back("EventType");
-	}
+	vector<string> TagWords(9);
+
+	TagWords[0] = "Config";
+	TagWords[1] = "DatabaseStem";
+	TagWords[2] = "ProcessedStem";
+	TagWords[3] = "TimePeriods";
+	TagWords[4] = "Domain";
+	TagWords[5] = "CAFEVar";
+	TagWords[6] = "Default";
+	TagWords[7] = "DataSource";
+	TagWords[8] = "EventType";
+	
+	return(TagWords);
 }
 
 bool Configuration::SetConfigFilename(const string &FileName)
@@ -588,7 +581,7 @@ vector <string> Configuration::Give_CAFEVar_LevelNames(const string &CAFEVarName
 
 	if (CAFEVarIndex == string::npos || CAFEVarIndex >= myCAFEVars.size())
 	{
-		return(myDummyCAFEVar.GiveCAFELevelNames());
+		return(vector<string>(0));
 	}
 
 	return(myCAFEVars[CAFEVarIndex].GiveCAFELevelNames());
@@ -730,7 +723,7 @@ vector <string> Configuration::Give_EventType_CAFEVarNames(const EventTypeID_t &
 	const size_t EventTypeIndex = EventTypeID.GiveIndex(myEventTypes);
 	if (EventTypeIndex == string::npos || EventTypeIndex >= myEventTypes.size())
 	{
-		return(myDummyEventType.GiveCAFEVariableNames());
+		return(vector<string>(0));
 	}
 
 	return(myEventTypes[EventTypeIndex].GiveCAFEVariableNames());
@@ -743,7 +736,7 @@ vector <string> Configuration::Give_EventType_LevelNames(const EventTypeID_t &Ev
 	const size_t EventTypeIndex = EventTypeID.GiveIndex(myEventTypes);
 	if (EventTypeIndex == string::npos || EventTypeIndex >= myEventTypes.size())
 	{
-		return(myDummyEventType.GiveCAFELevels(CAFEVarName));
+		return(vector<string>(0));
 	}
 
 	return(myEventTypes[EventTypeIndex].GiveCAFELevels(CAFEVarName));
@@ -1035,56 +1028,54 @@ bool Configuration::ConfigFromFile(const string &TheConfigFilename)
 
 	myConfigFileName = TheConfigFilename;
 	string FileLine = "";
-	InitTagWords();
 
 	//  Essentially, this and the while loop is treating anything before the first tag as comments
 	FileLine = ReadNoComments(ConfigStream);
 
-	while (!FoundStartTag(FileLine, myTagWords[0]) && !ConfigStream.eof())
+	while (!FoundStartTag(FileLine, "Config") && !ConfigStream.eof())
 	{
 		FileLine = ReadNoComments(ConfigStream);
 	}
 
 	if (ConfigStream.eof())
 	{
-		cerr << "\nRead through the file without finding the <" << myTagWords[0] << "> tag\n\n";
+		cerr << "\nRead through the file without finding the <" << "Config" << "> tag\n\n";
 		ConfigStream.close();
 		return(false);
 	}
 	else
 	{
 		FileLine = ReadNoComments(ConfigStream);
-		int TagWordIndex = 0;
 		GetConfigInfo(FileLine, ConfigStream);
 	}
 
 	ConfigStream.close();
 
-	myTagWords.resize(0);
 	return(myIsConfiged);
 }
 
 void Configuration::GetConfigInfo(string &FileLine, fstream &ReadData)
 {
+	const vector<string> TagWords = InitTagWords();
 	bool BadObject = false;
 
-	while (!FoundEndTag(FileLine, myTagWords[0]) && !ReadData.eof())
+	while (!FoundEndTag(FileLine, TagWords[0]) && !ReadData.eof())
 	{
 		if (!BadObject)		// purpose is to skip over object if there is a problem.
 						// eases fixing of config file by limiting error messages to only the error that is
 						// relevant rather than all subsequent messages.
 		{
-			if (FoundStartTag(FileLine, myTagWords[1]))	// DatabaseStem
+			if (FoundStartTag(FileLine, TagWords[1]))	// DatabaseStem
 			{
-				myDatabaseStem = RipWhiteSpace(StripTags(FileLine, myTagWords[1]));
+				myDatabaseStem = RipWhiteSpace(StripTags(FileLine, TagWords[1]));
 			}
-			else if (FoundStartTag(FileLine, myTagWords[2]))	// processed stem
+			else if (FoundStartTag(FileLine, TagWords[2]))	// processed stem
 			{
-				myProcessedStem = RipWhiteSpace(StripTags(FileLine, myTagWords[2]));
+				myProcessedStem = RipWhiteSpace(StripTags(FileLine, TagWords[2]));
 			}
-			else if (FoundStartTag(FileLine, myTagWords[3]))	// time periods
+			else if (FoundStartTag(FileLine, TagWords[3]))	// time periods
 			{
-				string Tempy = StripTags(FileLine, myTagWords[3]);
+				string Tempy = StripTags(FileLine, TagWords[3]);
 				vector <string> TempList = TakeDelimitedList(Tempy, ',');
 
 				for (size_t TimeIndex = 0; TimeIndex < TempList.size(); TimeIndex++)
@@ -1092,7 +1083,7 @@ void Configuration::GetConfigInfo(string &FileLine, fstream &ReadData)
 					AddTimePeriod(RipWhiteSpace(TempList[TimeIndex]));
 				}
 			}
-			else if (FoundStartTag(FileLine, myTagWords[4]))	// domain
+			else if (FoundStartTag(FileLine, TagWords[4]))	// domain
 			{
 				FileLine = ReadNoComments(ReadData);
 				CAFEDomain TempDomain;
@@ -1106,7 +1097,7 @@ void Configuration::GetConfigInfo(string &FileLine, fstream &ReadData)
 					BadObject = true;
 				}
 			}
-			else if (FoundStartTag(FileLine, myTagWords[5]))	// CAFEVar
+			else if (FoundStartTag(FileLine, TagWords[5]))	// CAFEVar
 			{
 				FileLine = ReadNoComments(ReadData);
 				CAFEVar TempVar;
@@ -1116,11 +1107,11 @@ void Configuration::GetConfigInfo(string &FileLine, fstream &ReadData)
 					BadObject = true;
 				}
 			}
-			else if (FoundStartTag(FileLine, myTagWords[6]))	// default data source name
+			else if (FoundStartTag(FileLine, TagWords[6]))	// default data source name
 			{
-				myDefaultDataSourceID = RipWhiteSpace(StripTags(FileLine, myTagWords[6]));
+				myDefaultDataSourceID = RipWhiteSpace(StripTags(FileLine, TagWords[6]));
 			}
-			else if (FoundStartTag(FileLine, myTagWords[7]))	// Data source
+			else if (FoundStartTag(FileLine, TagWords[7]))	// Data source
 			{
 				FileLine = ReadNoComments(ReadData);
 				DataSource TempDataSource;
@@ -1130,7 +1121,7 @@ void Configuration::GetConfigInfo(string &FileLine, fstream &ReadData)
 					BadObject = true;
 				}
 			}
-			else if (FoundStartTag(FileLine, myTagWords[8]))	// EventType
+			else if (FoundStartTag(FileLine, TagWords[8]))	// EventType
 			{
 				FileLine = ReadNoComments(ReadData);
 				EventType TempEventType;
@@ -1184,7 +1175,7 @@ bool Configuration::MakeConfigFile()
 
 bool Configuration::MakeConfigFile(const string &ConfigFileName)
 {
-	if (ConfigFileName == "")
+	if (ConfigFileName.empty())
 	{
 		cerr << "\n\tInvalid Configuration filename: " << ConfigFileName << endl;
 		return(false);

@@ -88,28 +88,51 @@ DataSource::DataSource()
 		myProjectionConfig(""),
 		myDataVars(),
 		myIsConfigured(false),
-		myTagWords(0),
-		myDummyDataVar(),
 		myLowerTimeRange(-1),
 		myUpperTimeRange(-1)
 {
 }
 
+DataSource::DataSource(const DataSource &sourceCopy)
+	:	mySourceName(sourceCopy.mySourceName),
+		myProjectionName(sourceCopy.myProjectionName),
+		myProjectionConfig(sourceCopy.myProjectionConfig),
+		myDataVars(sourceCopy.myDataVars),
+		myIsConfigured(sourceCopy.myIsConfigured),
+		myLowerTimeRange(sourceCopy.myLowerTimeRange),
+		myUpperTimeRange(sourceCopy.myUpperTimeRange)
+{
+}
+
+DataSource::DataSource(const string &sourceName,
+		       const string &projectionName, const string &projectionConf,
+		       const map<string, DataVar> dataVars,
+		       const time_t &timeStart, const time_t &timeEnd)
+	:	mySourceName(sourceName),
+		myProjectionName(projectionName),
+		myProjectionConfig(projectionConf),
+		myDataVars(dataVars),
+		myIsConfigured(true),
+		myLowerTimeRange(timeStart),
+		myUpperTimeRange(timeEnd)
+{
+}
+
 void DataSource::GetConfigInfo(string &FileLine, fstream &ReadData)
 {
-	InitTagWords();
+	vector<string> TagWords = InitTagWords();
 
 	bool BadObject = false;
 
-	while (!FoundEndTag(FileLine, myTagWords[0]) && !ReadData.eof())
+	while (!FoundEndTag(FileLine, TagWords[0]) && !ReadData.eof())
 	{
 		if (!BadObject)
 		{
-			if (FoundStartTag(FileLine, myTagWords[1]))		// Name
+			if (FoundStartTag(FileLine, TagWords[1]))		// Name
 			{
-				mySourceName = RipWhiteSpace(StripTags(FileLine, myTagWords[1]));
+				mySourceName = RipWhiteSpace(StripTags(FileLine, TagWords[1]));
 			}
-			else if (FoundStartTag(FileLine, myTagWords[2]))	// DataVar
+			else if (FoundStartTag(FileLine, TagWords[2]))	// DataVar
 			{
 				FileLine = ReadNoComments(ReadData);
 				DataVar TempDataVar;
@@ -119,9 +142,9 @@ void DataSource::GetConfigInfo(string &FileLine, fstream &ReadData)
 					BadObject = true;
 				}
 			}
-			else if (FoundStartTag(FileLine, myTagWords[3]))	// Projection
+			else if (FoundStartTag(FileLine, TagWords[3]))	// Projection
 			{
-				vector <string> ProjectionInfo = TakeDelimitedList(RipWhiteSpace(StripTags(FileLine, myTagWords[3])), "::");
+				vector <string> ProjectionInfo = TakeDelimitedList(RipWhiteSpace(StripTags(FileLine, TagWords[3])), "::");
 
 				if (ProjectionInfo.size() != 2)
 				{
@@ -132,9 +155,9 @@ void DataSource::GetConfigInfo(string &FileLine, fstream &ReadData)
 				myProjectionName = ProjectionInfo[0];
 				myProjectionConfig = ProjectionInfo[1];
 			}
-			else if (FoundStartTag(FileLine, myTagWords[4]))	// Time
+			else if (FoundStartTag(FileLine, TagWords[4]))	// Time
 			{
-				vector <string> TimeRangeInfo = TakeDelimitedList(RipWhiteSpace(StripTags(FileLine, myTagWords[4])), ",");
+				vector <string> TimeRangeInfo = TakeDelimitedList(RipWhiteSpace(StripTags(FileLine, TagWords[4])), ",");
 
 				if (TimeRangeInfo.size() != 2)
 				{
@@ -183,8 +206,6 @@ void DataSource::GetConfigInfo(string &FileLine, fstream &ReadData)
 		
 		myIsConfigured = true;
 	}
-
-	myTagWords.resize(0);
 }
 
 bool DataSource::ValidConfig() const
@@ -223,7 +244,7 @@ string DataSource::GiveDataVarName(const string &CAFEVarName) const
 	map<string, DataVar>::const_iterator ADataVar = myDataVars.find(CAFEVarName);
         if (ADataVar == myDataVars.end())
         {
-                return(myDummyDataVar.GiveDataVarName());
+                return("");
         }
 
 	return(ADataVar->second.GiveDataVarName());
@@ -234,7 +255,7 @@ string DataSource::GiveDataLevel(const string &CAFEVarName, const size_t &CAFELe
 	map<string, DataVar>::const_iterator ADataVar = myDataVars.find(CAFEVarName);
 	if (ADataVar == myDataVars.end())
         {
-                return(myDummyDataVar.GiveDataLevel(string::npos));
+                return("");
         }
 
 	return(ADataVar->second.GiveDataLevel(CAFELevelIndex));
@@ -274,6 +295,7 @@ bool DataSource::AddDataVar(const DataVar &NewDataVar)
 			if (DataVarMatch->second.GiveDataVarName() == NewDataVar.GiveDataVarName())
 			{
 				// they have the same CAFEName and the same DataVarName, will then update the stored info.
+				// NOTE: is this supposed to be done here or elsewhere?
 				return(true);
 			}
 			else
@@ -291,16 +313,17 @@ bool DataSource::AddDataVar(const DataVar &NewDataVar)
 }
 
 
-void DataSource::InitTagWords()
+vector<string> DataSource::InitTagWords() const
 {
-	if (myTagWords.size() == 0)
-	{
-		myTagWords.push_back("DataSource");
-		myTagWords.push_back("Name");
-		myTagWords.push_back("DataVar");
-		myTagWords.push_back("Projection");
-		myTagWords.push_back("Time");
-	}
+	vector<string> TagWords(5);
+	
+	TagWords[0] = "DataSource";
+	TagWords[1] = "Name";
+	TagWords[2] = "DataVar";
+	TagWords[3] = "Projection";
+	TagWords[4] = "Time";
+	
+	return(TagWords);
 }
 
 bool operator == (const DataSource &Lefty, const DataSource &Righty)

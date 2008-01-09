@@ -17,9 +17,41 @@ using namespace std;
 CAFEDomain::CAFEDomain()
 	:	myDomainLons(0),
 		myDomainLats(0),
-		myIsConfigured(false),
-		myTagWords(0)
+		myIsConfigured(false)
 {
+}
+
+CAFEDomain::CAFEDomain(const CAFEDomain &domainCopy)
+	:	myDomainLons(domainCopy.myDomainLons),
+		myDomainLats(domainCopy.myDomainLats),
+		myIsConfigured(domainCopy.myIsConfigured)
+{
+}
+
+CAFEDomain::CAFEDomain(const vector<float> &boundingBox)
+	:	myDomainLons(0),
+		myDomainLats(0),
+		myIsConfigured(false)
+{
+	if (boundingBox.size() == 4)
+	{
+		myDomainLons.assign(boundingBox.begin(), boundingBox.begin() + 2);
+		myDomainLats.assign(boundingBox.begin() + 2, boundingBox.end());
+		myIsConfigured = true;
+	}
+}
+
+CAFEDomain::CAFEDomain(const float &lat1, const float &lon1,
+		       const float &lat2, const float &lon2)
+	:	myDomainLons(2),
+		myDomainLats(2),
+		myIsConfigured(true)
+{
+	myDomainLons[0] = lon1;
+	myDomainLons[1] = lon2;
+
+	myDomainLats[0] = lat1;
+	myDomainLats[1] = lat2;
 }
 
 bool CAFEDomain::ValidConfig() const
@@ -34,17 +66,17 @@ bool CAFEDomain::IsValid() const
 
 void CAFEDomain::GetConfigInfo(string &FileLine, fstream &ReadData)
 {
-	InitTagWords();
+	const vector<string> TagWords = InitTagWords();
 
 	bool BadObject = false;
 
-	while (!FoundEndTag(FileLine, myTagWords[0]) && !ReadData.eof())
+	while (!FoundEndTag(FileLine, TagWords[0]) && !ReadData.eof())
 	{
 		if (!BadObject)
 		{
-			if (FoundStartTag(FileLine, myTagWords[1]))	// Longitudes
+			if (FoundStartTag(FileLine, TagWords[1]))	// Longitudes
 			{
-				vector <string> Tempy = TakeDelimitedList(StripTags(FileLine, myTagWords[1]), ',');
+				vector <string> Tempy = TakeDelimitedList(StripTags(FileLine, TagWords[1]), ',');
 				if (Tempy.size() == 2)
 				{
 					myDomainLons = StrToFloat(Tempy);
@@ -64,9 +96,9 @@ void CAFEDomain::GetConfigInfo(string &FileLine, fstream &ReadData)
                         	}
 
 			}
-			else if (FoundStartTag(FileLine, myTagWords[2])) 	//latitudes
+			else if (FoundStartTag(FileLine, TagWords[2])) 	//latitudes
 			{
-				vector <string> Tempy = TakeDelimitedList(StripTags(FileLine, myTagWords[2]), ',');
+				vector <string> Tempy = TakeDelimitedList(StripTags(FileLine, TagWords[2]), ',');
 				if (Tempy.size() == 2)
 				{
 					myDomainLats = StrToFloat(Tempy);
@@ -99,23 +131,21 @@ void CAFEDomain::GetConfigInfo(string &FileLine, fstream &ReadData)
 	{
 		myIsConfigured = true;
 	}
-
-	myTagWords.resize(0);
 }// end GetConfigInfo()
 
-void CAFEDomain::InitTagWords()
+vector<string> CAFEDomain::InitTagWords() const
 {
-	if (myTagWords.empty())
-	{
-		myTagWords.push_back("Domain");
-		myTagWords.push_back("Lon");
-		myTagWords.push_back("Lat");
-	}
+	vector<string> TagWords(3);
+	TagWords[0] = "Domain";
+	TagWords[1] = "Lon";
+	TagWords[2] = "Lat";
+
+	return(TagWords);
 }
 
 vector <float> CAFEDomain::GiveBoundingBox() const
 {
-	vector <float> BoundingBox(4, nanf("nan"));
+	vector <float> BoundingBox(4, NAN);
 
 	if (myIsConfigured)
 	{
@@ -136,8 +166,7 @@ vector <float> CAFEDomain::GiveLons() const
 	}
 	else
 	{
-		vector <float> Tempy(2, nanf("nan"));
-		return(Tempy);
+		return(vector<float>(2, NAN));
 	}
 }
 
@@ -149,8 +178,7 @@ vector <float> CAFEDomain::GiveLats() const
         }
         else
         {
-                vector <float> Tempy(2, nanf("nan"));
-                return(Tempy);
+                return(vector<float>(2, NAN));
         }
 }
 

@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <vector>
+#include <map>
 #include <string>
 #include <cctype>		// for size_t
 
@@ -10,6 +11,8 @@ class CAFEVar
 {
 	public:
 		CAFEVar();
+		CAFEVar(const CAFEVar &varCopy);
+		CAFEVar(const string &varName, const map<string, size_t> &CAFELevels);
 
 		void GetConfigInfo(string &FileLine, fstream &ReadData);
 
@@ -36,13 +39,13 @@ class CAFEVar
 		string myCAFEVarName;
 
 		// Cannot be a map!
+		// TODO: Why not?
 		vector <size_t> myCAFELevelIndicies;
 		vector <string> myCAFELevelNames;
 
 		bool myIsConfigured;
 
-		vector <string> myTagWords;
-		void InitTagWords();						//
+		vector<string> InitTagWords() const;
 
 	friend bool operator == (const CAFEVar &Lefty, const CAFEVar &Righty);
 	friend bool operator != (const CAFEVar &Lefty, const CAFEVar &Righty);
