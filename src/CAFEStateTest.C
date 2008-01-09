@@ -16,6 +16,7 @@ using namespace std;
 #include <Config/CAFEDomain.h>
 #include <Config/DataVar.h>
 
+#include <Config/CAFEParam.h>
 #include <Config/CAFEState.h>
 
 
@@ -62,6 +63,7 @@ int main()
 	const string serverName = "narr.met.psu.edu";
 	const string untrainedNameStem = "RawFields";
 	const string trainedNameStem = "Clustered";
+	const string defaultDataSourceName = "TestSource";
 	cerr << "done\n";
 
 	cerr << "Initializing time offsets...";
@@ -82,6 +84,11 @@ int main()
 
 	cerr << "Initializing data source...";
 	DataSource newDataSource("TestSource", "", "", newDataInfo, -1, -1);
+	cerr << "done\n";
+
+	cerr << "Initializing new data sources...";
+	map<string, DataSource> newDataSources;
+	newDataSources["TestSource"] = newDataSource;
 	cerr << "done\n";
 
 	cerr << "Initializing domain...";
@@ -153,9 +160,9 @@ int main()
 
 
 
-	cerr << "Initializing curState...";
-	CAFEState curState;
-	curState.SetVerboseLevel(verbosity)
+	cerr << "Initializing cafeInfo...";
+	CAFEParam cafeInfo;
+	cafeInfo.SetVerboseLevel(verbosity)
 		.SetConfigFilename(configFilename)
 		.SetCAFEPath(CAFEPath)
 		.SetLoginUserName(loginUserName)
@@ -164,13 +171,17 @@ int main()
 		.SetTimeOffsets(newTimeOffsets)
 		.SetUntrainedNameStem(untrainedNameStem)
 		.SetTrainedNameStem(trainedNameStem)
-		.SetDataSource(newDataSource)
+		.SetDataSources(newDataSources)
+		.SetDefaultDataSource(defaultDataSourceName)
 		.SetCAFEDomain(newDomain)
 		.SetCAFEVars(newCAFEVars)
 		.SetEventTypes(newEventTypes)
 		.SetExtremumNames(extremumNames);
 	cerr << "done\n";
 
+	cerr << "Initializing curState...";
+	CAFEState curState(cafeInfo);
+	cerr << "done\n";
 
 	cout << "CAFE State\n"
 	     << "==========\n"

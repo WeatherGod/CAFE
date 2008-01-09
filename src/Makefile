@@ -82,7 +82,8 @@ CONF_OBJECTS := $(addprefix Config/, CAFEDomain.o \
 				     DataVar.o \
 				     EventType.o \
 				     Variable.o \
-				     CAFEState.o)
+				     CAFEState.o \
+				     CAFEParam.o)
 CONF_DEPENDS := $(CONF_OBJECTS:.o=.d)
 
 
