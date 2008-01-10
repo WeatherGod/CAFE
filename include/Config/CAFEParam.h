@@ -6,12 +6,10 @@
 #include <set>
 #include <string>
 
-// I don't need the include headers for these classes,
-// so just declare them for now.
-class CAFEVar;
-class EventType;
-class CAFEDomain;
-class DataSource;
+#include "CAFEVar.h"
+#include "EventType.h"
+#include "CAFEDomain.h"
+#include "DataSource.h"
 
 class CAFEParam
 {
@@ -81,6 +79,7 @@ class CAFEParam
 		// --- TimePeriods and dataset names ---
 		//--------------------------------------
 		const set<int>& GetTimeOffsets() const;
+		set<string> GetTimePeriods() const;
 		const string& GetUntrainedNameStem() const;
 		const string& GetTrainedNameStem() const;
 

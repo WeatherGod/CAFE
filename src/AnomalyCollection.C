@@ -273,7 +273,7 @@ int main(int argc, char *argv[])
 
 		if (TempHold.size() == 4)	// Date, type, lat, lon
 		{
-			if (ConfigInfo.GiveEventTypeIndex(TempHold[1]) == string::npos)
+			if (!ConfigInfo.ValidEventType(TempHold[1]))
         	        {
 				// the event type doesn't even exist in the configuration file.
                         	cerr << "ERROR: Invalid event type: " << TempHold[1] << endl;

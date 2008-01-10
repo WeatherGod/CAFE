@@ -12,7 +12,8 @@ class CAFEVar;
 class EventType;
 class CAFEDomain;
 class DataSource;
-class CAFEParam;
+
+#include "CAFEParam.h"
 
 class CAFEState
 {

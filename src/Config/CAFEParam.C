@@ -4,6 +4,8 @@ using namespace std;
 #include <set>
 #include <vector>
 #include <string>
+#include <cmath>		// for abs()
+#include <cstdio>		// for snprintf()
 
 #include <Config/CAFEVar.h>
 #include <Config/EventType.h>
@@ -186,6 +188,32 @@ const set<int>&
 CAFEParam::GetTimeOffsets() const
 {
 	return(myTimeOffsets);
+}
+
+set<string>
+CAFEParam::GetTimePeriods() const
+{
+	set<string> timePeriods;
+	for (set<int>::const_iterator anOffset = myTimeOffsets.begin();
+	     anOffset != myTimeOffsets.end();
+	     anOffset++)
+	{
+		char periodStr[8];
+		memset(periodStr, '\0', 8);
+
+		if (*anOffset <= 0)
+		{
+			snprintf(periodStr, 8, "Tm%.2d", abs(*anOffset));
+		}
+		else
+		{
+			snprintf(periodStr, 8, "Tp%.2d", *anOffset);
+		}
+
+		timePeriods.insert(timePeriods.end(), (string) periodStr);
+	}
+
+	return(timePeriods);
 }
 
 CAFEParam&

@@ -72,6 +72,7 @@ class EventTypeID_t
 		EventTypeID_t(const string &EventTypeName);
 
 		size_t GiveIndex(const vector <EventType> &EventTypes) const;
+		string GiveName() const;
 
 	private:
 		size_t myEventTypeIndex;

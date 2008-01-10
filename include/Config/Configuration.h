@@ -6,12 +6,16 @@
 #include <ctime>
 #include <cctype>			// for size_t
 
-#include "CAFEDomain.h"
-#include "CAFEVar.h"
-#include "DataSource.h"
-#include "EventType.h"
+class CAFEDomain;
+class CAFEVar;
+class DataSource;
+class DataSourceID_t;
+class EventType;
+class EventTypeID_t;
 
-#include <Projection_t.h>
+#include "CAFEParam.h"
+
+class Projection_t;
 
 class Configuration
 {
@@ -53,15 +57,15 @@ class Configuration
 
 		// Note that the CAFEVars will NEVER be accessible by index numbers publically.
 		// So, "GiveCAFEVarName(const size_t CAFEVarIndex)" will NOT be allowed.
-		string GiveDatabaseName(const size_t &DatabaseIndex) const;
-		string GiveClusteredDatabaseName(const size_t &DatabaseIndex) const;
+		//string GiveDatabaseName(const size_t &DatabaseIndex) const;
+		//string GiveClusteredDatabaseName(const size_t &DatabaseIndex) const;
 		string GiveDatabaseName(const string &TimePeriod) const;
 		string GiveClusteredDatabaseName(const string &TimePeriod) const;
-                string GiveEventTypeName(const size_t &EventTypeIndex) const;
+                //string GiveEventTypeName(const size_t &EventTypeIndex) const;
 		string GiveExtremaName(const size_t &ExtremaIndex) const;
 		string GiveConfigFilename() const;
-                string GiveTimePeriod(const size_t &DatabaseIndex) const;
-//		string GiveDataSourceName(const size_t &DataSourceIndex) const;
+                //string GiveTimePeriod(const size_t &DatabaseIndex) const;
+		//string GiveDataSourceName(const size_t &DataSourceIndex) const;
 		string GiveDefaultSourceName() const;
 
 
@@ -75,12 +79,13 @@ class Configuration
 
 		// Note that the CAFEVars will NEVER be accessible by index numbers publically.
 		// So, "GiveCAFEVarIndex(const string CAFEVarName)" will NOT be allowed.
-		size_t GiveDefaultSourceIndex() const;
-		size_t GiveEventTypeIndex(const string &EventTypeName) const;
-//		size_t GiveDataSourceIndex(const string &DataSourceName) const;
-		size_t GiveDatabaseIndex(const string &DatabaseName) const;
-		size_t GiveClusteredDatabaseIndex(const string &ClustDatabaseName) const;
-		size_t GiveTimePeriodIndex(const string &TimePeriods) const;
+		//size_t GiveDefaultSourceIndex() const;
+		//size_t GiveEventTypeIndex(const string &EventTypeName) const;
+		bool ValidEventType(const string &eventTypeName) const;
+		//size_t GiveDataSourceIndex(const string &DataSourceName) const;
+		//size_t GiveDatabaseIndex(const string &DatabaseName) const;
+		//size_t GiveClusteredDatabaseIndex(const string &ClustDatabaseName) const;
+		//size_t GiveTimePeriodIndex(const string &TimePeriods) const;
 
 
 		// Container-level counters...
@@ -118,16 +123,18 @@ class Configuration
 		// Configuration modifiers		
 		bool ReplaceDatabaseStems(const string &NewDatabaseStem, const string &NewProcessedStem);
 		bool ReplaceDomain(const CAFEDomain &NewDomain);
-		bool ReplaceCAFEVar(const CAFEVar &NewVar, const string &OldCAFEVarName);
-		bool ReplaceDataSource(const DataSource &NewSource, const DataSourceID_t &OldDataSourceID);
-		bool ReplaceDataSource(const DataSource &NewSource);	// changes the default datasource to a new datasource that doesn't exist
-		bool ReplaceEventType(const EventType &NewType, const EventTypeID_t &OldEventTypeID);
+		//bool ReplaceCAFEVar(const CAFEVar &NewVar, const string &OldCAFEVarName);
+		//bool ReplaceDataSource(const DataSource &NewSource, const DataSourceID_t &OldDataSourceID);
+		//bool ReplaceDataSource(const DataSource &NewSource);	// changes the default datasource to a new datasource that doesn't exist
+		//bool ReplaceEventType(const EventType &NewType, const EventTypeID_t &OldEventTypeID);
 				
 		bool AddTimePeriod(const string &NewTimePeriod);
                 bool AddCAFEVar(const CAFEVar &NewVar);
                 bool AddDataSource(const DataSource &NewSource);
                 bool AddEventType(const EventType &NewType);
 
+		/*
+			Temporarially Deprecated.
 		// Removal functions.
 		// Note that there is no removal function for the default datasource.
 		// You must explicitly remove the default datasource, remembering 
@@ -136,33 +143,15 @@ class Configuration
 		bool RemoveCAFEVar(const string &CAFEVarName);
 		bool RemoveDataSource(const DataSourceID_t &DataSourceID);
 		bool RemoveEventType(const EventTypeID_t &EventTypeID);
+		*/
 
 	private:
-		vector <string> myDatabaseNames;
-		vector <string> myProcessedNames;
-		vector <string> myPeakValleys;
-		vector <string> myTimePeriods;
+		CAFEParam myCAFEInfo;
 
 		bool myIsConfiged;
 
-		string myConfigFileName;
-
-		string myDatabaseStem;
-		string myProcessedStem;
-		DataSourceID_t myDefaultDataSourceID;
-
-		CAFEDomain myCAFEDomain;
-
-		vector <CAFEVar> myCAFEVars;
-
-		map <DataSourceID_t, DataSource> myDataSources;
-
-		vector <EventType> myEventTypes;
-
 		vector<string> InitTagWords() const;
 		void GetConfigInfo(string &FileLine, fstream &ReadData);
-		void CompileDatabaseNames();
-		
 };
 
 

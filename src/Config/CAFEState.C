@@ -6,6 +6,7 @@ using namespace std;
 #include <algorithm>			// for find()
 #include <string>
 #include <cctype>			// for size_t
+#include <cmath>			// for abs()
 
 #include <Config/CAFEVar.h>
 #include <Config/EventType.h>
@@ -14,9 +15,6 @@ using namespace std;
 #include <Config/CAFEParam.h>
 
 #include <Config/CAFEState.h>
-
-// Temporary...
-#include <iostream>
 
 
 CAFEState::CAFEState()

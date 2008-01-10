@@ -52,6 +52,11 @@ size_t EventTypeID_t::GiveIndex(const vector <EventType> &EventTypes) const
 	return(string::npos);
 }
 
+string EventTypeID_t::GiveName() const
+{
+	return(myEventTypeName);
+}
+
 
 EventType::EventType()
 	:	myEventTypeName(""),
