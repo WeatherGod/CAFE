@@ -25,6 +25,8 @@ class CAFEState
 		CAFEState& SetParams(const CAFEParam& cafeConfig);
 		const CAFEParam& GetParams() const;
 
+		CAFEState& SetDefaultDataSource(const string &sourceName);
+
 		// Getter functions
 		const int& GetVerboseLevel() const;
 		const string& GetConfigFilename() const;

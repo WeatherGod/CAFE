@@ -112,6 +112,20 @@ CAFEState::GetParams() const
 	return(myCAFEInfo);
 }
 
+CAFEState&
+CAFEState::SetDefaultDataSource(const string &sourceName)
+{
+	const map<string, DataSource>::const_iterator sourceFind = GetDataSources().find(sourceName);
+
+	if (sourceFind != GetDataSources().end())
+	{
+		myDataSourceIter = sourceFind;
+		myCAFEInfo.SetDefaultDataSource(sourceName);
+	}
+
+	return(*this);
+}
+
 
 
 

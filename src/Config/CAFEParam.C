@@ -53,7 +53,11 @@ CAFEParam::GetVerboseLevel() const
 CAFEParam&
 CAFEParam::SetConfigFilename(const string &filename)
 {
-	myConfigFilename = filename;
+	if (!filename.empty())
+	{
+		myConfigFilename = filename;
+	}
+
 	return(*this);
 }
 
@@ -67,7 +71,10 @@ CAFEParam::GetConfigFilename() const
 CAFEParam&
 CAFEParam::SetCAFEPath(const string &pathname)
 {
-	myCAFEPath = pathname;
+	if (!pathname.empty())
+	{
+		myCAFEPath = pathname;
+	}
 	return(*this);
 }
 
@@ -81,7 +88,10 @@ CAFEParam::GetCAFEPath() const
 CAFEParam&
 CAFEParam::SetLoginUserName(const string &newUserName)
 {
-	myLoginUserName = newUserName;
+	if (!newUserName.empty())
+	{
+		myLoginUserName = newUserName;
+	}
 	return(*this);
 }
 
@@ -95,7 +105,10 @@ CAFEParam::GetLoginUserName() const
 CAFEParam&
 CAFEParam::SetCAFEUserName(const string &newUserName)
 {
-	myCAFEUserName = newUserName;
+	if (!newUserName.empty())
+	{
+		myCAFEUserName = newUserName;
+	}
 	return(*this);
 }
 
@@ -109,7 +122,10 @@ CAFEParam::GetCAFEUserName() const
 CAFEParam&
 CAFEParam::SetServerName(const string &newServerName)
 {
-	myServerName = newServerName;
+	if (!newServerName.empty())
+	{
+		myServerName = newServerName;
+	}
 	return(*this);
 }
 
@@ -123,7 +139,10 @@ CAFEParam::GetServerName() const
 CAFEParam&
 CAFEParam::SetCAFEDomain(const CAFEDomain &newDomain)
 {
-	myDomain = newDomain;
+	if (newDomain.IsValid())
+	{
+		myDomain = newDomain;
+	}
 	return(*this);
 }
 
@@ -137,7 +156,11 @@ CAFEParam::GetCAFEDomain() const
 CAFEParam&
 CAFEParam::SetDefaultDataSource(const string &sourceName)
 {
-	myDefaultDataSource = sourceName;
+	if (!sourceName.empty())
+	{
+		myDefaultDataSource = sourceName;
+	}
+
 	return(*this);
 }
 
@@ -168,7 +191,10 @@ CAFEParam::GetTimeOffsets() const
 CAFEParam&
 CAFEParam::SetUntrainedNameStem(const string &newNameStem)
 {
-	myUntrainedNameStem = newNameStem;
+	if (!newNameStem.empty())
+	{
+		myUntrainedNameStem = newNameStem;
+	}
 	return(*this);
 }
 
@@ -181,7 +207,10 @@ CAFEParam::GetUntrainedNameStem() const
 CAFEParam&
 CAFEParam::SetTrainedNameStem(const string &newNameStem)
 {
-	myTrainedNameStem = newNameStem;
+	if (!newNameStem.empty())
+	{
+		myTrainedNameStem = newNameStem;
+	}
 	return(*this);
 }
 
@@ -213,6 +242,10 @@ CAFEParam::AddTimeOffset(const int newTimeOffset)
 CAFEParam&
 CAFEParam::SetDataSources(const map<string, DataSource> &newDataSources)
 {
+	/* TODO: Yes, this does kinda assume that all of the entries are
+           valid.  Need to think about that for a while...
+        */
+
 	myDataSources = newDataSources;
 	return(*this);
 }
@@ -226,19 +259,40 @@ CAFEParam::GetDataSources() const
 CAFEParam&
 CAFEParam::AddDataSources(const map<string, DataSource> &newDataSources)
 {
-	/* TODO: include some algorithm to detect duplicates
-		 and see if the current data source can get new
-		 information from the new data source.
-		 Maybe...
-	*/
-	myDataSources.insert(newDataSources.begin(), newDataSources.end());
+	for (map<string, DataSource>::const_iterator aSource = newDataSources.begin();
+	     aSource != newDataSources.end();
+	     aSource++)
+	{
+		AddDataSource(aSource->first, aSource->second);
+	}
+
 	return(*this);
 }
 
 CAFEParam&
 CAFEParam::AddDataSource(const string &sourceName, const DataSource &newDataSource)
 {
-	myDataSources.insert(myDataSources.end(), make_pair(sourceName, newDataSource));
+	if (newDataSource.IsValid())
+	{
+		return(*this);
+	}
+
+	if (sourceName != newDataSource.GiveSourceName())
+	{
+		return(*this);
+	}
+
+	const map<string, DataSource>::iterator sourceFind = myDataSources.find(sourceName);
+
+	if (sourceFind == myDataSources.end())
+	{
+		myDataSources.insert(myDataSources.end(), make_pair(sourceName, newDataSource));
+	}
+	else
+	{
+		// TODO: Update the data source with new information.
+	}
+
 	return(*this);
 }
 
@@ -250,6 +304,9 @@ CAFEParam::AddDataSource(const string &sourceName, const DataSource &newDataSour
 CAFEParam&
 CAFEParam::SetCAFEVars(const map<string, CAFEVar> &newCAFEVars)
 {
+	/* TODO: Yes, this does kinda assume that all of the entries are
+	   valid.  Need to think about that for a while...
+	*/
 	myCAFEVars = newCAFEVars;
 	return(*this);
 }
@@ -263,20 +320,40 @@ CAFEParam::GetCAFEVars() const
 CAFEParam&
 CAFEParam::AddCAFEVars(const map<string, CAFEVar> &newCAFEVars)
 {
-	/* TODO: include some algorithm to detect duplicates
-		 and see if the current CAFEVar can get new
-		 information from the new CAFEVar.
-		 Maybe...
-        */
-	
-	myCAFEVars.insert(newCAFEVars.begin(), newCAFEVars.end());
+	for (map<string, CAFEVar>::const_iterator aVar = newCAFEVars.begin();
+	     aVar != newCAFEVars.end();
+	     aVar++)
+	{
+		AddCAFEVar(aVar->first, aVar->second);
+	}
+
 	return(*this);
 }
 
 CAFEParam&
 CAFEParam::AddCAFEVar(const string &varName, const CAFEVar& newCAFEVar)
 {
-	myCAFEVars.insert(myCAFEVars.end(), make_pair(varName, newCAFEVar));
+	if (!newCAFEVar.IsValid())
+	{
+		return(*this);
+	}
+
+	if (varName != newCAFEVar.GiveCAFEVarName())
+	{
+		return(*this);
+	}
+
+	const map<string, CAFEVar>::iterator varFind = myCAFEVars.find(varName);
+
+	if (varFind == myCAFEVars.end())
+	{
+		myCAFEVars.insert(myCAFEVars.end(), make_pair(varName, newCAFEVar));
+	}
+	else
+	{
+		// TODO: Update this element... maybe...
+	}
+
 	return(*this);
 }
 
@@ -288,6 +365,10 @@ CAFEParam::AddCAFEVar(const string &varName, const CAFEVar& newCAFEVar)
 CAFEParam&
 CAFEParam::SetEventTypes(const map<string, EventType> &newEventTypes)
 {
+	/* TODO: Yes, this does kinda assume that all of the entries are
+           valid.  Need to think about that for a while...
+        */
+
 	myEventTypes = newEventTypes;
 	return(*this);
 }
@@ -301,19 +382,39 @@ CAFEParam::GetEventTypes() const
 CAFEParam&
 CAFEParam::AddEventTypes(const map<string, EventType> &newEvents)
 {
-	/* TODO: include some algorithm to detect duplicates
-		 and see if the current EventType can get new
-		 information from the new EventType.
-		 Maybe...
-        */
-        myEventTypes.insert(newEvents.begin(), newEvents.end());
+	for (map<string, EventType>::const_iterator anEvent = newEvents.begin();
+	     anEvent != newEvents.end();
+	     anEvent++)
+	{
+		AddEventType(anEvent->first, anEvent->second);
+	}
+
         return(*this);
 }
 
 CAFEParam&
 CAFEParam::AddEventType(const string &eventName, const EventType& newEvent)
 {
-        myEventTypes.insert(myEventTypes.end(), make_pair(eventName, newEvent));
+	if (!newEvent.IsValid())
+	{
+		return(*this);
+	}
+
+	if (eventName != newEvent.GiveEventTypeName())
+	{
+		return(*this);
+	}
+
+	const map<string, EventType>::iterator eventFind = myEventTypes.find(eventName);
+	if (eventFind == myEventTypes.end())
+	{
+		myEventTypes.insert(myEventTypes.end(), make_pair(eventName, newEvent));
+	}
+	else
+	{
+		// TODO: Update the event type with new information
+	}
+
         return(*this);
 }
 
@@ -325,6 +426,10 @@ CAFEParam::AddEventType(const string &eventName, const EventType& newEvent)
 CAFEParam&
 CAFEParam::SetExtremumNames(const vector<string> &newExtremumNames)
 {
+	/* TODO: Yes, this does kinda assume that all of the entries are
+           valid.  Need to think about that for a while...
+        */
+
 	myExtremumNames = newExtremumNames;
 	return(*this);
 }
@@ -338,8 +443,26 @@ CAFEParam::GetExtremumNames() const
 CAFEParam&
 CAFEParam::AddExtremumNames(const vector<string> &newExtremumNames)
 {
-	myExtremumNames.insert(myExtremumNames.end(), newExtremumNames.begin(),
-						      newExtremumNames.end());
+	for (vector<string>::const_iterator anExtremum = newExtremumNames.begin();
+	     anExtremum != newExtremumNames.end();
+	     anExtremum++)
+	{
+		AddExtremumName(*anExtremum);
+	}
+
+	return(*this);
+}
+
+CAFEParam&
+CAFEParam::AddExtremumName(const string &newExtremumName)
+{
+	if (!newExtremumName.empty() && myExtremumNames.end() == find(myExtremumNames.begin(),
+								      myExtremumNames.end(),
+								      newExtremumName))
+	{
+		myExtremumNames.push_back(newExtremumName);
+	}
+
 	return(*this);
 }
 
