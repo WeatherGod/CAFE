@@ -47,7 +47,8 @@ UTLY_SOURCES = DrawStdAnomHist.C \
                MakeTruthTables.C \
                PrepareCrossFold.C \
                QuickCompare.C \
-	       CAFEStateTest.C
+	       CAFEStateTest.C \
+	       DisplayConfig.C
 UTLY_BINS = $(UTLY_SOURCES:.C=)
 UTLY_DEPENDS = $(UTLY_SOURCES:.C=.d)
 

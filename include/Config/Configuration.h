@@ -31,6 +31,8 @@ class Configuration
 		bool SetConfigFilename(const string &FileName);
 		bool SetDefaultSource(const DataSourceID_t &DataSourceID);
 
+		const CAFEParam& GiveCAFEInfo() const;
+
 
 
 		bool ConfigFromFile(const string &ConfigFileName);

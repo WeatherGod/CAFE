@@ -3,6 +3,7 @@ using namespace std;
 #include <map>
 #include <set>
 #include <vector>
+#include <algorithm>		// for find()
 #include <string>
 #include <cmath>		// for abs()
 #include <cstdio>		// for snprintf()
@@ -21,7 +22,7 @@ CAFEParam::CAFEParam()
 		myTrainedNameStem(""),
 		myDefaultDataSource(""),
 		myConfigFilename(""),
-		myCAFEPath(""),
+		myCAFEPath("."),
 		myLoginUserName(""),
 		myCAFEUserName(""),
 		myServerName(""),
@@ -300,7 +301,7 @@ CAFEParam::AddDataSources(const map<string, DataSource> &newDataSources)
 CAFEParam&
 CAFEParam::AddDataSource(const string &sourceName, const DataSource &newDataSource)
 {
-	if (newDataSource.IsValid())
+	if (!newDataSource.IsValid())
 	{
 		return(*this);
 	}

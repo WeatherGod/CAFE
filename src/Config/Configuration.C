@@ -98,6 +98,13 @@ bool Configuration::SetDefaultSource(const DataSourceID_t &DataSourceID)
 	}
 }
 
+
+const CAFEParam&
+Configuration::GiveCAFEInfo() const
+{
+	return(myCAFEInfo);
+}
+
 // -------------- Class-Level Counters ------------------
 size_t Configuration::DatabaseCount() const
 {
