@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 
+#include "Config/CAFEParam.h"
 #include "Config/Configuration.h"
 
 
@@ -22,6 +23,8 @@ class CmdOptions
 
 
                 bool MergeWithConfiguration(const Configuration &ConfigInfo);
+
+		CAFEParam ConfigMerge(const CAFEParam &configInfo);
 
                 string GiveTimePeriod(const int &TimeOffset) const;
                 string GiveDatabaseName(const string &TheTimePeriod) const;

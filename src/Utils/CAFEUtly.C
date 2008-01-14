@@ -102,6 +102,49 @@ bool LoadClusterBoard(ClusterBoard &EmptyBoard, const vector <LonLatAnomDate> &T
 }
 
 
+
+// Temporary, I think
+int TimePeriodToOffset(const string &timePeriodStr)
+{
+	const size_t locFind = timePeriodStr.find_last_of("T");
+
+	if (locFind != string::npos)
+	{
+		if (timePeriodStr.size() - locFind >= 4)
+		{
+			if (timePeriodStr[locFind + 1] == 'p')
+			{
+				return(atoi(timePeriodStr.substr(locFind + 2).c_str()));
+			}
+			else if (timePeriodStr[locFind + 1] == 'm')
+			{
+				return(-1 * atoi(timePeriodStr.substr(locFind + 2).c_str()));
+			}
+		}
+	}
+
+	return(INT_MAX);
+}
+
+// Temporary, I think
+string OffsetToTimePeriod(const int &timeOffset)
+{
+	char periodStr[8];
+	memset(periodStr, '\0', 8);
+
+	if (timeOffset <= 0)
+	{
+		snprintf(periodStr, 8, "Tm%.2d", abs(timeOffset));
+	}
+	else
+	{
+		snprintf(periodStr, 8, "Tp%.2d", timeOffset);
+	}
+
+	return(periodStr);
+}
+
+
 LonLatAnom LoadForecast(const string &FileName, const string &DateOfEvent)
 {
         ifstream InputList(FileName.c_str());

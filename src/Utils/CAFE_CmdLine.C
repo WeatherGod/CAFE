@@ -15,6 +15,9 @@ using namespace std;
 
 #include <FormatUtly.h>		// for Bold(), Underline()
 
+// Temporary
+#include "Utils/CAFEUtly.h"	// for OffsetToTimePeriod()
+
 #include "Utils/CAFE_CmdLine.h"
 
 
@@ -209,20 +212,23 @@ bool CmdOptions::MergeWithConfiguration(const Configuration &ConfigInfo)
 	for (vector<string>::iterator ATimePeriod( TimePeriods.begin() ),
 	                              ADatabaseName( DatabaseNames.begin() ), 
 				      AClustName( ClustDatabaseNames.begin() );
-	     ATimePeriod != TimePeriods.end(); ATimePeriod++, ADatabaseName++, AClustName++)
+	     ATimePeriod != TimePeriods.end(); 
+	     ATimePeriod++, ADatabaseName++, AClustName++)
 	{
 		*ADatabaseName = ConfigInfo.GiveDatabaseName(*ATimePeriod);
 		*AClustName = ConfigInfo.GiveClusteredDatabaseName(*ATimePeriod);
 	}
 
 	vector <string> AllCAFELabels(0);
-	for (vector<string>::const_iterator AVarName( CAFEVarNames.begin() ); AVarName != CAFEVarNames.end(); AVarName++)
+	for (vector<string>::const_iterator AVarName = CAFEVarNames.begin(); 
+	     AVarName != CAFEVarNames.end(); 
+	     AVarName++)
 	{
 		const size_t OldSize = AllCAFELabels.size();
 		const vector <string> SomeCAFELabels = ConfigInfo.Give_CAFEVar_CAFEVarLabels(*AVarName);
 		AllCAFELabels.insert(AllCAFELabels.end(), SomeCAFELabels.begin(), SomeCAFELabels.end());
 
-//		cout << '$' << GiveDelimitedList(ConfigInfo.Give_CAFEVar_CAFEVarLabels(CAFEVarNames[Index]), ' ') << '$' << endl;
+//		cout << '$' << GiveDelimitedList(ConfigInfo.Give_CAFEVar_CAFEVarLabels(*AVarName), ' ') << '$' << endl;
 		inplace_merge(AllCAFELabels.begin(), AllCAFELabels.begin() + OldSize, AllCAFELabels.end());
 	}
 
@@ -237,6 +243,125 @@ bool CmdOptions::MergeWithConfiguration(const Configuration &ConfigInfo)
 	}
 
 	return(true);
+}
+
+CAFEParam
+CmdOptions::ConfigMerge(const CAFEParam& configInfo)
+/* This is to be called AFTER MergeWithConfiguration()
+   It assumes that this CmdOptions object has been merged
+   with the configuration file.
+*/
+{
+	CAFEParam mergedInfo;
+
+	mergedInfo.SetVerboseLevel(VerboseLevel)
+		  .SetConfigFilename(ConfigFilename)
+		  .SetCAFEPath(CAFEPath)
+		  .SetLoginUserName(LoginUserName)
+		  .SetCAFEUserName(CAFEUserName)
+		  .SetServerName(ServerName)
+		  .SetUntrainedNameStem(configInfo.GetUntrainedNameStem())
+		  .SetTrainedNameStem(configInfo.GetTrainedNameStem())
+		  .SetCAFEDomain(configInfo.GetCAFEDomain())
+		  .SetExtremumNames(configInfo.GetExtremumNames())
+		  .SetDataSources(configInfo.GetDataSources())
+		  .SetDefaultDataSource(configInfo.GetDefaultDataSource());
+
+	for (vector<string>::const_iterator anOffset = TimePeriods.begin();
+	     anOffset != TimePeriods.end();
+	     anOffset++)
+	{
+		mergedInfo.AddTimeOffset(TimePeriodToOffset(*anOffset));
+	}
+
+
+	for (vector<string>::const_iterator aVar = CAFEVarNames.begin();
+	     aVar != CAFEVarNames.end();
+	     aVar++)
+	{
+		const map<string, CAFEVar>::const_iterator varFind = configInfo.GetCAFEVars().find(*aVar);
+
+		if (varFind == configInfo.GetCAFEVars().end())
+		{
+			// TODO: throw exception
+			cerr << "ERROR: Should throw exception here... CAFEVar name: " << *aVar << endl;
+			continue;
+		}
+
+		const map<string, size_t>  varCAFELevels = varFind->second.GiveCAFELevels();
+		map<string, size_t> mergedLevels;
+
+		for (map<string, size_t>::const_iterator aCAFELevel = varCAFELevels.begin();
+		     aCAFELevel != varCAFELevels.end();
+		     aCAFELevel++)
+		{
+			if (binary_search(CAFEFields.begin(), CAFEFields.end(),
+					  (aCAFELevel->first.empty() ? varFind->first
+								     : varFind->first + "_" + aCAFELevel->first)))
+			{
+				mergedLevels.insert( mergedLevels.end(), *aCAFELevel );
+			}
+		}
+
+		if (!mergedLevels.empty())
+		{
+			// So, only add a CAFEVar if there are fields found.
+			mergedInfo.AddCAFEVar(*aVar, CAFEVar(*aVar, mergedLevels));
+		}
+	}
+
+
+
+	for (vector<string>::const_iterator anEvent = EventTypes.begin();
+	     anEvent != EventTypes.end();
+	     anEvent++)
+	{
+		const map<string, EventType>::const_iterator eventFind = configInfo.GetEventTypes().find(*anEvent);
+
+		if (eventFind == configInfo.GetEventTypes().end())
+		{
+			// TODO: throw exception
+			cerr << "ERROR: Should throw exception here... event type name: " << *anEvent << endl;
+			continue;
+		}
+
+		map<string, Variable> mergedVars;
+
+		for (map<string, Variable>::const_iterator anEventVar = eventFind->second.GiveEventVariables().begin();
+		     anEventVar != eventFind->second.GiveEventVariables().end();
+		     anEventVar++)
+		{
+			set<string> CAFELevels;
+			
+			for (vector<string>::const_iterator aLevel = anEventVar->second.GiveCAFELevels().begin();
+			     aLevel != anEventVar->second.GiveCAFELevels().end();
+			     aLevel++)
+			{
+				if (binary_search(CAFEFields.begin(), CAFEFields.end(),
+						  (aLevel->empty() ? anEventVar->first 
+								   : anEventVar->first + "_" + *aLevel)))
+				{
+					CAFELevels.insert( CAFELevels.end(), *aLevel );
+				}
+			}
+
+			if (!CAFELevels.empty())
+			{
+				/* So, only add a variable to the event type if there
+				   were any fields found.
+				*/
+				mergedVars.insert(mergedVars.end(), make_pair(anEventVar->first, 
+									      Variable(anEventVar->first, CAFELevels)));
+			}
+		}
+
+		if (!mergedVars.empty())
+		{
+			mergedInfo.AddEventType(*anEvent, EventType(*anEvent, mergedVars));
+		}
+	}
+
+	return(mergedInfo);
 }
 
 string CmdOptions::GiveDatabaseName(const string &TheTimePeriod) const
@@ -262,26 +387,12 @@ string CmdOptions::GiveClusteredDatabaseName(const string &TheTimePeriod) const
 }
 
 
+// Deprecated
 string CmdOptions::GiveTimePeriod(const int &HourOffset) const
 // Will only work properly if done AFTER the MergeWithConfiguration()
 // Might work before-hand, but not really guaranteed.
 {
-	string TheTimePeriod = "";
-
-	if (HourOffset <= 0)
-        {
-                char TempPeriod[30];
-		memset(TempPeriod, 30, '\n');
-                snprintf(&TempPeriod[0], 30, "Tm%.2i", -HourOffset);
-                TheTimePeriod = TempPeriod;
-        }
-        else
-        {
-                char TempPeriod[30];
-		memset(TempPeriod, 30, '\n');
-                snprintf(&TempPeriod[0], 30, "Tp%.2i", HourOffset);
-                TheTimePeriod = TempPeriod;
-        }
+	string TheTimePeriod = OffsetToTimePeriod(HourOffset);
 
 	if (!binary_search(TimePeriods.begin(), TimePeriods.end(), TheTimePeriod))
 	{

@@ -22,7 +22,9 @@ class CAFEVar
                 bool ValidConfig() const;
                 bool IsValid() const;
 
-		string GiveCAFEVarName() const;
+		map<string, size_t> GiveCAFELevels() const;
+
+		const string& GiveCAFEVarName() const;
 		size_t GiveCAFELevelCount() const;
 
 		string GiveCAFELevelName(const size_t &CAFELevelIndex) const;

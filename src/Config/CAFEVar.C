@@ -73,7 +73,7 @@ CAFEVar::CAFEVar(const string &varName, const map<string, size_t> &CAFELevels)
 	:	myCAFEVarName(varName),
 		myCAFELevelIndicies(CAFELevels.size()),
 		myCAFELevelNames(CAFELevels.size()),
-		myIsConfigured(false)
+		myIsConfigured(true)
 {
 	size_t index = 0;
 	for (map<string, size_t>::const_iterator aLevel = CAFELevels.begin();
@@ -83,8 +83,6 @@ CAFEVar::CAFEVar(const string &varName, const map<string, size_t> &CAFELevels)
 		myCAFELevelNames[index] = aLevel->first;
 		myCAFELevelIndicies[index] = aLevel->second;
 	}
-
-	myIsConfigured = (index != 0);
 }
 
 void CAFEVar::GetConfigInfo(string &FileLine, fstream &ReadData)
@@ -164,7 +162,23 @@ bool CAFEVar::IsValid() const
 	return(myIsConfigured);
 }
 
-string CAFEVar::GiveCAFEVarName() const
+map<string, size_t>
+CAFEVar::GiveCAFELevels() const
+{
+	map<string, size_t> theCAFELevels;
+
+	for (size_t index = 0; index < myCAFELevelNames.size(); index++)
+	{
+		theCAFELevels.insert( theCAFELevels.end(),
+				      make_pair( myCAFELevelNames[index],
+						 myCAFELevelIndicies[index] ));
+	}
+
+	return(theCAFELevels);
+}
+
+const string&
+CAFEVar::GiveCAFEVarName() const
 {
 	return(myCAFEVarName);
 }
@@ -226,28 +240,31 @@ bool CAFEVar::AddCAFELevel(const string &NewCAFELevel, const size_t &CAFELevelIn
 
 // The CAFELevels will be sorted by the LevelNames.
 {
+/*
 	if (NewCAFELevel.empty())
 	{
 		cerr << "ERROR -- NewCAFELevel is an empty string!" << endl;
                 return(false);
 	}
+*/
 
 	if (!binary_search(myCAFELevelNames.begin(), myCAFELevelNames.end(), NewCAFELevel))
 	{
-		if (CAFELevelIndex != string::npos)
-		{
+//		if (CAFELevelIndex != string::npos)
+//		{
 			vector<string>::iterator InsertPos = lower_bound(myCAFELevelNames.begin(), myCAFELevelNames.end(), NewCAFELevel);
 			const size_t InsertIndex = InsertPos - myCAFELevelNames.begin();
 			myCAFELevelNames.insert(InsertPos, NewCAFELevel);
 			myCAFELevelIndicies.insert(myCAFELevelIndicies.begin() + InsertIndex, CAFELevelIndex);
 			return(true);
-		}
+/*		}
 		else
 		{
 			cerr << "ERROR -- string::npos for CAFELevelIndex." << endl;
 			cerr << "Was the LevelIndex originally a valid, positive integer?" << endl;
 			return(false);
 		}
+*/
 	}
 	else
 	{

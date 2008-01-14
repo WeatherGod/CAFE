@@ -8,6 +8,9 @@ using namespace std;
 #include <cmath>		// for abs()
 #include <cstdio>		// for snprintf()
 
+// Temporary
+#include <Utils/CAFEUtly.h>	// for OffsetToTimePeriod()
+
 #include <Config/CAFEVar.h>
 #include <Config/EventType.h>
 #include <Config/CAFEDomain.h>
@@ -199,19 +202,7 @@ CAFEParam::GetTimePeriods() const
 	     anOffset != myTimeOffsets.end();
 	     anOffset++)
 	{
-		char periodStr[8];
-		memset(periodStr, '\0', 8);
-
-		if (*anOffset <= 0)
-		{
-			snprintf(periodStr, 8, "Tm%.2d", abs(*anOffset));
-		}
-		else
-		{
-			snprintf(periodStr, 8, "Tp%.2d", *anOffset);
-		}
-
-		timePeriods.insert(timePeriods.end(), (string) periodStr);
+		timePeriods.insert(timePeriods.end(), OffsetToTimePeriod(*anOffset));
 	}
 
 	return(timePeriods);

@@ -38,6 +38,14 @@ Variable::Variable(const string &CAFEName,
 {
 }
 
+Variable::Variable(const string &CAFEName,
+		   const set<string> &CAFELevels)
+	:	myCAFEVariableName(CAFEName),
+		myCAFELevels(CAFELevels.begin(), CAFELevels.end()),
+		myIsConfigured(true)
+{
+}
+
 
 void Variable::GetConfigInfo(string &FileLine, fstream &ReadData)
 {
@@ -92,12 +100,14 @@ bool Variable::IsValid() const
 	return(myIsConfigured);
 }
 
-string Variable::GiveCAFEVariableName() const
+const string&
+Variable::GiveCAFEVariableName() const
 {
 	return(myCAFEVariableName);
 }
 
-vector <string> Variable::GiveCAFELevels() const
+const vector<string>&
+Variable::GiveCAFELevels() const
 // be in alphabetical order.
 {
 	return(myCAFELevels);
@@ -124,10 +134,12 @@ bool Variable::AddCAFELevel(const string &CAFELevelName)
 // If a duplicate, but valid level is given, it will still return true,
 // but the duplicate level will not be inserted.
 {
+/*
 	if (CAFELevelName.empty())
 	{
 		return(false);
 	}
+*/
 
 	if (!binary_search(myCAFELevels.begin(), myCAFELevels.end(), CAFELevelName))
 	{

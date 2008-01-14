@@ -18,6 +18,10 @@ bool GetGridInfo(const Configuration &ConfigInfo, BoardConvertor &ProjectionInfo
 bool LoadClusterBoard(ClusterBoard &EmptyBoard, const vector <LonLatAnomDate> &TheMembers,
                       const BoardConvertor &ProjectionTranslator);
 
+// TODO: Temporary, I think
+string OffsetToTimePeriod(const int &timeOffset);
+int TimePeriodToOffset(const string &timePeriod);
+
 
 LonLatAnom LoadForecast(const string &FileName, const string &DateOfEvent);
 bool WriteLonLatAnoms(const vector <LonLatAnom> &TheMembers, const string &OutFileName);

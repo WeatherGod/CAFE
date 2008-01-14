@@ -590,9 +590,8 @@ CAFEState::DataLevel_Names() const
 string
 CAFEState::DataLevel_Name() const
 {
-	return(myDataSourceIter->second.GiveDataLevel(*myEventVarIter, 
-						      GetCAFEVars().find(*myEventVarIter)
-							->second.GiveCAFELevelIndex(*myEventVarLevelIter)));
+	return(myDataSourceIter->second.GiveDataLevel(*myEventVarIter, GetCAFEVars().find(*myEventVarIter)
+									->second.GiveCAFELevelIndex(*myEventVarLevelIter)));
 }
 
 set<string>

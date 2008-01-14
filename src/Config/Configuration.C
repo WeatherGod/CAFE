@@ -662,7 +662,7 @@ vector <string> Configuration::Give_CAFEVar_CAFEVarLabels(const string &CAFEVarN
                 //    and a respective CAFELevel name with an underscore between them.
                 for (size_t LevIndex = 0; LevIndex < LevelNames.size(); LevIndex++)
                 {
-                        CAFEVarLabels[LevIndex] += '_' + LevelNames[LevIndex];
+                        CAFEVarLabels[LevIndex] += (LevelNames[LevIndex].empty() ? "" : '_' + LevelNames[LevIndex]);
                 }
 
                 return(CAFEVarLabels);
@@ -962,7 +962,7 @@ bool Configuration::AddCAFEVar(const CAFEVar &NewVar)
 	}
 
 	if (myCAFEInfo.GetCAFEVars().find(NewVar.GiveCAFEVarName()) == myCAFEInfo.GetCAFEVars().end())
-	{
+	{		
 		// Probably put some sort of connection testing function here...
 		myCAFEInfo.AddCAFEVar(NewVar.GiveCAFEVarName(), NewVar);
 		return(true);
@@ -1159,6 +1159,13 @@ void Configuration::GetConfigInfo(string &FileLine, fstream &ReadData)
 				FileLine = ReadNoComments(ReadData);
 				CAFEVar TempVar;
 				TempVar.GetConfigInfo(FileLine, ReadData);
+
+				if (TempVar.GiveCAFELevelCount() == 0)
+				{
+					// Give a default empty CAFELevel
+					TempVar.AddCAFELevel("", string::npos);
+				}
+
 				if (!AddCAFEVar(TempVar))
 				{
 					BadObject = true;

@@ -25,8 +25,8 @@ class EventType
                 bool ValidConfig() const;
                 bool IsValid() const;
 
-		string GiveEventTypeName() const;
-//		const Variable* GiveVariable(const string CAFEVarName) const;
+		const map<string, Variable>& GiveEventVariables() const;
+		const string& GiveEventTypeName() const;
 
 		vector <string> GiveCAFEVariableNames() const;
 

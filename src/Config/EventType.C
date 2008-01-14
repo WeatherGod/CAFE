@@ -98,6 +98,14 @@ void EventType::GetConfigInfo(string &FileLine, fstream &ReadData)
 				FileLine = ReadNoComments(ReadData);
 				Variable TempVar;
 				TempVar.GetConfigInfo(FileLine, ReadData);
+
+				if (TempVar.GiveLevelCount() == 0)
+				{
+					// Supply a default CAFELevel if none
+					// is given.
+					TempVar.AddCAFELevel("");
+				}
+
 				if (!AddVariable(TempVar))
 				{
 					BadObject = true;
@@ -131,11 +139,17 @@ bool EventType::IsValid() const
 	return(myIsConfigured);
 }
 
-string EventType::GiveEventTypeName() const
+const string&
+EventType::GiveEventTypeName() const
 {
 	return(myEventTypeName);
 }
 
+const map<string, Variable>&
+EventType::GiveEventVariables() const
+{
+	return(myVariables);
+}
 
 size_t EventType::GiveVariableCount() const
 {
