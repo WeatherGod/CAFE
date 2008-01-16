@@ -23,10 +23,13 @@ CAFEState::CAFEState()
 		myEventTypeIter(GetEventTypes().end()),
 		myDataSourceIter(GetDataSources().end()),
 		myExtremumIter(GetExtremumNames().end()),
+		myCAFEVarIter(GetCAFEVars().end()),
 		myTempEventVarNames(0),
-		myEventVarIter(myTempEventVarNames.end()),
+		myEventVarIter(GetEventVars().end()),
 		myTempEventVarLevelNames(0),
-		myEventVarLevelIter(myTempEventVarLevelNames.end())
+		myEventVarLevelIter(GetEventLevels().end()),
+		myTempCAFELevelNames(0),
+		myCAFELevelIter(GetCAFELevels().end())
 {
 }
 
@@ -36,59 +39,79 @@ CAFEState::CAFEState(const CAFEState &stateCopy)
                 myEventTypeIter(),
 		myDataSourceIter(),
 		myExtremumIter(),
-		myTempEventVarNames(stateCopy.myTempEventVarNames),
+		myCAFEVarIter(),
+		myTempEventVarNames(stateCopy.GetEventVars()),
                 myEventVarIter(),
-		myTempEventVarLevelNames(stateCopy.myTempEventVarLevelNames),
-                myEventVarLevelIter()
+		myTempEventVarLevelNames(stateCopy.GetEventLevels()),
+                myEventVarLevelIter(),
+		myTempCAFELevelNames(stateCopy.GetCAFELevels()),
+		myCAFELevelIter()
 {
-	if (stateCopy.myTimeOffsetIter != stateCopy.GetTimeOffsets().end())
+	if (stateCopy.TimePeriods_HasNext())
 	{
-		myTimeOffsetIter = GetTimeOffsets().find(*stateCopy.myTimeOffsetIter);
+		myTimeOffsetIter = GetTimeOffsets().find(stateCopy.TimePeriod_Offset());
 	}
 	else
 	{
 		myTimeOffsetIter = GetTimeOffsets().end();
 	}
 
-	if (stateCopy.myEventTypeIter != stateCopy.GetEventTypes().end())
+	if (stateCopy.EventTypes_HasNext())
 	{
-		myEventTypeIter = GetEventTypes().find(stateCopy.myEventTypeIter->first);
+		myEventTypeIter = GetEventTypes().find(stateCopy.EventType_Name());
 	}
 	else
 	{
 		myEventTypeIter = GetEventTypes().end();
 	}
 
-	if (stateCopy.myDataSourceIter != stateCopy.GetDataSources().end())
+	if (stateCopy.DataSources_HasNext())
 	{
-		myDataSourceIter = GetDataSources().find(stateCopy.myDataSourceIter->first);
+		myDataSourceIter = GetDataSources().find(stateCopy.DataSource_Name());
         }
         else
         {
                 myDataSourceIter = GetDataSources().end();
         }
 
+	if (stateCopy.CAFEVars_HasNext())
+	{
+		myCAFEVarIter = GetCAFEVars().find(stateCopy.CAFEVar_Name());
+	}
+	else
+	{
+		myCAFEVarIter = GetCAFEVars().end();
+	}
+
 	myExtremumIter = GetExtremumNames().begin() 
 			+ (stateCopy.myExtremumIter - stateCopy.GetExtremumNames().begin());
 
-	myEventVarIter = myTempEventVarNames.begin() 
-			+ (stateCopy.myEventVarIter - stateCopy.myTempEventVarNames.begin());
-	myEventVarLevelIter = myTempEventVarLevelNames.begin() 
-			     + (stateCopy.myEventVarLevelIter - stateCopy.myTempEventVarLevelNames.begin());
+	myEventVarIter = GetEventVars().begin() 
+			+ (stateCopy.myEventVarIter - stateCopy.GetEventVars().begin());
+	myEventVarLevelIter = GetEventLevels().begin() 
+			     + (stateCopy.myEventVarLevelIter - stateCopy.GetEventLevels().begin());
+
+	myCAFELevelIter = GetCAFELevels().begin()
+			 + (stateCopy.myCAFELevelIter - stateCopy.GetCAFELevels().begin());
 }
 
 CAFEState::CAFEState(const CAFEParam &cafeConfig)
 	:	myCAFEInfo(cafeConfig),
 		myTimeOffsetIter(GetTimeOffsets().begin()),
 		myEventTypeIter(GetEventTypes().begin()),
-		myDataSourceIter(GetDataSources().find(GetDefaultDataSource())),
+		myDataSourceIter(GetDataSources().find(myCAFEInfo.GetDefaultDataSource())),
 		myExtremumIter(GetExtremumNames().begin()),
+		myCAFEVarIter(GetCAFEVars().begin()),
                 myTempEventVarNames(0),
                 myEventVarIter(),
                 myTempEventVarLevelNames(0),
-                myEventVarLevelIter()
+                myEventVarLevelIter(),
+		myTempCAFELevelNames(0),
+		myCAFELevelIter()
 {
-	ResetTempEventVars();
+	ResetEventVars();	// Initializes myTempEventVarNames, myEventVarIter,
+				//             myTempEventVarLevelNames, and myEventVarLevelIter
+	ResetCAFELevels();	// Initializes myTempCAFELevelNames, and myCAFELevelIter
 }
 
 
@@ -97,11 +120,11 @@ CAFEState&
 CAFEState::SetParams(const CAFEParam& cafeConfig)
 {
 	myCAFEInfo = cafeConfig;
-	myTimeOffsetIter = GetTimeOffsets().begin();
-	myEventTypeIter = GetEventTypes().begin();
-	myDataSourceIter = GetDataSources().find(GetDefaultDataSource());
-	myExtremumIter = GetExtremumNames().begin();
-	ResetTempEventVars();
+	TimePeriods_Begin();
+	EventTypes_Begin();
+	DataSources_JumpTo(myCAFEInfo.GetDefaultDataSource());
+	Extrema_Begin();
+	CAFEVars_Begin();
 }
 
 const CAFEParam&
@@ -110,23 +133,38 @@ CAFEState::GetParams() const
 	return(myCAFEInfo);
 }
 
-CAFEState&
-CAFEState::SetDefaultDataSource(const string &sourceName)
+
+//-----------------------------------------------------------
+// Value Existance Checkers
+bool
+CAFEState::EventType_Check(const string &eventName) const
 {
-	const map<string, DataSource>::const_iterator sourceFind = GetDataSources().find(sourceName);
-
-	if (sourceFind != GetDataSources().end())
-	{
-		myDataSourceIter = sourceFind;
-		myCAFEInfo.SetDefaultDataSource(sourceName);
-	}
-
-	return(*this);
+	return(GetEventTypes().end() != GetEventTypes().find(eventName));
 }
 
+bool
+CAFEState::TimeOffset_Check(const int offsetHour) const
+{
+        return(GetTimeOffsets().end() != GetTimeOffsets().find(offsetHour));
+}
+
+bool
+CAFEState::CAFEVar_Check(const string &varName) const
+{
+        return(GetCAFEVars().end() != GetCAFEVars().find(varName));
+}
+
+bool
+CAFEState::DataSource_Check(const string &sourceName) const
+{
+        return(GetDataSources().end() != GetDataSources().find(sourceName));
+}
+//--------------------------------------------------------------
 
 
 
+//-------------------------------------------------
+// Getter Functions
 const int&
 CAFEState::GetVerboseLevel() const
 {
@@ -180,59 +218,33 @@ CAFEState::GetCAFEDomain() const
 {
 	return(myCAFEInfo.GetCAFEDomain());
 }
+//------------------------------------------------------
 
-const string&
-CAFEState::GetDefaultDataSource() const
-{
-	return(myCAFEInfo.GetDefaultDataSource());
-}
 
-const set<int>&
-CAFEState::GetTimeOffsets() const
+//----------------------------------------------
+set<string>
+CAFEState::GetCAFEFields() const
 {
-	return(myCAFEInfo.GetTimeOffsets());
-}
-
-const map<string, DataSource>& 
-CAFEState::GetDataSources() const
-{
-	return(myCAFEInfo.GetDataSources());
-}
-
-const map<string, CAFEVar>& 
-CAFEState::GetCAFEVars() const
-{
-	return(myCAFEInfo.GetCAFEVars());
+	return(myCAFEInfo.GetCAFEFields());
 }
 
 set<string>
-CAFEState::GetCAFEVar_Names() const
+CAFEState::GetEventFields() const
 {
-	set<string> theNames;
-	for (map<string, CAFEVar>::const_iterator aVar = GetCAFEVars().begin();
-	     aVar != GetCAFEVars().end();
-	     aVar++)
-	{
-		theNames.insert(theNames.end(), aVar->first);
-	}
-
-	return(theNames);
+	return(myCAFEInfo.GetEventFields());
 }
-
-const map<string, EventType>&
-CAFEState::GetEventTypes() const
-{
-	return(myCAFEInfo.GetEventTypes());
-}
-
-const vector<string>&
-CAFEState::GetExtremumNames() const
-{
-	return(myCAFEInfo.GetExtremumNames());
-}
+//-----------------------------------------------
 
 
 
+
+
+
+
+
+// ********************************
+// --- Dynamic Parameter Access ---
+// ********************************
 // -------------------
 // --- TimePeriods ---
 // -------------------
@@ -278,14 +290,20 @@ CAFEState::TimePeriods_JumpTo(const int &offset)
 	}
 }
 
-int
+set<int>
+CAFEState::TimePeriod_Offsets() const
+{
+	return(GetTimeOffsets());
+}
+
+const int&
 CAFEState::TimePeriod_Offset() const
 {
 	return(*myTimeOffsetIter);
 }
 
 set<string>
-CAFEState::GetTimePeriod_Names() const
+CAFEState::TimePeriod_Names() const
 {
 	set<string> theNames;
 	for (set<int>::const_iterator anOffset = GetTimeOffsets().begin();
@@ -301,11 +319,11 @@ CAFEState::GetTimePeriod_Names() const
 string
 CAFEState::TimePeriod_Name() const
 {
-	return(GiveTimePeriod(*myTimeOffsetIter));
+	return(GiveTimePeriod(TimePeriod_Offset()));
 }
 
 set<string>
-CAFEState::GetUntrained_Names() const
+CAFEState::Untrained_Names() const
 {
         set<string> theNames;
         for (set<int>::const_iterator anOffset = GetTimeOffsets().begin();
@@ -326,7 +344,7 @@ CAFEState::Untrained_Name() const
 }
 
 set<string>
-CAFEState::GetTrained_Names() const
+CAFEState::Trained_Names() const
 {
         set<string> theNames;
         for (set<int>::const_iterator anOffset = GetTimeOffsets().begin();
@@ -361,14 +379,14 @@ CAFEState&
 CAFEState::EventTypes_Begin()
 {
 	myEventTypeIter = GetEventTypes().begin();
-	return(ResetTempEventVars());
+	return(ResetEventVars());
 }
 
 CAFEState&
 CAFEState::EventTypes_Next()
 {
 	myEventTypeIter++;
-	return(ResetTempEventVars());
+	return(ResetEventVars());
 }
 
 bool
@@ -385,6 +403,7 @@ CAFEState::EventTypes_JumpTo(const string &eventName)
 	if (eventFind != GetEventTypes().end())
 	{
 		myEventTypeIter = eventFind;
+		ResetEventVars();
 		return(true);
 	}
 	else
@@ -394,7 +413,7 @@ CAFEState::EventTypes_JumpTo(const string &eventName)
 }
 
 set<string>
-CAFEState::GetEventType_Names() const
+CAFEState::EventType_Names() const
 {
 	set<string> theNames;
 	for (map<string, EventType>::const_iterator anEventType = GetEventTypes().begin();
@@ -407,7 +426,7 @@ CAFEState::GetEventType_Names() const
 	return(theNames);
 }
 
-string
+const string&
 CAFEState::EventType_Name() const
 {
 	return(myEventTypeIter->first);
@@ -420,39 +439,40 @@ CAFEState::EventType_Name() const
 size_t
 CAFEState::EventVars_Size() const
 {
-	return(myTempEventVarNames.size());
+	return(GetEventVars().size());
 }
 
 CAFEState&
 CAFEState::EventVars_Begin()
 {
-	myEventVarIter = myTempEventVarNames.begin();
-	return(ResetTempEventVarLevels());
+	myEventVarIter = GetEventVars().begin();
+	return(ResetEventLevels());
 }
 
 CAFEState&
 CAFEState::EventVars_Next()
 {
 	myEventVarIter++;
-	return(ResetTempEventVarLevels());
+	return(ResetEventLevels());
 }
 
 bool
 CAFEState::EventVars_HasNext() const
 {
-	return(myEventVarIter != myTempEventVarNames.end());
+	return(myEventVarIter != GetEventVars().end());
 }
 
 bool
 CAFEState::EventVars_JumpTo(const string &varName)
 {
-	const vector<string>::const_iterator varFind = find(myTempEventVarNames.begin(), 
-							    myTempEventVarNames.end(),
+	const vector<string>::const_iterator varFind = find(GetEventVars().begin(), 
+							    GetEventVars().end(),
 							    varName);
 
-	if (varFind != myTempEventVarNames.end())
+	if (GetEventVars().end() != varFind)
 	{
 		myEventVarIter = varFind;
+		ResetEventLevels();
 		return(true);
 	}
 	else
@@ -465,8 +485,8 @@ set<string>
 CAFEState::EventVar_Names() const
 {
 	set<string> theNames;
-	for (vector<string>::const_iterator aName = myTempEventVarNames.begin();
-	     aName != myTempEventVarNames.end();
+	for (vector<string>::const_iterator aName = GetEventVars().begin();
+	     aName != GetEventVars().end();
 	     aName++)
 	{
 		theNames.insert(theNames.end(), *aName);
@@ -475,71 +495,86 @@ CAFEState::EventVar_Names() const
 	return(theNames);
 }
 
-string
+const string&
 CAFEState::EventVar_Name() const
 {
 	return(*myEventVarIter);
+}
+
+map<string, string>
+CAFEState::EventVar_DataVar_Names() const
+{
+	map<string, string> logicalPairings;
+
+	for (vector<string>::const_iterator aVarName = GetEventVars().begin();
+	     aVarName != GetEventVars().end();
+	     aVarName++)
+	{
+		logicalPairings[*aVarName] = GetDataSource().GiveDataVarName(*aVarName);
+	}
+
+	return(logicalPairings);
 }
 
 set<string>
 CAFEState::DataVar_Names() const
 {
         set<string> theNames;
-        for (vector<string>::const_iterator aName = myTempEventVarNames.begin();
-             aName != myTempEventVarNames.end();
+        for (vector<string>::const_iterator aName = GetEventVars().begin();
+             aName != GetEventVars().end();
              aName++)
         {
-                theNames.insert(theNames.end(), myDataSourceIter->second.GiveDataVarName(*aName));
+                theNames.insert(GetDataSource().GiveDataVarName(*aName));
         }
 
         return(theNames);
 }
 
-string
+const string&
 CAFEState::DataVar_Name() const
 {
-	return(myDataSourceIter->second.GiveDataVarName(*myEventVarIter));
+	return(GetDataSource().GiveDataVarName(EventVar_Name()));
 }
 
 
 
-// ------------------
-// --- CAFELevels ---
-// ------------------
+// -------------------
+// --- EventLevels ---
+// -------------------
 size_t
-CAFEState::CAFELevels_Size() const
+CAFEState::EventLevels_Size() const
 {
-	return(myTempEventVarLevelNames.size());
+	return(GetEventLevels().size());
 }
 
 CAFEState&
-CAFEState::CAFELevels_Begin()
+CAFEState::EventLevels_Begin()
 {
-	myEventVarLevelIter = myTempEventVarLevelNames.begin();
+	myEventVarLevelIter = GetEventLevels().begin();
 	return(*this);
 }
 
 CAFEState&
-CAFEState::CAFELevels_Next()
+CAFEState::EventLevels_Next()
 {
 	myEventVarLevelIter++;
 	return(*this);
 }
 
 bool
-CAFEState::CAFELevels_HasNext() const
+CAFEState::EventLevels_HasNext() const
 {
-	return(myEventVarLevelIter != myTempEventVarLevelNames.end());
+	return(myEventVarLevelIter != GetEventLevels().end());
 }
 
 bool
-CAFEState::CAFELevels_JumpTo(const string &levelName)
+CAFEState::EventLevels_JumpTo(const string &levelName)
 {
-	const vector<string>::const_iterator levelFind = find(myTempEventVarLevelNames.begin(),
-							      myTempEventVarLevelNames.end(),
+	const vector<string>::const_iterator levelFind = find(GetEventLevels().begin(),
+							      GetEventLevels().end(),
 							      levelName);
 
-	if (levelFind != myTempEventVarLevelNames.end())
+	if (levelFind != GetEventLevels().end())
 	{
 		myEventVarLevelIter = levelFind;
 		return(true);
@@ -551,11 +586,11 @@ CAFEState::CAFELevels_JumpTo(const string &levelName)
 }
 
 set<string>
-CAFEState::CAFELevel_Names() const
+CAFEState::EventLevel_Names() const
 {
         set<string> theNames;
-        for (vector<string>::const_iterator aName = myTempEventVarLevelNames.begin();
-             aName != myTempEventVarLevelNames.end();
+        for (vector<string>::const_iterator aName = GetEventLevels().begin();
+             aName != GetEventLevels().end();
              aName++)
         {
                 theNames.insert(theNames.end(), *aName);
@@ -564,24 +599,39 @@ CAFEState::CAFELevel_Names() const
         return(theNames);
 }
 
-string
-CAFEState::CAFELevel_Name() const
+const string&
+CAFEState::EventLevel_Name() const
 {
 	return(*myEventVarLevelIter);
+}
+
+map<string, string>
+CAFEState::EventLevel_DataLevel_Names() const
+{
+	map<string, string> logicalPairings;
+	for (vector<string>::const_iterator aName = GetEventLevels().begin();
+	     aName != GetEventLevels().end();
+	     aName++)
+	{
+		logicalPairings[*aName] = GetDataSource().GiveDataLevel(EventVar_Name(),
+									GetCAFEVars().find(EventVar_Name())
+									  ->second.GiveCAFELevelIndex(*aName));
+	}
+
+	return(logicalPairings);
 }
 
 set<string>
 CAFEState::DataLevel_Names() const
 {
         set<string> theNames;
-        for (vector<string>::const_iterator aName = myTempEventVarLevelNames.begin();
-             aName != myTempEventVarLevelNames.end();
+        for (vector<string>::const_iterator aName = GetEventLevels().begin();
+             aName != GetEventLevels().end();
              aName++)
         {
-                theNames.insert(theNames.end(), 
-				myDataSourceIter->second.GiveDataLevel(*myEventVarIter,
-									GetCAFEVars().find(*myEventVarIter)
-									  ->second.GiveCAFELevelIndex(*aName)));
+                theNames.insert(GetDataSource().GiveDataLevel(EventVar_Name(),
+							      GetCAFEVars().find(EventVar_Name())
+								->second.GiveCAFELevelIndex(*aName)));
         }
 
         return(theNames);
@@ -590,33 +640,33 @@ CAFEState::DataLevel_Names() const
 string
 CAFEState::DataLevel_Name() const
 {
-	return(myDataSourceIter->second.GiveDataLevel(*myEventVarIter, GetCAFEVars().find(*myEventVarIter)
-									->second.GiveCAFELevelIndex(*myEventVarLevelIter)));
+	return(GetDataSource().GiveDataLevel(EventVar_Name(), GetCAFEVars().find(EventVar_Name())
+								->second.GiveCAFELevelIndex(EventLevel_Name())));
 }
 
 set<string>
-CAFEState::CAFEField_Names() const
+CAFEState::EventField_Names() const
 {
         set<string> theNames;
-        for (vector<string>::const_iterator aName = myTempEventVarLevelNames.begin();
-             aName != myTempEventVarLevelNames.end();
+        for (vector<string>::const_iterator aName = GetEventLevels().begin();
+             aName != GetEventLevels().end();
              aName++)
         {
                 theNames.insert(theNames.end(),
-				(aName->empty() ? *myEventVarIter
-						: *myEventVarIter + "_" + *aName));
+				(aName->empty() ? EventVar_Name()
+						: EventVar_Name() + "_" + *aName));
         }
 
         return(theNames);
 }
 
 string
-CAFEState::CAFEField_Name() const
+CAFEState::EventField_Name() const
 {
 	// Need to see if there is a level to 
-	// append onto the event variable name.
-	return(myEventVarLevelIter->empty() ? *myEventVarIter
-					    : *myEventVarIter + "_" + *myEventVarLevelIter);
+	// append onto the event variable name.  (i.e. - "MSLP" has no levels, while "UWnd_850" does)
+	return(EventLevel_Name().empty() ? EventVar_Name()
+					 : EventVar_Name() + "_" + EventLevel_Name());
 }
 
 
@@ -670,7 +720,13 @@ CAFEState::Extrema_JumpTo(const string &extremumName)
 	}
 }
 
-string
+vector<string>
+CAFEState::Extremum_Names() const
+{
+	return(GetExtremumNames());
+}
+
+const string&
 CAFEState::Extremum_Name() const
 {
 	return(*myExtremumIter);
@@ -686,7 +742,7 @@ CAFEState::FieldExtremum_Names() const
 	     aName != GetExtremumNames().end();
 	     aName++)
 	{
-		theNames.push_back(CAFEField_Name() + "_" + *aName);
+		theNames.push_back(EventField_Name() + "_" + *aName);
 	}
 
 	return(theNames);
@@ -695,8 +751,315 @@ CAFEState::FieldExtremum_Names() const
 string
 CAFEState::FieldExtremum_Name() const
 {
-	return(CAFEField_Name() + "_" + *myExtremumIter);
+	return(EventField_Name() + "_" + Extremum_Name());
 }
+
+
+// *********************************
+// --- Dynamic CAFEVar Accessors ---
+// *********************************
+// ----------------
+// --- CAFEVars ---
+// ----------------
+size_t
+CAFEState::CAFEVars_Size() const
+{
+	return(GetCAFEVars().size());
+}
+
+CAFEState&
+CAFEState::CAFEVars_Begin()
+{
+	myCAFEVarIter = GetCAFEVars().begin();
+	return(ResetCAFELevels());
+}
+
+CAFEState&
+CAFEState::CAFEVars_Next()
+{
+	myCAFEVarIter++;
+	return(ResetCAFELevels());
+}
+
+bool
+CAFEState::CAFEVars_HasNext() const
+{
+	return(GetCAFEVars().end() != myCAFEVarIter);
+}
+
+bool
+CAFEState::CAFEVars_JumpTo(const string &varName)
+{
+	const map<string, CAFEVar>::const_iterator varFind = GetCAFEVars().find(varName);
+
+	if (GetCAFEVars().end() != varFind)
+	{
+		myCAFEVarIter = varFind;
+		ResetCAFELevels();
+		return(true);
+	}
+	else
+	{
+		return(false);
+	}
+}
+
+
+set<string>
+CAFEState::CAFEVar_Names() const
+{
+	set<string> theNames;
+	for (map<string, CAFEVar>::const_iterator aVar = GetCAFEVars().begin();
+	     aVar != GetCAFEVars().end();
+	     aVar++)
+	{
+		theNames.insert(theNames.end(), aVar->first);
+	}
+
+	return(theNames);
+}
+
+const string&
+CAFEState::CAFEVar_Name() const
+{
+	return(myCAFEVarIter->first);
+}
+
+map<string, string>
+CAFEState::CAFEVar_CAFEData_Names() const
+{
+	map<string, string> logicalPairings;
+	for (map<string, CAFEVar>::const_iterator aVar = GetCAFEVars().begin();
+	     aVar != GetCAFEVars().end();
+	     aVar++)
+	{
+		logicalPairings[aVar->first] = GetDataSource().GiveDataVarName(aVar->first);
+	}
+
+	return(logicalPairings);
+}
+
+set<string>
+CAFEState::CAFEData_Names() const
+{
+	set<string> theNames;
+	for (map<string, CAFEVar>::const_iterator aVar = GetCAFEVars().begin();
+	     aVar != GetCAFEVars().end();
+	     aVar++)
+	{
+		theNames.insert(GetDataSource().GiveDataVarName(aVar->first));
+	}
+
+	return(theNames);
+}
+
+const string&
+CAFEState::CAFEData_Name() const
+{
+	return(GetDataSource().GiveDataVarName(CAFEVar_Name()));
+}
+
+
+// -------------------
+// --- CAFE Levels ---
+// -------------------
+size_t
+CAFEState::CAFELevels_Size() const
+{
+	return(GetCAFELevels().size());
+}
+
+CAFEState&
+CAFEState::CAFELevels_Begin()
+{
+	myCAFELevelIter = GetCAFELevels().begin();
+	return(*this);
+}
+
+CAFEState&
+CAFEState::CAFELevels_Next()
+{
+	myCAFELevelIter++;
+	return(*this);
+}
+
+bool
+CAFEState::CAFELevels_HasNext() const
+{
+	return(GetCAFELevels().end() != myCAFELevelIter);
+}
+
+bool
+CAFEState::CAFELevels_JumpTo(const string &levelName)
+{
+	const vector<string>::const_iterator levelFind = find(GetCAFELevels().begin(),
+							      GetCAFELevels().end(),
+							      levelName);
+
+	if (GetCAFELevels().end() != levelFind)
+	{
+		myCAFELevelIter = levelFind;
+		return(true);
+	}
+	else
+	{
+		return(false);
+	}
+}
+
+
+set<string>
+CAFEState::CAFELevel_Names() const
+{
+	set<string> theNames;
+	for (vector<string>::const_iterator aLevel = GetCAFELevels().begin();
+	     aLevel != GetCAFELevels().end();
+	     aLevel++)
+	{
+		theNames.insert(theNames.end(), *aLevel);
+	}
+
+	return(theNames);
+}
+
+const string&
+CAFEState::CAFELevel_Name() const
+{
+	return(*myCAFELevelIter);
+}
+
+map<string, string>
+CAFEState::CAFELevel_CAFEDataLevel_Names() const
+{
+	map<string, string> logicalPairings;
+	for (vector<string>::const_iterator aLevel = GetCAFELevels().begin();
+	     aLevel != GetCAFELevels().end();
+	     aLevel++)
+	{
+		logicalPairings[*aLevel] = GetDataSource().GiveDataLevel(CAFEVar_Name(),
+							      		 GetCAFEVars().find(CAFEVar_Name())
+									   ->second.GiveCAFELevelIndex(*aLevel));
+	}
+
+	return(logicalPairings);
+}
+
+set<string>
+CAFEState::CAFEDataLevel_Names() const
+{
+	set<string> theNames;
+	for (vector<string>::const_iterator aLevel = GetCAFELevels().begin();
+	     aLevel != GetCAFELevels().end();
+	     aLevel++)
+	{
+		theNames.insert( GetDataSource().GiveDataLevel(CAFEVar_Name(),
+							       GetCAFEVars().find(CAFEVar_Name())
+								 ->second.GiveCAFELevelIndex(*aLevel)) );
+	}
+
+	return(theNames);
+}
+
+const string&
+CAFEState::CAFEDataLevel_Name() const
+{
+	return(GetDataSource().GiveDataLevel(CAFEVar_Name(), GetCAFEVars().find(CAFEVar_Name())
+							       ->second.GiveCAFELevelIndex(CAFELevel_Name())));
+}
+
+
+set<string>
+CAFEState::CAFEField_Names() const
+{
+	set<string> theNames;
+	for (vector<string>::const_iterator aLevel = GetCAFELevels().begin();
+	     aLevel != GetCAFELevels().end();
+	     aLevel++)
+	{
+		theNames.insert(theNames.end(), (CAFELevel_Name().empty() ? CAFEVar_Name()
+									  : CAFEVar_Name() + "_" + CAFELevel_Name()));
+	}
+
+	return(theNames);
+}
+
+
+
+
+// ***********************************
+// --- Dynamic DataSource Accessor ---
+// ***********************************
+size_t
+CAFEState::DataSources_Size() const
+{
+	return(GetDataSources().size());
+}
+
+CAFEState&
+CAFEState::DataSources_Begin()
+{
+	myDataSourceIter = GetDataSources().begin();
+	myCAFEInfo.SetDefaultDataSource(DataSource_Name());
+	return(*this);
+}
+
+CAFEState&
+CAFEState::DataSources_Next()
+{
+	myDataSourceIter++;
+	myCAFEInfo.SetDefaultDataSource(DataSource_Name());
+	return(*this);
+}
+
+bool
+CAFEState::DataSources_HasNext() const
+{
+	return(GetDataSources().end() != myDataSourceIter);
+}
+
+bool
+CAFEState::DataSources_JumpTo(const string &sourceName)
+{
+	const map<string, DataSource>::const_iterator sourceFind = GetDataSources().find(sourceName);
+
+	if (GetDataSources().end() != sourceFind)
+	{
+		myDataSourceIter = sourceFind;
+		myCAFEInfo.SetDefaultDataSource(DataSource_Name());
+		return(true);
+	}
+	else
+	{
+		return(false);
+	}
+}
+
+// Temporary...
+const DataSource&
+CAFEState::DefaultDataSource() const
+{
+	return(GetDataSource());
+}
+
+
+set<string>
+CAFEState::DataSource_Names() const
+{
+	set<string> theNames;
+	for (map<string, DataSource>::const_iterator aSource = GetDataSources().begin();
+	     aSource != GetDataSources().end();
+	     aSource++)
+	{
+		theNames.insert(theNames.end(), aSource->first);
+	}
+}
+
+const string&
+CAFEState::DataSource_Name() const
+{
+	return(myDataSourceIter->first);
+}
+
 
 
 
@@ -723,46 +1086,118 @@ CAFEState::GiveTimePeriod(const int &timeOffset) const
 }
 
 CAFEState&
-CAFEState::ResetTempEventVars()
+CAFEState::ResetEventVars()
 {
-	if (myEventTypeIter != GetEventTypes().end())
+	if (EventTypes_HasNext())
 	{
-		myTempEventVarNames = myEventTypeIter->second.GiveCAFEVariableNames();
+		myTempEventVarNames = GetEventType().GiveEventVariableNames();
 	}
 	else
 	{
 		myTempEventVarNames.clear();
 	}
 
-	myEventVarIter = myTempEventVarNames.begin();
-
-	return(ResetTempEventVarLevels());
+	return(EventVars_Begin());
 }
 
 CAFEState&
-CAFEState::ResetTempEventVarLevels()
+CAFEState::ResetEventLevels()
 {
-	if (myEventVarIter != myTempEventVarNames.end())
+	if (EventVars_HasNext())
 	{
-		myTempEventVarLevelNames = myEventTypeIter->second.GiveCAFELevels(*myEventVarIter);
-		if (myTempEventVarLevelNames.empty())
-		{
-			// This means that there are no CAFE levels at all.
-			// However, there might be a default data level for it.
-			// So, give the array a single empty string.
-			/* TODO: This really shouldn't be here.
-			         Need to consider the proper way
-			         to refactor this
-			*/
-			myTempEventVarLevelNames.push_back("");
-		}
+		myTempEventVarLevelNames = GetEventType().GiveEventLevels(EventVar_Name());
 	}
 	else
 	{
 		myTempEventVarLevelNames.clear();
 	}
 
-	return(*this);
+	return(EventLevels_Begin());
 }
 
+CAFEState&
+CAFEState::ResetCAFELevels()
+{
+	if (CAFEVars_HasNext())
+	{
+		myTempCAFELevelNames = GetCAFEVar().GiveCAFELevelNames();
+	}
+	else
+	{
+		myTempCAFELevelNames.clear();
+	}
+
+	return(CAFELevels_Begin());
+}
+
+
+//-----------------------------------------------
+const set<int>&
+CAFEState::GetTimeOffsets() const
+{
+	return(myCAFEInfo.GetTimeOffsets());
+}
+
+const map<string, DataSource>& 
+CAFEState::GetDataSources() const
+{
+	return(myCAFEInfo.GetDataSources());
+}
+
+const map<string, CAFEVar>& 
+CAFEState::GetCAFEVars() const
+{
+	return(myCAFEInfo.GetCAFEVars());
+}
+
+const map<string, EventType>&
+CAFEState::GetEventTypes() const
+{
+	return(myCAFEInfo.GetEventTypes());
+}
+
+const vector<string>&
+CAFEState::GetExtremumNames() const
+{
+	return(myCAFEInfo.GetExtremumNames());
+}
+
+const vector<string>&
+CAFEState::GetEventVars() const
+{
+	return(myTempEventVarNames);
+}
+
+const vector<string>&
+CAFEState::GetEventLevels() const
+{
+	return(myTempEventVarLevelNames);
+}
+
+const vector<string>&
+CAFEState::GetCAFELevels() const
+{
+	return(myTempCAFELevelNames);
+}
+
+
+
+const DataSource&
+CAFEState::GetDataSource() const
+{
+	return(myDataSourceIter->second);
+}
+
+const CAFEVar&
+CAFEState::GetCAFEVar() const
+{
+	return(myCAFEVarIter->second);
+}
+
+const EventType&
+CAFEState::GetEventType() const
+{
+	return(myEventTypeIter->second);
+}
+//----------------------------------------------------
 

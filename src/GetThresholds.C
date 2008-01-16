@@ -8,6 +8,7 @@ using namespace std;
 #include <cmath>			// for sqrt()
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 
 #include "Utils/CAFEUtly.h"		// for SaveThresholdVals(), LoadEventScores()
 #include <StrUtly.h>			// for TakeDelimitedList(), StrToDouble(), StripWhiteSpace()
@@ -101,26 +102,26 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
 
 
-        const string BaseDir = CAFEOptions.CAFEPath + "/AnalysisInfo/";
 
-        for (vector<string>::const_iterator ATimePeriod( CAFEOptions.TimePeriods.begin() ), ADatabase( CAFEOptions.ClustDatabaseNames.begin() );
-	     ATimePeriod != CAFEOptions.TimePeriods.end(); ATimePeriod++, ADatabase++)
+        const string BaseDir = currState.GetCAFEPath() + "/AnalysisInfo/";
+
+        for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
         {
-		vector <double> ThresholdVals(CAFEOptions.EventTypes.size(), 0.0);
+		vector<double> ThresholdVals(currState.EventTypes_Size(), 0.0);
 		vector<double>::iterator AThreshold = ThresholdVals.begin();
 
-                for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-	             EventTypeName != CAFEOptions.EventTypes.end();
-        	     EventTypeName++, AThreshold++)
+                for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next(), AThreshold++)
         	{
-	                const string EventScoreFilename = BaseDir + "CorrelationCalcs/" + *ADatabase + '/' + *EventTypeName + "_EventScore.csv";
+	                const string EventScoreFilename = BaseDir + "CorrelationCalcs/" 
+							  + currState.Trained_Name() + '/' + currState.EventType_Name() + "_EventScore.csv";
 
-			vector <double> EventScores(0);
-			vector <string> EventDates(0);
+			vector<double> EventScores(0);
+			vector<string> EventDates(0);
 
-			if (!LoadEventScores(EventScores, EventDates, EventScoreFilename, *EventTypeName))
+			if (!LoadEventScores(EventScores, EventDates, EventScoreFilename, currState.EventType_Name()))
 			{
 				cerr << "\n\tCould not open event score file: " << EventScoreFilename << endl;
 				cerr << "\t\tExiting program...\n";
@@ -136,9 +137,11 @@ int main(int argc, char *argv[])
 			cout << DoubleToStr(*AThreshold, 7) << " ";
 		}// end Table for-loop
 
-		const string ThresholdFileName = BaseDir + *ADatabase + "/ThresholdVals.dat";
+		const string ThresholdFileName = BaseDir + currState.Trained_Name() + "/ThresholdVals.dat";
 
-		if (!SaveThresholdVals(ThresholdFileName, CAFEOptions.EventTypes, ThresholdVals))
+		// TODO: Bit of a kludge...
+		const set<string> eventNames = currState.EventType_Names();
+		if (!SaveThresholdVals(ThresholdFileName, vector<string>(eventNames.begin(), eventNames.end()), ThresholdVals))
 		{
 			cerr << "ERROR: Could not write the threshold file: " << ThresholdFileName << endl;
 			cerr << "\t\tExiting program...\n\n";

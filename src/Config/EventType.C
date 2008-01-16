@@ -157,23 +157,25 @@ size_t EventType::GiveVariableCount() const
 }
 
 
-vector <string> EventType::GiveCAFEVariableNames() const
-// The elements in the CAFEVarNames vector are in alphabetical order.
+vector <string> EventType::GiveEventVariableNames() const
+// The elements in the eventVarNames vector are in alphabetical order.
 {
-	vector <string> CAFEVarNames(myVariables.size(), "");
+	vector <string> eventVarNames(myVariables.size(), "");
 
-	vector<string>::iterator A_CAFEVarName = CAFEVarNames.begin();
-	for (map<string, Variable>::const_iterator VarItem = myVariables.begin(); VarItem != myVariables.end(); VarItem++, A_CAFEVarName++)
+	vector<string>::iterator eventVarIter = eventVarNames.begin();
+	for (map<string, Variable>::const_iterator varItem = myVariables.begin(); 
+	     varItem != myVariables.end(); 
+	     varItem++, eventVarIter++)
 	{
-		(*A_CAFEVarName) = VarItem->first;
+		*eventVarIter = varItem->first;
 	}
 
-	return(CAFEVarNames);
+	return(eventVarNames);
 }
 
-size_t EventType::GiveLevelCount(const string &CAFEVarName) const
+size_t EventType::GiveLevelCount(const string &eventVarName) const
 {
-	const map<string, Variable>::const_iterator AVariable = myVariables.find(CAFEVarName);
+	const map<string, Variable>::const_iterator AVariable = myVariables.find(eventVarName);
 	if (AVariable == myVariables.end())
 	{
 		return(string::npos);
@@ -182,10 +184,10 @@ size_t EventType::GiveLevelCount(const string &CAFEVarName) const
 	return(AVariable->second.GiveLevelCount());
 }
 
-vector <string> EventType::GiveCAFELevels(const string &CAFEVarName) const
+vector <string> EventType::GiveEventLevels(const string &eventVarName) const
 // The elements in the CAFELevels vector are in alphabetical order.
 {
-	const map<string, Variable>::const_iterator AVariable = myVariables.find(CAFEVarName);
+	const map<string, Variable>::const_iterator AVariable = myVariables.find(eventVarName);
         if (AVariable == myVariables.end())
         {
                 return(vector<string>(0));
@@ -213,7 +215,9 @@ bool EventType::AddVariable(const Variable &NewVariable)
 			// is added to any information that the stored variable has...
 
 			const vector <string> TempCAFELevels = NewVariable.GiveCAFELevels();
-			for (vector<string>::const_iterator A_CAFELevel = TempCAFELevels.begin(); A_CAFELevel != TempCAFELevels.end(); A_CAFELevel++)
+			for (vector<string>::const_iterator A_CAFELevel = TempCAFELevels.begin(); 
+			     A_CAFELevel != TempCAFELevels.end(); 
+			     A_CAFELevel++)
 			{
 				// it only adds the level if it doesn't exist already
 				VariableMatch->second.AddCAFELevel(*A_CAFELevel);
@@ -226,9 +230,9 @@ bool EventType::AddVariable(const Variable &NewVariable)
 	return(false);
 }
 
-Variable EventType::RemoveVariable(const string &CAFEVarName)
+Variable EventType::RemoveVariable(const string &eventVarName)
 {
-	map <string, Variable>::iterator VariableToRemove = myVariables.find(CAFEVarName);
+	map <string, Variable>::iterator VariableToRemove = myVariables.find(eventVarName);
 
 	if (VariableToRemove == myVariables.end())
 	{

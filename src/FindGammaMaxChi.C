@@ -11,6 +11,7 @@ using namespace std;
 
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 #include "Utils/CAFEUtly.h"		// for GetGridInfo()
 #include "Utils/CAFE_SQLUtly.h"		// for LoadLonLatAnoms(), SaveGammaChiMaxValues(), EstablishConnection()
 
@@ -183,13 +184,13 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
-	
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
 
 	mysqlpp::Connection ServerLink;
 
         try
         {
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.LoginUserName);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetLoginUserName());
         }
         catch (const exception& Err)
         {
@@ -218,19 +219,24 @@ int main(int argc, char *argv[])
 						// 0.5 will use half the resolution as the original data
 						// and so forth...
 		BoardConvertor ProjectionInfo;
-		if (!GetGridInfo(ConfigInfo, ProjectionInfo, Radius))
+
+		// TODO: Must eliminate the use of ConfigInfo...
+		// Delete the projection when finished.
+		const Projection_t* theProjection = ConfigInfo.Give_DataSource_Projection();
+		if (!GetGridInfo(theProjection, currState.GetCAFEDomain(), ProjectionInfo, Radius))
 		{
+			delete theProjection;
 			throw((string) "Bad Projection information!");
 		}
+
+		delete theProjection;
 
 		const vector <LatLon_t> TheDomain( MakeDomainList(ProjectionInfo, RESOLUTION) );
 		
 
-		for (vector<string>::const_iterator TheTimePeriod = CAFEOptions.TimePeriods.begin();
-		     TheTimePeriod != CAFEOptions.TimePeriods.end();
-		     TheTimePeriod++)
+		for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
         	{
-			const string ClustDatabase = CAFEOptions.GiveClusteredDatabaseName(*TheTimePeriod);
+			const string ClustDatabase = currState.Trained_Name();
 			cout << ClustDatabase << endl;
 
                 	if (!ServerLink.select_db(ClustDatabase))
@@ -241,26 +247,20 @@ int main(int argc, char *argv[])
 	                mysqlpp::Query LonLatAnomQuery( MakeLoader_LonLatAnoms(ServerLink) );
 			mysqlpp::Query GammaChiMaxQuery( MakeSaver_GammaChiMaxValues(ServerLink) );
 
-			for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-			     EventTypeName != CAFEOptions.EventTypes.end();
-			     EventTypeName++)
+			for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
                 	{
-				cout << '\t' << *EventTypeName << endl;
-				LonLatAnomQuery.def["table"] = *EventTypeName;
-				GammaChiMaxQuery.def["table"] = *EventTypeName;
+				cout << '\t' << currState.EventType_Name() << endl;
+				LonLatAnomQuery.def["table"] =
+				GammaChiMaxQuery.def["table"] = currState.EventType_Name();
 
-                        	const vector <string> VarNames = CAFEOptions.GiveCAFEVarsToDo(ConfigInfo, *EventTypeName);
-
-				for (vector<string>::const_iterator AVarName = VarNames.begin(); AVarName != VarNames.end(); AVarName++)
+				for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
 				{
-					const vector <string> CAFELabels = CAFEOptions.GiveLabelsToDo(ConfigInfo, *EventTypeName, *AVarName);
-
-                                	for (vector<string>::const_iterator ALabel = CAFELabels.begin(); ALabel != CAFELabels.end(); ALabel++)
+					for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
                                 	{
-						//cerr << *ALabel << endl;
-						for (size_t PeakValIndex = 0; PeakValIndex < ConfigInfo.ExtremaCount(); PeakValIndex++)
+						//cerr << currState.EventField_Name() << endl;
+						for (currState.Extrema_Begin(); currState.Extrema_HasNext(); currState.Extrema_Next())
 						{
-							const string FieldStem = *ALabel + '_' + ConfigInfo.GiveExtremaName(PeakValIndex);
+							const string FieldStem = currState.FieldExtremum_Name();
 							// TODO: Wouldn't I rather want to set these to NAN?
 							double MaxGamma = 0.0;
 							double MaxChi = 0.0;

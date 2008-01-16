@@ -8,6 +8,7 @@ using namespace std;
 #include <mysql++/mysql++.h>
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 #include <StrUtly.h>			// for StrToUpper(), TakeDelimitedList(), StripWhiteSpace()
 #include <TimeUtly.h>			// for GiveTimeUTC()
 
@@ -158,6 +159,7 @@ void DoThisHindcast(const vector <string> &DateStrs,
 
 int main(int argc, char *argv[])
 {
+	// Working on getting rid of this...
 	setenv("TZ", "UTC UTC", 1);
 
 	vector <string> CommandArgs = ProcessFlatCommandLine(argc, argv);
@@ -261,7 +263,9 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
-	const string LogFileName = CAFEOptions.CAFEPath + "/logs/" + ScoreRun_Name + "_Hindcast.log";
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
+	const string LogFileName = currState.GetCAFEPath() + "/logs/" + ScoreRun_Name + "_Hindcast.log";
 
 	ifstream LogStream(LogFileName.c_str());
 
@@ -344,7 +348,7 @@ int main(int argc, char *argv[])
 
         try
         {
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.CAFEUserName, "", false);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetCAFEUserName(), "", false);
         }
         catch (const exception& Err)
         {
@@ -383,44 +387,41 @@ int main(int argc, char *argv[])
 
 	try
 	{
-		for (vector<string>::const_iterator ADatabase( CAFEOptions.ClustDatabaseNames.begin() ), 
-						    ARawDatabase( CAFEOptions.DatabaseNames.begin() ),
-						    ATimePeriod( CAFEOptions.TimePeriods.begin() ); 
-		     ADatabase != CAFEOptions.ClustDatabaseNames.end(); ADatabase++, ARawDatabase++, ATimePeriod++)
+		for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next()) 
 		{
 
-			if (!ServerLink.select_db(*ADatabase))
+			if (!ServerLink.select_db(currState.Trained_Name()))
 			{
-				throw("Could not select the database: " + *ADatabase + "\nMySQL message: " + ServerLink.error());
+				throw("Could not select the database: " + currState.Trained_Name() + "\nMySQL message: " + ServerLink.error());
 			}
 
-			if (system(("mkdir --parents '" + CAFEOptions.CAFEPath 
-				   + "/CorrelationCalcs/" + ScoreRun_Name + '/' + *ADatabase + "'").c_str()) != 0)
+			if (system(("mkdir --parents '" + currState.GetCAFEPath() 
+				   + "/CorrelationCalcs/" + ScoreRun_Name + '/' + currState.Trained_Name() + "'").c_str()) != 0)
 			{
 				cerr << "WARNING: Trouble trying to create directory " 
-				     << CAFEOptions.CAFEPath + "/CorrelationCalcs/" + ScoreRun_Name + '/' + *ADatabase << "\n"
+				     << currState.GetCAFEPath() + "/CorrelationCalcs/" + ScoreRun_Name + '/' + currState.Trained_Name() << "\n"
 				     << "       : You may have issues saving the event scores...\n";
 			}
 
 			mysqlpp::Query TheQuery = ServerLink.query();
 
-                        for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-                             EventTypeName != CAFEOptions.EventTypes.end();
-                             EventTypeName++)
+                        for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
                         {
-				vector <time_t> EventDates = LoadEventDateTimes(TheQuery, *EventTypeName);
+				vector<time_t> EventDates = LoadEventDateTimes(TheQuery, currState.EventType_Name());
 //----------------------------------------------------------------------------------------------------------------------------
 //****************************************************************************************************************************
 #ifdef _SAMPLINGRUN_
                                 if (EventDates.size() < 10)
                                 {
-                                        cerr << "Not enough events for this eventtype: " << *EventTypeName << "  database: " << *ARawDatabase << endl;
+                                        cerr << "Not enough events for this eventtype: " << currState.EventType_Name()
+					     << "  database: " << currState.Untrained_Name() << endl;
                                         cerr << "Moving on to the next event type..." << endl;
                                         continue;
                                 }
 
-                                string FoldName = GetCaseFilename(CAFEOptions.CAFEPath, *ARawDatabase, *EventTypeName, FoldNumber);
-                                vector <time_t> FoldDates = LoadCaseTimes(FoldName);
+                                string FoldName = GetCaseFilename(currState.GetCAFEPath(), currState.Untrained_Name(),
+								  currState.EventType_Name(), FoldNumber);
+                                vector<time_t> FoldDates = LoadCaseTimes(FoldName);
                                 RemoveCaseDates(EventDates, FoldDates);
 #endif
 //******************************************************************************************************************************
@@ -429,11 +430,11 @@ int main(int argc, char *argv[])
 
 				if (!NeedRecovery)
 				{
-					MakeTableListFile(CAFEOptions.CAFEPath + "/CorrelationCalcs/" + ScoreRun_Name,
-							  *EventTypeName, *EventTypeName);
+					MakeTableListFile(currState.GetCAFEPath() + "/CorrelationCalcs/" + ScoreRun_Name,
+							  currState.EventType_Name(), currState.EventType_Name());
 				}
 
-				vector <string> DateStrs(0);
+				vector<string> DateStrs(0);
 
 				for (vector<time_t>::const_iterator ADate = EventDates.begin(); ADate != EventDates.end(); ADate++)
 				{
@@ -442,18 +443,19 @@ int main(int argc, char *argv[])
 						DateStrs.push_back(GiveTimeUTC(*ADate, "%HZ%d%b%Y"));
 					}
 
-                                        if (NeedRecovery && (*ADatabase == RedoDatabase) 
-					    && (*EventTypeName == RedoTable) && (GiveTimeUTC(*ADate, "%HZ%d%b%Y") == RedoDate))
+                                        if (NeedRecovery && (currState.Trained_Name() == RedoDatabase) 
+					    && (currState.EventType_Name() == RedoTable) && (GiveTimeUTC(*ADate, "%HZ%d%b%Y") == RedoDate))
                                         {
                                                 NeedRecovery = false;
                                         }
                                 }
 
 				DoThisHindcast(DateStrs, 
-					       *ADatabase, *ATimePeriod, *EventTypeName, CAFEOptions.CAFEPath,
+					       currState.Trained_Name(), currState.TimePeriod_Name(),
+					       currState.EventType_Name(), currState.GetCAFEPath(),
 					       UseCache, SetCache, CacheName, ScoreRun_Name,
 					       LogJam, LastKnownDatabase, LastKnownTable, LastKnownDate, 
-					       TakeDelimitedList(*EventTypeName, ' ')
+					       TakeDelimitedList(currState.EventType_Name(), ' ')
 #ifdef _SAMPLINGRUN_
 										     , FoldNumber
 #endif
@@ -465,12 +467,12 @@ int main(int argc, char *argv[])
 #ifdef _SAMPLINGRUN_
 				if (!NeedRecovery)
                                 {
-					MakeTableListFile(CAFEOptions.CAFEPath + "/CorrelationCalcs/" + ScoreRun_Name + '/', 
-							  "UNTRAINED." + *EventTypeName, *EventTypeName);
+					MakeTableListFile(currState.GetCAFEPath() + "/CorrelationCalcs/" + ScoreRun_Name + '/', 
+							  "UNTRAINED." + currState.EventType_Name(), currState.EventType_Name());
                                 }
 
 
-				vector <string> FoldDateStrs(0);
+				vector<string> FoldDateStrs(0);
 				for (vector<time_t>::const_iterator ADate = FoldDates.begin(); ADate != FoldDates.end(); ADate++)
 				{
 					if (!NeedRecovery)
@@ -478,18 +480,20 @@ int main(int argc, char *argv[])
 						FoldDateStrs.push_back(GiveTimeUTC(*ADate, "%HZ%d%b%Y"));
 					}
 
-					if (NeedRecovery && (*ADatabase == RedoDatabase)
-					    && (("UNTRAINED." + *EventTypeName) == RedoTable) && (GiveTimeUTC(*ADate, "%HZ%d%b%Y") == RedoDate))
+					if (NeedRecovery && (currState.Trained_Name() == RedoDatabase)
+					    && (("UNTRAINED." + currState.EventType_Name()) == RedoTable) 
+					    && (GiveTimeUTC(*ADate, "%HZ%d%b%Y") == RedoDate))
 					{
 						NeedRecovery = false;
 					}
 				}
 
 				DoThisHindcast(FoldDateStrs, 
-					       *ADatabase, *ATimePeriod, "UNTRAINED." + *EventTypeName, CAFEOptions.CAFEPath,
+					       currState.Trained_Name(), currState.TimePeriod_Name(),
+					       "UNTRAINED." + currState.EventType_Name(), currState.GetCAFEPath(),
 					       UseCache, SetCache, CacheName, ScoreRun_Name, 
 					       LogJam, LastKnownDatabase, LastKnownTable, LastKnownDate, 
-					       TakeDelimitedList(*EventTypeName, ' '), FoldNumber);
+					       TakeDelimitedList(currState.EventType_Name(), ' '), FoldNumber);
 #endif
 //************************************************************************************************************************************
 //------------------------------------------------------------------------------------------------------------------------------------

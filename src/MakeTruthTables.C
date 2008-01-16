@@ -9,6 +9,7 @@ using namespace std;
 #include <cmath>			// for sqrt()
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 
 #include "Utils/CAFEUtly.h"			// for LoadEventScores()
 #include <StrUtly.h>			// for TakeDelimitedList(), StrToDouble(), StripWhiteSpace()
@@ -158,57 +159,55 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
-	const string BaseDir = CAFEOptions.CAFEPath + "/AnalysisInfo/";
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
+	const string BaseDir = currState.GetCAFEPath() + "/AnalysisInfo/";
 
 	try
 	{
-        	for (vector<string>::const_iterator ADatabaseName( CAFEOptions.ClustDatabaseNames.begin()), ATimePeriod( CAFEOptions.TimePeriods.begin() );
-	             ADatabaseName != CAFEOptions.DatabaseNames.end();
-        	     ADatabaseName++, ATimePeriod++)
+        	for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
         	{
-			vector <string> TheTableList;
-			vector <double> ThresholdVals;
+			vector<string> TheTableList;
+			vector<double> ThresholdVals;
 
-			if (!LoadThresholdVals(BaseDir + *ADatabaseName + "/ThresholdVals.dat",
-						TheTableList, ThresholdVals))
+			if (!LoadThresholdVals(BaseDir + currState.Trained_Name() + "/ThresholdVals.dat",
+					       TheTableList, ThresholdVals))
 			{
-				throw("Could not load the threshold values...");
+				throw("Could not load the threshold values. TimePeriod: " + currState.TimePeriod_Name());
 			}
 
-               	        for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-                             EventTypeName != CAFEOptions.EventTypes.end();
-                             EventTypeName++)
+               	        for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
                         {
-				if (find(TheTableList.begin(), TheTableList.end(), *EventTypeName) == TheTableList.end())
+				if (find(TheTableList.begin(), TheTableList.end(), currState.EventType_Name()) == TheTableList.end())
 				{
-					cerr << "We do not have the threshold value for this event type: " << *EventTypeName << endl;
+					cerr << "We do not have the threshold value for this event type: " << currState.EventType_Name() << endl;
 					continue;
 				}
 
-				size_t ThreshIndex = find(TheTableList.begin(), TheTableList.end(), *EventTypeName) - TheTableList.begin();
+				size_t ThreshIndex = find(TheTableList.begin(), TheTableList.end(), currState.EventType_Name()) - TheTableList.begin();
 
-				vector <double> EventScores(0);
-				vector <double> NonEventScores(0);
-				vector <string> EventDates(0);
-				vector <string> NonEventDates(0);
-				string EventScoreFilename = BaseDir + "CorrelationCalcs/" + *ADatabaseName 
-							    + "/" + *EventTypeName + "_EventScore.csv";
-				string NonEventScoreFilename = BaseDir + "CorrelationCalcs/" + *ADatabaseName
-							    + "/NON_" + *EventTypeName + "_EventScore.csv";
+				vector<double> EventScores(0);
+				vector<double> NonEventScores(0);
+				vector<string> EventDates(0);
+				vector<string> NonEventDates(0);
+				string EventScoreFilename = BaseDir + "CorrelationCalcs/" + currState.Trained_Name() 
+							    + "/" + currState.EventType_Name() + "_EventScore.csv";
+				string NonEventScoreFilename = BaseDir + "CorrelationCalcs/" + currState.Trained_Name()
+							    + "/NON_" + currState.EventType_Name() + "_EventScore.csv";
 
-				if (!LoadEventScores(EventScores, EventDates, EventScoreFilename, *EventTypeName))
+				if (!LoadEventScores(EventScores, EventDates, EventScoreFilename, currState.EventType_Name()))
 				{
 					throw("Could not read from the event scores file: " + EventScoreFilename);
 				}
 
-				if (!LoadEventScores(NonEventScores, NonEventDates, NonEventScoreFilename, *EventTypeName))
+				if (!LoadEventScores(NonEventScores, NonEventDates, NonEventScoreFilename, currState.EventType_Name()))
 				{
 					throw("Could not read from the non-event scores file: " + NonEventScoreFilename);
 				}
 
-				vector <int> TruthTable = GenerateTruthTable(EventScores, NonEventScores, ThresholdVals[ThreshIndex]);
+				vector<int> TruthTable = GenerateTruthTable(EventScores, NonEventScores, ThresholdVals[ThreshIndex]);
 
-				cout << "     Time Period: " << *ATimePeriod << "      Table: " << *EventTypeName << endl;
+				cout << "     Time Period: " << currState.TimePeriod_Name() << "      Table: " << currState.EventType_Name() << endl;
 				PrintTruthTable(TruthTable);
 				cout << endl;
 			}// end Table for-loop

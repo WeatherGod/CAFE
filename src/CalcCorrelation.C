@@ -10,8 +10,9 @@ using namespace std;
 
 #include <StrUtly.h>		// for DoubleToStr(), GiveDelimitedList()
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 #include "Utils/CAFEEqtns.h"		// for all the main CAFE equations
-#include "Utils/CAFEUtly.h"		// for LoadForecast(), SaveEventScores()
+#include "Utils/CAFEUtly.h"		// for LoadForecast(), SaveEventScores(), TimePeriodToOffset()
 #include "Utils/CAFE_SQLUtly.h"	// for EstablishConnection()
 #include <Histogram.h>
 
@@ -87,24 +88,20 @@ double Calc_Event_Field(const vector <LonLatAnom> &TheMembers, const LonLatAnom 
 /*
 vector <double> Calc_Event_Upsilons(mysqlpp::Query &LonLatAnomQuery, mysqlpp::Query &FieldMeasQuery, const string &EventTypeName, 
 				    map <string, LonLatAnom> &TheFields, const string &ForecastDir, const string &DateOfEvent,
-				    const Configuration &ConfigInfo, const CmdOptions &CAFEOptions)
+				    CAFEState &currState)
 {
 	LonLatAnomQuery.def["table"] = EventTypeName;
         FieldMeasQuery.def["table"] = EventTypeName;
 
 	vector <double> Upsilons(0);
 
-        const vector <string> CAFEVarNames = CAFEOptions.GiveCAFEVarsToDo(ConfigInfo, EventTypeName);
-
-        for (vector<string>::const_iterator AVarName = CAFEVarNames.begin(); AVarName != CAFEVarNames.end(); AVarName++)
+        for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
         {
-	        const vector <string> CAFELabels = CAFEOptions.GiveLabelsToDo(ConfigInfo, EventTypeName, *AVarName);
-
-                for (vector<string>::const_iterator ALabel = CAFELabels.begin(); ALabel != CAFELabels.end(); ALabel++)
+                for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
                 {
-        	        for (size_t PeakValIndex = 0; PeakValIndex < ConfigInfo.ExtremaCount(); PeakValIndex++)
+        	        for (currState.Extrema_Begin(); currState.Extrema_HasNext(); currState.Extrema_Next())
                         {
-                	        const string FullLabel = *ALabel + '_' + ConfigInfo.GiveExtremaName(PeakValIndex);
+                	        const string FullLabel = currState.FieldExtremum_Name();
                                 const vector <LonLatAnom> TheMembers( LoadLonLatAnoms(LonLatAnomQuery, FullLabel) );
 
 				if (!TheMembers.empty())
@@ -143,7 +140,8 @@ vector <double> Calc_Event_Upsilons(mysqlpp::Query &LonLatAnomQuery, mysqlpp::Qu
 }
 */
 
-
+// For comparing between two different types.
+// TODO: Probably should just type-cast where I use it.
 double GiveMax(const double &Val1, const float &Val2)
 {
 	if (Val1 > Val2)
@@ -317,6 +315,7 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 	
 int main(int argc, char *argv[])
 {
+	// Working on removing this necessity.
 	setenv("TZ", "UTC UTC", 1);             // temporarially sets the computer's locale to UTC, so all conversions are done there.
 
 	vector <string> CommandArgs = ProcessFlatCommandLine(argc, argv);
@@ -433,24 +432,24 @@ int main(int argc, char *argv[])
 		return(8);
 	}
 
-	if (TheTimePeriod.empty())
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
+	if (!TheTimePeriod.empty())
 	{
-		TheTimePeriod = *(CAFEOptions.TimePeriods.begin());
+		if (!currState.TimePeriods_JumpTo(TimePeriodToOffset(TheTimePeriod)))
+		{
+			cerr << "ERROR: Invalid time period: " << TheTimePeriod << endl;
+			return(8);
+		}
 	}
 
-	const string ClustDatabase = CAFEOptions.GiveClusteredDatabaseName(TheTimePeriod);
-
-	if (ClustDatabase.empty())
-	{
-		cerr << "ERROR: Invalid time period: " << TheTimePeriod << endl;
-		return(8);
-	}
+	const string ClustDatabase = currState.Trained_Name();
 
 	mysqlpp::Connection ServerLink;
 
 	try
 	{
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.CAFEUserName, ClustDatabase, false);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetCAFEUserName(), ClustDatabase, false);
 	}
 	catch (const exception &Err)
 	{
@@ -472,44 +471,40 @@ int main(int argc, char *argv[])
 	}
 
 
-	vector <double> EventScores( CAFEOptions.EventTypes.size() );
+	vector<double> EventScores( currState.EventTypes_Size() );
 	vector<double>::iterator AnEventScore( EventScores.begin() );
-	const string ForecastDir = CAFEOptions.CAFEPath + "/Forecast/" + CacheName + '/';
+	const string ForecastDir = currState.GetCAFEPath() + "/Forecast/" + CacheName + '/';
 
 	try
 	{
 		mysqlpp::Query LonLatAnomQuery( MakeLoader_LonLatAnoms(ServerLink) );
 		mysqlpp::Query FieldMeasQuery( MakeLoader_FieldMeasValues(ServerLink) );
 
-		map <string, LonLatAnom> TheFields;
+		map<string, LonLatAnom> TheFields;
 
-		for (vector<string>::const_iterator EventTypeName( CAFEOptions.EventTypes.begin() );
-		     EventTypeName != CAFEOptions.EventTypes.end(); EventTypeName++, AnEventScore++)
+		for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Begin(), AnEventScore++)
         	{
-			LonLatAnomQuery.def["table"] = *EventTypeName;
-			FieldMeasQuery.def["table"] = *EventTypeName;
+			LonLatAnomQuery.def["table"] = 
+			FieldMeasQuery.def["table"] = currState.EventType_Name();
 	        	
-			vector <double> Upsilons(0);
-			vector <double> Gammas(0);
-			vector <double> Chis(0);
-			const vector <string> CAFEVarNames = CAFEOptions.GiveCAFEVarsToDo(ConfigInfo, *EventTypeName);
-
-			for (vector<string>::const_iterator AVarName = CAFEVarNames.begin(); AVarName != CAFEVarNames.end(); AVarName++)
+			vector<double> Upsilons(0);
+			vector<double> Gammas(0);
+			vector<double> Chis(0);
+			
+			for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
 			{
-				const vector <string> CAFELabels = CAFEOptions.GiveLabelsToDo(ConfigInfo, *EventTypeName, *AVarName);
-	
-        	                for (vector<string>::const_iterator ALabel = CAFELabels.begin(); ALabel != CAFELabels.end(); ALabel++)
+        	                for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
                 	        {
-					for (size_t PeakValIndex = 0; PeakValIndex < ConfigInfo.ExtremaCount(); PeakValIndex++)
+					for (currState.Extrema_Begin(); currState.Extrema_HasNext(); currState.Extrema_Next())
 					{
-						const string FullLabel = *ALabel + '_' + ConfigInfo.GiveExtremaName(PeakValIndex);
+						const string FullLabel = currState.FieldExtremum_Name();
 						const vector <LonLatAnom> TheMembers( LoadLonLatAnoms(LonLatAnomQuery, FullLabel)   );
 
 						if (!TheMembers.empty())
 						{
 							double Alpha, Phi, MaxGamma, MaxChi, Gamma, Chi;
 
-							map<string, LonLatAnom>::const_iterator FieldMatch( TheFields.find(FullLabel) );
+							map<string, LonLatAnom>::const_iterator FieldMatch = TheFields.find(FullLabel);
 							if (FieldMatch == TheFields.end())
 							{
 								//The insert function returns a pair type of an iterator and a bool.
@@ -522,7 +517,7 @@ int main(int argc, char *argv[])
 									      ).first;
 							}
 
-							LoadFieldMeasValues(FieldMeasQuery, FullLabel, *EventTypeName,
+							LoadFieldMeasValues(FieldMeasQuery, FullLabel, currState.EventType_Name(),
 									    Alpha, Phi, MaxGamma, MaxChi);
 
 							Upsilons.push_back( Calc_Event_Field(TheMembers, FieldMatch->second,
@@ -553,7 +548,7 @@ int main(int argc, char *argv[])
 
 			if (FullOutput)
 		        {
-                		OutputResults(*EventTypeName, *AnEventScore, Upsilons, ServerLink.query(),
+                		OutputResults(currState.EventType_Name(), *AnEventScore, Upsilons, ServerLink.query(),
 					      Gammas, Chis);
 			}
 		}// end EventTypeNames loop
@@ -584,12 +579,14 @@ int main(int argc, char *argv[])
 
 	if (!OutToFiles)
 	{
-		cout << GiveDelimitedList(CAFEOptions.EventTypes, ' ') << endl;
+		// TODO: Temporary kludge...
+		const set<string> eventNames = currState.EventType_Names();
+		cout << GiveDelimitedList(vector<string>(eventNames.begin(), eventNames.end()), ' ') << endl;
 		cout << GiveDelimitedList(DoubleToStr(EventScores), ' ') << endl;
 	}
 	else
 	{
-		const string BaseStem = CAFEOptions.CAFEPath + "/CorrelationCalcs/" + ScoringRun_Name + '/' + ClustDatabase;
+		const string BaseStem = currState.GetCAFEPath() + "/CorrelationCalcs/" + ScoringRun_Name + '/' + ClustDatabase;
 
 		if (system(("mkdir --parents '" + BaseStem + "'").c_str()) != 0)
 		{

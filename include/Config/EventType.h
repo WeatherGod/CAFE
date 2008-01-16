@@ -28,15 +28,15 @@ class EventType
 		const map<string, Variable>& GiveEventVariables() const;
 		const string& GiveEventTypeName() const;
 
-		vector <string> GiveCAFEVariableNames() const;
+		vector <string> GiveEventVariableNames() const;
 
-		size_t GiveLevelCount(const string &CAFEVarName) const;
-		vector <string> GiveCAFELevels(const string &CAFEVarName) const;
+		size_t GiveLevelCount(const string &EventVarName) const;
+		vector <string> GiveEventLevels(const string &EventVarName) const;
 
 		size_t GiveVariableCount() const;
 
 		bool AddVariable(const Variable &NewVariable);
-		Variable RemoveVariable(const string &CAFEVarName);
+		Variable RemoveVariable(const string &EventVarName);
 		
 	private:
 		string myEventTypeName;

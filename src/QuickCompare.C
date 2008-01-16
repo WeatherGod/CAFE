@@ -11,8 +11,10 @@ using namespace std;
 #include <mysql++/mysql++.h>
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
+
 #include <StrUtly.h>			// for TakeDelimitedList()
-#include <TimeUtly.h>			// for RoundHour(), GiveRandomDate(), GiveTime(), GetTime()
+#include <TimeUtly.h>			// for RoundHour(), GiveRandomDate(), GiveTimeUTC(), GetTimeUTC()
 #include <CmdLineUtly.h>		// for ProcessFlatCommandLine()
 #include "Utils/CAFE_CmdLine.h"		// for generic CAFE command line control
 
@@ -54,17 +56,12 @@ bool IsNonEvent(const time_t &TheTime, const vector <time_t> &EventTimes, const 
 	return(true);
 }
 
-void RoundTime(time_t &TheTime)
-{
-	RoundHour(TheTime, 6);
-}
-
 void PrintSyntax(const CmdOptions &CAFEOptions)
 {
         cout << endl;
         cout << "QuickCompare [--help] [--syntax] [--near=_HOURS_]" << endl;
 
-        CAFEOptions.PrintSyntax(28, 63);
+        CAFEOptions.PrintSyntax(13, 63);
 
         cout << endl;
 }
@@ -83,6 +80,7 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 
 int main(int argc, char *argv[])
 {
+	// Working on removing this need...
 	setenv("TZ", "UTC UTC", 1);
 
 	vector <string> CmdArgs = ProcessFlatCommandLine(argc, argv);
@@ -138,11 +136,13 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
         mysqlpp::Connection ServerLink;
 
         try
         {
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.CAFEUserName, false);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetCAFEUserName(), false);
         }
         catch (const exception& Err)
         {
@@ -167,23 +167,21 @@ int main(int argc, char *argv[])
 
         try
         {
-                for (vector<string>::const_iterator ADatabase = CAFEOptions.DatabaseNames.begin();
-                     ADatabase != CAFEOptions.DatabaseNames.end(); ADatabase++)
+                for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
                 {
-                        if (!ServerLink.select_db(*ADatabase))
+                        if (!ServerLink.select_db(currState.Untrained_Name()))
                         {
-                                throw("Could not select the database: " + *ADatabase + "\nMySQL message: " + ServerLink.error());
+                                throw("Could not select the database: " + currState.Untrained_Name() + "\nMySQL message: " + ServerLink.error());
                         }
 
                         mysqlpp::Query TheQuery = ServerLink.query();
 
-			vector <time_t> MasterList_Dates(0);
+			// TODO: use set<time_t> instead...
+			vector<time_t> MasterList_Dates(0);
 
-                        for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-                             EventTypeName != CAFEOptions.EventTypes.end();
-                             EventTypeName++)
+                        for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
                         {
-                                vector <time_t> EventDates = LoadEventDateTimes(TheQuery, *EventTypeName);
+                                vector<time_t> EventDates = LoadEventDateTimes(TheQuery, currState.EventType_Name());
 
 				for (vector<time_t>::const_iterator ADate = EventDates.begin(); ADate != EventDates.end(); ADate++)
 				{
@@ -196,7 +194,8 @@ int main(int argc, char *argv[])
 
 			cout << "EventDates loaded..." << endl;
 
-			string RandomDateFile = CAFEOptions.CAFEPath + "/SpecialDateLists/" + "Non_Event_" + *ADatabase + ".dat";
+			string RandomDateFile = currState.GetCAFEPath() + "/SpecialDateLists/" 
+						+ "Non_Event_" + currState.Untrained_Name() + ".dat";
 	
 		        ifstream RandomDateStream(RandomDateFile.c_str());
 
@@ -212,14 +211,15 @@ int main(int argc, char *argv[])
 
 			while (!RandomDateStream.eof())
 			{
-				vector <string> TempHold = TakeDelimitedList(LineRead, ' ');
-				time_t TempTime = GetTime(TempHold.at(2), "%HZ%d%b%Y");
+				vector<string> TempHold = TakeDelimitedList(LineRead, ' ');
+				time_t TempTime = GetTimeUTC(TempHold.at(2), "%HZ%d%b%Y");
 
 				vector<time_t>::const_iterator ClosestMatch = lower_bound(MasterList_Dates.begin(), MasterList_Dates.end(), TempTime);
 
 				if (ClosestMatch != MasterList_Dates.end())
 				{
 					// not exactly correct, and subject to slight errors, but this is just a quick checker...
+					// TODO: document exactly why this is not exactly correct...
 					if ((TempTime + 60*60*NearTo) >= *ClosestMatch)
 					{
 						MatchCount++;
@@ -238,7 +238,8 @@ int main(int argc, char *argv[])
 			}
 
 			RandomDateStream.close();
-			cout << "Database: " << *ADatabase << "  Match Count: " << MatchCount << "  out of " << MasterList_Dates.size() << " event dates\n";
+			cout << "Database: " << currState.Untrained_Name() << "  Match Count: " 
+			     << MatchCount << "  out of " << MasterList_Dates.size() << " event dates\n";
 		}// end database loop
 	}
 	catch (const exception &Err)

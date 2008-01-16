@@ -4,12 +4,15 @@ using namespace std;
 #include <fstream>
 #include <map>
 #include <vector>
+#include <set>
 #include <string>
 #include <ctime>
 #include <cctype>			// for size_t
 #include <algorithm>			// for lower_bound()
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
+
 #include <TimeUtly.h>			// for GetTimeUTC(), GiveTimeUTC()
 #include <CmdLineUtly.h>		// for ProcessFlatCommandLine()
 
@@ -58,8 +61,8 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 }
 
 
-bool ProcessAndPrint(const string &PeakValoutputName, const vector <string> &CAFEVarLabels, const string &ForecastLocation, 
-		     const Configuration &ConfigInfo, const string &EventDate, const bool &SetCache)
+bool ProcessAndPrint(const string &PeakValoutputName, const set<string> &CAFEVarLabels, const string &ForecastLocation, 
+		     CAFEState &currState, const string &EventDate, const bool &SetCache)
 { 
         PeakValleyFile peakValStream(PeakValoutputName.c_str(), ios::in);
 
@@ -69,9 +72,11 @@ bool ProcessAndPrint(const string &PeakValoutputName, const vector <string> &CAF
                 return(false);
         }
 
-        for (size_t DataIndex = 0; DataIndex < CAFEVarLabels.size(); DataIndex++)
+        for (set<string>::const_iterator aLabel = CAFEVarLabels.begin();
+	     aLabel != CAFEVarLabels.end();
+	     aLabel++)
         {
-		vector<LonLatAnom> ExtremumInfo = peakValStream.RetrieveExtrema(1, ConfigInfo.ExtremaCount());
+		vector<LonLatAnom> ExtremumInfo = peakValStream.RetrieveExtrema(1, currState.Extrema_Size());
 
 		if (ExtremumInfo.empty())
 		{
@@ -80,13 +85,14 @@ bool ProcessAndPrint(const string &PeakValoutputName, const vector <string> &CAF
 			return(false);
 		}
 
-                for (size_t ExtremumIndex = 0; ExtremumIndex < ConfigInfo.ExtremaCount() && peakValStream.good(); ExtremumIndex++)
+		size_t extremumIndex = 0;
+                for (currState.Extrema_Begin(); currState.Extrema_HasNext() && peakValStream.good(); 
+		     currState.Extrema_Next(), extremumIndex++)
 		{
-			const string ExtremumFilename = ForecastLocation + CAFEVarLabels[DataIndex] + '_' 
-							+ ConfigInfo.GiveExtremaName(ExtremumIndex) + ".field";
+			const string ExtremumFilename = ForecastLocation + *aLabel + '_' 
+							+ currState.Extremum_Name() + ".field";
 
 			// TODO: Refactor into the ForecastFieldFile class
-				
 			ofstream ExtremumStream;
 
 			if (SetCache)
@@ -105,9 +111,9 @@ bool ProcessAndPrint(const string &PeakValoutputName, const vector <string> &CAF
 	                        return(false);
                         }
 
-                        ExtremumStream << DoubleToStr(ExtremumInfo[ExtremumIndex].Lon) << ' ' 
-				       << DoubleToStr(ExtremumInfo[ExtremumIndex].Lat) << ' '
-				       << DoubleToStr(ExtremumInfo[ExtremumIndex].StdAnom) << ' ' 
+                        ExtremumStream << DoubleToStr(ExtremumInfo[extremumIndex].Lon) << ' ' 
+				       << DoubleToStr(ExtremumInfo[extremumIndex].Lat) << ' '
+				       << DoubleToStr(ExtremumInfo[extremumIndex].StdAnom) << ' ' 
 				       << EventDate << '\n';
 
                         ExtremumStream.close();
@@ -124,34 +130,34 @@ bool ProcessAndPrint(const string &PeakValoutputName, const vector <string> &CAF
 //------------------------------------------------------------------------------------------------------------------------------
 // These two functions, MakeCmdLineArgs() and RunPeakValExtractor() will need to be modified for 
 // whatever particular extractor program that you have.
-string MakeCmdLineArgs(const string &CAFEVarName, const vector <string> &CAFEVarLabels, Configuration &ConfigInfo)
-// assume that all the CAFEVarLabels are valid.
+string MakeCmdLineArgs(CAFEState &currInfo, const string &varName, const set<string> &loadedLevels)
 {
-        const string DataVarName = ConfigInfo.Give_DataSource_DataName(CAFEVarName);
+	currInfo.CAFEVars_JumpTo(varName);
 
-        string LevelArgs = "";
+	string LevelArgs = "";
 	size_t LevelWrdCnt = 0;
-        for (vector<string>::const_iterator A_CAFEVarLabel = CAFEVarLabels.begin(); A_CAFEVarLabel != CAFEVarLabels.end(); A_CAFEVarLabel++)
+
+        for (set<string>::const_iterator aLevel = loadedLevels.begin();
+	     aLevel != loadedLevels.end();
+	     aLevel++)
         {
-                const string LevelName = ConfigInfo.Give_CAFEVar_LevelName(CAFEVarName, *A_CAFEVarLabel);
-//              cout << '+' << LevelName << '+' << endl;
+		currInfo.CAFELevels_JumpTo(*aLevel);
 
                 // replacing the commas with spaces.
-                const vector<string> TheLevWrds = TakeDelimitedList( ConfigInfo.Give_DataSource_DataLevel(CAFEVarName, LevelName),
-                                                                   ',');
-		LevelWrdCnt += TheLevWrds.size();
-		LevelArgs += "'" + GiveDelimitedList(TheLevWrds, "' '") + "' ";
+                const vector<string> theLevWrds = TakeDelimitedList( currInfo.CAFEDataLevel_Name(), ',');
+		LevelWrdCnt += theLevWrds.size();
+		LevelArgs += "'" + GiveDelimitedList(theLevWrds, "' '") + "' ";
 	}
 
-        return("'" + DataVarName + "' " + Size_tToStr(LevelWrdCnt) + ' ' + LevelArgs);
+        return("'" + currInfo.CAFEData_Name() + "' " + Size_tToStr(LevelWrdCnt) + ' ' + LevelArgs);
 }
 
 bool RunPeakValExtractor(const string &ProgName, const string &CmdLineArg, const size_t VarCount, const CAFEDomain &TheDomain,
 			 const string &DateTimeStr, const string &ProgOutputName)
 // Could an injection attack happen here?  It would be pretty difficult, but feasible...
 {
-	const vector <float> TheLons = TheDomain.GiveLons();
-	const vector <float> TheLats = TheDomain.GiveLats();
+	const vector<float> TheLons = TheDomain.GiveLons();
+	const vector<float> TheLats = TheDomain.GiveLats();
 
         const string SysCommand = ProgName + ' ' + DateTimeStr + ' ' + Size_tToStr(VarCount) + ' ' 
 				  + FloatToStr(TheLats[0]) + ' ' + FloatToStr(TheLons[0]) + ' '
@@ -236,13 +242,14 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
-	const string ForecastLocation = CAFEOptions.CAFEPath + "/Forecast/" + CacheName + '/';
-	const string PeakValOutputName = CAFEOptions.CAFEPath + "/scratch/Forecastdata.txt";
-	const string PeakValProgName = CAFEOptions.CAFEPath + "/bin/PeakValleyPicker";
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
 
-	time_t PeakValDateTime = GetTimeUTC(PeakValDateTimeStr, "%HZ%d%b%Y");
+	const string ForecastLocation = currState.GetCAFEPath() + "/Forecast/" + CacheName + '/';
+	const string PeakValOutputName = currState.GetCAFEPath() + "/scratch/Forecastdata.txt";
+	const string PeakValProgName = currState.GetCAFEPath() + "/bin/PeakValleyPicker";
 
-	pair<time_t, time_t> timeRange = ConfigInfo.Give_DataSource_TimeRange();
+	const time_t PeakValDateTime = GetTimeUTC(PeakValDateTimeStr, "%HZ%d%b%Y");
+	const pair<time_t, time_t> timeRange = currState.DefaultDataSource().GiveTimeRange();
 
 	if (PeakValDateTime < timeRange.first || PeakValDateTime >= timeRange.second)
 	{
@@ -252,67 +259,57 @@ int main(int argc, char *argv[])
 	}
 
 
-	map <string, vector<string> > LoadedCAFELabels;
+	map< string, set<string> > loadedCAFELevels;
 
-	// Getting the list of all CAFELabels that needs to be done, across all event types specified.
-	// The map is indexed by CAFEVar names
-	for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-             EventTypeName != CAFEOptions.EventTypes.end();
-             EventTypeName++)
+	// Getting the list of all CAFELevels that needs to be done, across all event types specified.
+	// The map is indexed by CAFEVar names.  The value is a set of the CAFELevel strings.
+	for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
         {
-		const vector <string> SomeCAFEVars = CAFEOptions.GiveCAFEVarsToDo(ConfigInfo, *EventTypeName);
-
-		for (vector<string>::const_iterator AVarName = SomeCAFEVars.begin();
-		     AVarName != SomeCAFEVars.end();
-		     AVarName++)
+		for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
 		{
-			// Note, insertion of "" occurs ONLY when the key could not be found.
-			pair< map<string, vector<string> >::iterator, bool > CAFEVar_Labels = 
-					LoadedCAFELabels.insert( make_pair(*AVarName, vector<string>(0) ) );
-			
-			const vector <string> SomeCAFELabels = CAFEOptions.GiveLabelsToDo(ConfigInfo, *EventTypeName, *AVarName);
+			// NOTE: insertion of empty set occurs ONLY when the key could not be found.
+			//     : In other words, the first time these loops encounter a particular
+			//     : EventVar, a new entry will be made in loadedCAFELevels.
+			pair< map< string, set<string> >::iterator, bool > eventVar_Levels = 
+					loadedCAFELevels.insert( make_pair(currState.EventVar_Name(), set<string>() ) );
 
-			for (vector<string>::const_iterator ALabel = SomeCAFELabels.begin();
-			     ALabel != SomeCAFELabels.end();
-			     ALabel++)
-			{
-				if (!binary_search(CAFEVar_Labels.first->second.begin(), CAFEVar_Labels.first->second.end(), *ALabel))
-				{
-					CAFEVar_Labels.first->second.insert(lower_bound(CAFEVar_Labels.first->second.begin(),
-										  CAFEVar_Labels.first->second.end(), *ALabel), *ALabel);
-				}
-			}
+			// Appending new information into the stored set, which is stored in loadedCAFELevels
+			const set<string> someEventLevels = currState.EventLevel_Names();
+			eventVar_Levels.first->second.insert(someEventLevels.begin(), someEventLevels.end());
 		}
 	}
 
 
-	// by now, I will have all of the variables and labels that I need to execute the peakvalley extractor.
+	// by now, I will have all of the variables and levels that I need to execute the peakvalley extractor.
 
 	string PeakValArgs = "";
-	vector <string> CAFEVarLabels(0);
-	for (map<string, vector<string> >::const_iterator ALoadedCAFEVar(LoadedCAFELabels.begin());
-	     ALoadedCAFEVar != LoadedCAFELabels.end();
+	set<string> CAFEVarLabels;
+	for (map< string, set<string> >::const_iterator ALoadedCAFEVar = loadedCAFELevels.begin();
+	     ALoadedCAFEVar != loadedCAFELevels.end();
 	     ALoadedCAFEVar++)
 	{
-		PeakValArgs += MakeCmdLineArgs(ALoadedCAFEVar->first, ALoadedCAFEVar->second, ConfigInfo) + ' ';
+		PeakValArgs += MakeCmdLineArgs(currState, ALoadedCAFEVar->first, ALoadedCAFEVar->second) + ' ';
 	
-		for (vector<string>::const_iterator ALabel = ALoadedCAFEVar->second.begin();
-		     ALabel != ALoadedCAFEVar->second.end();
-		     ALabel++)
+		for (set<string>::const_iterator ALevel = ALoadedCAFEVar->second.begin();
+		     ALevel != ALoadedCAFEVar->second.end();
+		     ALevel++)
 		{
-			CAFEVarLabels.push_back(*ALabel);
+			CAFEVarLabels.insert(CAFEVarLabels.end(), (ALevel->empty() ? ALoadedCAFEVar->first
+										   : ALoadedCAFEVar->first + "_" + *ALevel));
 		}
 	}
 
 	
-	if (!RunPeakValExtractor(PeakValProgName, PeakValArgs, LoadedCAFELabels.size(), *ConfigInfo.GiveDomain(), PeakValDateTimeStr, PeakValOutputName))
+	if (!RunPeakValExtractor(PeakValProgName, PeakValArgs, loadedCAFELevels.size(), 
+				 currState.GetCAFEDomain(), PeakValDateTimeStr, PeakValOutputName))
 	{
 		cerr << "ERROR: Something went wrong with executing the peak valley extractor..." << endl;
+		cerr << "     : Suggest checking the file '" << PeakValOutputName << "' for more info." << endl;
 		return(9);
 	}
 
 
-	if (!ProcessAndPrint(PeakValOutputName, CAFEVarLabels, ForecastLocation, ConfigInfo, PeakValDateTimeStr, SetCache))
+	if (!ProcessAndPrint(PeakValOutputName, CAFEVarLabels, ForecastLocation, currState, PeakValDateTimeStr, SetCache))
 	{
 		cerr << "\n\tSomething went wrong in processing the peakvalley picker's output..." << endl;
 		return(10);

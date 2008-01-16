@@ -486,3 +486,57 @@ CAFEParam::AddExtremumName(const string &newExtremumName)
 	return(*this);
 }
 
+
+
+// ************************************
+// --- Basic Interpretive Functions ---
+// ************************************
+set<string>
+CAFEParam::GetCAFEFields() const
+{
+	set<string> fieldNames;
+	for (map<string, CAFEVar>::const_iterator aVar = GetCAFEVars().begin();
+	     aVar != GetCAFEVars().end();
+	     aVar++)
+	{
+		const vector<string> levelNames = aVar->second.GiveCAFELevelNames();
+		for (vector<string>::const_iterator aLevel = levelNames.begin();
+		     aLevel != levelNames.end();
+		     aLevel++)
+		{
+			fieldNames.insert(fieldNames.end(), (aLevel->empty() ? aVar->first
+									     : aVar->first + "_" + *aLevel));
+		}
+	}
+
+	return(fieldNames);
+}
+
+set<string>
+CAFEParam::GetEventFields() const
+{
+	set<string> fieldNames;
+	for (map<string, EventType>::const_iterator anEvent = GetEventTypes().begin();
+	     anEvent != GetEventTypes().end();
+	     anEvent++)
+	{
+		const vector<string> eventVarNames = anEvent->second.GiveEventVariableNames();
+		for (vector<string>::const_iterator aVar = eventVarNames.begin();
+		     aVar != eventVarNames.end();
+		     aVar++)
+		{
+			const vector<string> levelNames = anEvent->second.GiveEventLevels(*aVar);
+			for (vector<string>::const_iterator aLevel = levelNames.begin();
+			     aLevel != levelNames.end();
+			     aLevel++)
+			{
+				fieldNames.insert(fieldNames.end(), (aLevel->empty() ? *aVar
+										     : *aVar + "_" + *aLevel));
+			}
+		}
+	}
+
+	return(fieldNames);
+}
+
+

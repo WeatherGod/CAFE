@@ -765,7 +765,7 @@ vector <string> Configuration::Give_EventType_CAFEVarNames(const EventTypeID_t &
 		return(vector<string>(0));
 	}
 
-	return(eventFind->second.GiveCAFEVariableNames());
+	return(eventFind->second.GiveEventVariableNames());
 }
 
 
@@ -780,7 +780,7 @@ vector <string> Configuration::Give_EventType_LevelNames(const EventTypeID_t &Ev
 		return(vector<string>(0));
 	}
 
-	return(eventFind->second.GiveCAFELevels(CAFEVarName));
+	return(eventFind->second.GiveEventLevels(CAFEVarName));
 }
 
 

@@ -8,6 +8,8 @@ using namespace std;
 #include <fstream>
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
+
 #include <StrUtly.h>		// for StrToUpper(), TakeDelimitedList(), StripWhiteSpace()
 
 #include <CmdLineUtly.h>                // for ProcessFlatCommandLine()
@@ -55,7 +57,7 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 }
 
 
-void MakeTableListFile(const string &BaseDir, const string &TypeOfEvent, const vector <string> &EventTypeNames)
+void MakeTableListFile(const string &BaseDir, const string &TypeOfEvent, const set<string> &EventTypeNames)
 {
         const string TableListname = BaseDir + '/' + TypeOfEvent + "_EventNameList.txt";
         
@@ -65,7 +67,8 @@ void MakeTableListFile(const string &BaseDir, const string &TypeOfEvent, const v
                 throw("Could not open the table list file: " + TableListname + " for writing.");
         }
 
-        TableStream << GiveDelimitedList(EventTypeNames, ',') << '\n';
+	// TODO: Bit of a kludge here...
+        TableStream << GiveDelimitedList(vector<string>(EventTypeNames.begin(), EventTypeNames.end()), ',') << '\n';
         TableStream.close();
 }
 
@@ -86,6 +89,7 @@ void WriteErrorToLog(ofstream &LogJam, const string LastKnownDatabase, const str
 
 int main(int argc, char *argv[])
 {
+	// Working on eliminating this need...
 	setenv("TZ", "UTC UTC", 1);
 
         vector <string> CommandArgs = ProcessFlatCommandLine(argc, argv);
@@ -155,6 +159,11 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	if (DateListFileName.empty())
+	{
+		cerr << "ERROR: No filename given for the date list..." << endl;
+		return(8);
+	}
 
 	Configuration ConfigInfo(CAFEOptions.CAFEPath + '/' + CAFEOptions.ConfigFilename);             // loads configurations
 
@@ -170,13 +179,11 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
-	if (DateListFileName.empty())
-	{
-		cerr << "ERROR: No filename given for the date list..." << endl;
-		return(8);
-	}
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
 
-	const string LogFileName = CAFEOptions.CAFEPath + "/logs/" + ScoreRun_Name + "_SpecialHindcast.log";
+
+
+	const string LogFileName = currState.GetCAFEPath() + "/logs/" + ScoreRun_Name + "_SpecialHindcast.log";
 
 	ifstream LogStream(LogFileName.c_str());
 
@@ -248,9 +255,9 @@ int main(int argc, char *argv[])
 		LastKnownDate = RedoDate;
 	}
 
-	vector <string> DatabaseList(0);
-	vector <string> TableList(0);
-	vector <string> DateList(0);
+	vector<string> DatabaseList(0);
+	vector<string> TableList(0);
+	vector<string> DateList(0);
 
 
 	ifstream DateFile(DateListFileName.c_str());
@@ -274,7 +281,7 @@ int main(int argc, char *argv[])
 	{
 		StripWhiteSpace(LineRead);
 
-		vector <string> TempHold = TakeDelimitedList(LineRead, ' ');
+		vector<string> TempHold = TakeDelimitedList(LineRead, ' ');
 					
 		if (TempHold.size() != 3)
 		{
@@ -298,6 +305,9 @@ int main(int argc, char *argv[])
 
         DateFile.close();
 
+	// TODO: Bit of a kludge here...
+	const set<string> eventNames = currState.EventType_Names();
+
 	for (vector <string>::const_iterator ADatabase( DatabaseList.begin() ), ATable( TableList.begin() ), ADate( DateList.begin() );
 	     ADatabase != DatabaseList.end();
 	     ADatabase++, ATable++, ADate++)
@@ -317,14 +327,15 @@ int main(int argc, char *argv[])
 
 		if (!UseCache)
 		{
-			SysCommand = CAFEOptions.CAFEPath + "/bin/TotalRecall " + *ADate;
+			SysCommand = currState.GetCAFEPath() + "/bin/TotalRecall " + *ADate;
 
 			if (SetCache)
 			{
 				SysCommand += " --set_cache=" + CacheName;
 			}
 
-			SysCommand += " -e " + GiveDelimitedList(CAFEOptions.EventTypes, ',');
+			// TODO: Bit of a kludge here...
+			SysCommand += " -e " + GiveDelimitedList(vector<string>(eventNames.begin(), eventNames.end()), ',');
 
 			cout << SysCommand << endl;
 			LogJam << SysCommand << endl;
@@ -342,7 +353,7 @@ int main(int argc, char *argv[])
                         }
 		}// end if !UseCache
 
-		SysCommand = CAFEOptions.CAFEPath + "/bin/CalcCorrelation --type=" + *ATable + " --silent --date=" + *ADate 
+		SysCommand = currState.GetCAFEPath() + "/bin/CalcCorrelation --type=" + *ATable + " --silent --date=" + *ADate 
 				+ " --score_run=" + ScoreRun_Name
 				+ " --timeperiod=Tm00";	// for now...
 
@@ -351,7 +362,8 @@ int main(int argc, char *argv[])
 			SysCommand += " --use_cache=" + CacheName;
 		}
 
-		SysCommand += " -e " + GiveDelimitedList(CAFEOptions.EventTypes, ',');
+		// TODO: Bit of a kludge here...
+		SysCommand += " -e " + GiveDelimitedList(vector<string>(eventNames.begin(), eventNames.end()), ',');
 
 		cout << SysCommand << endl;
 		LogJam << SysCommand << endl;

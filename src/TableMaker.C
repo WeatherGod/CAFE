@@ -8,6 +8,7 @@ using namespace std;
 #include <fstream>
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 
 #include "Utils/CAFE_SQLUtly.h"	// for GiveTableNames(), CreateTable(), CreateFieldMeasureTable(), EstablishConnection()
 #include <mysql++/mysql++.h>
@@ -15,23 +16,21 @@ using namespace std;
 #include "Utils/CAFE_CmdLine.h"	// for generic CAFE command-line support and control
 #include <CmdLineUtly.h>	// for ProcessFlatCommandLine()
 
-void DoCreation(mysqlpp::Query &TheQuery, const string &DatabaseName, const Configuration &ConfigInfo, const CmdOptions &CAFEOptions)
+void DoCreation(mysqlpp::Query &TheQuery, const string &DatabaseName, CAFEState &currState)
 {
-	vector <string> TableNames = GiveTableNames(TheQuery, DatabaseName);
+	vector<string> TableNames = GiveTableNames(TheQuery, DatabaseName);
 
-        for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-             EventTypeName != CAFEOptions.EventTypes.end();
-             EventTypeName++)
+        for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
         {
-                if (!binary_search(TableNames.begin(), TableNames.end(), *EventTypeName))
+                if (!binary_search(TableNames.begin(), TableNames.end(), currState.EventType_Name()))
                 {
        	                // Table doesn't exist, so make it entirely
-                        CreateTable(TheQuery, *EventTypeName, ConfigInfo, CAFEOptions);
+                        CreateTable(TheQuery, currState.EventType_Name(), currState);
 		}
                 else
                 {
                         // the table already exists in the database.
-                        // Maybe put some algorithm to make sure the fields match what is in the
+                        // TODO: Maybe put some algorithm to make sure the fields match what is in the
                         // configuration file
 	        }// end if (TableName is in the database)
         }// end of table (event type) loop
@@ -43,7 +42,7 @@ void PrintSyntax(const CmdOptions &CAFEOptions)
         cout << endl;
         cout << "TableMaker [--help] [--syntax]" << endl;
 
-        CAFEOptions.PrintSyntax(17, 63);
+        CAFEOptions.PrintSyntax(11, 63);
 
         cout << endl;
 }
@@ -109,12 +108,14 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
 
 	mysqlpp::Connection ServerLink;
 
 	try
         {
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.LoginUserName, "", true);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetLoginUserName(), "", true);
         }
         catch (const exception& Err)
         {
@@ -137,38 +138,33 @@ int main(int argc, char *argv[])
 
 	try
 	{
-		for (vector<string>::const_iterator DatabaseName = CAFEOptions.DatabaseNames.begin();
-	             DatabaseName != CAFEOptions.DatabaseNames.end();
-        	     DatabaseName++)
+		for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
         	{
-	                if (!ServerLink.select_db(*DatabaseName))
+	                if (!ServerLink.select_db(currState.Untrained_Name()))
         	        {
-                	        throw("Unable to select database: " + *DatabaseName + "\nMySQL message: " + ServerLink.error());
+                	        throw("Unable to select database: " + currState.Untrained_Name() + "\nMySQL message: " + ServerLink.error());
                 	}
 
 	                mysqlpp::Query TheQuery = ServerLink.query();
 
-			DoCreation(TheQuery, *DatabaseName, ConfigInfo, CAFEOptions);
+			DoCreation(TheQuery, currState.Untrained_Name(), currState);
 		}
 
 
-		for (vector<string>::const_iterator DatabaseName = CAFEOptions.ClustDatabaseNames.begin();
-                     DatabaseName != CAFEOptions.ClustDatabaseNames.end();
-                     DatabaseName++)
+		for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
                 {
-                        if (!ServerLink.select_db(*DatabaseName))
+                        if (!ServerLink.select_db(currState.Trained_Name()))
                         {
-                                throw("Unable to select database: " + *DatabaseName + "\nMySQL message: " + ServerLink.error());
+                                throw("Unable to select database: " + currState.Trained_Name() + "\nMySQL message: " + ServerLink.error());
                         }
 
                         mysqlpp::Query TheQuery = ServerLink.query();
 
-                        DoCreation(TheQuery, *DatabaseName, ConfigInfo, CAFEOptions);
+                        DoCreation(TheQuery, currState.Trained_Name(), currState);
 
-			for (vector<string>::const_iterator EventTypeName( CAFEOptions.EventTypes.begin() );
-			     EventTypeName != CAFEOptions.EventTypes.end(); EventTypeName++)
+			for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
 			{
-				CreateFieldMeasureTable(TheQuery, *EventTypeName, ConfigInfo, CAFEOptions);
+				CreateFieldMeasureTable(TheQuery, currState.EventType_Name(), currState);
 			}
                 }		
 	}

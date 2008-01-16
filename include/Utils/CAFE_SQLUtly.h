@@ -12,8 +12,7 @@
 #include "SPAnalysis/BoardConvertor.h"
 #include "SPAnalysis/ClusterBoard.h"
 
-#include "Config/Configuration.h"
-#include "CAFE_CmdLine.h"
+#include "Config/CAFEState.h"
 
 
 void EstablishConnection(mysqlpp::Connection &ConnectLink, const string &HostName,
@@ -70,16 +69,16 @@ void SaveBoardToDatabase(const ClusterBoard &TheBoard, mysqlpp::Query &TheQuery,
 
 
 vector <string> GiveTableNames(mysqlpp::Query &TheQuery, const string &Database);
-bool DropTables(mysqlpp::Query &TheQuery, const vector <string> &TableNames);
+bool DropTables(mysqlpp::Query &TheQuery, const set<string> &TableNames);
 bool ClearTable(mysqlpp::Query &TheQuery, const string &TableName);
 bool UpdateTable(const vector <LonLatAnom> &TheValues, const vector <string> &ColumnNames, const time_t &ADateTime,
                  mysqlpp::Query &TheQuery, const string &TableName);
 
 
 void CreateTable(mysqlpp::Query &TheQuery, const string &EventTypeName,
-		 const Configuration &ConfigInfo, const CmdOptions &CAFEOptions);
+		 CAFEState &currInfo);
 void CreateFieldMeasureTable(mysqlpp::Query &TheQuery, const string &EventTypeName, 
-			     const Configuration &ConfigInfo, const CmdOptions &CAFEOptions);
+			     CAFEState &currInfo);
 
 // Stores AlphaPhi values
 mysqlpp::Query MakeSaver_AlphaPhiValues(mysqlpp::Connection &TheConnection);

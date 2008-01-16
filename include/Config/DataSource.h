@@ -33,9 +33,9 @@ class DataSource
 		string GiveProjectionConfig() const;
 
 		size_t GiveDataVarCount() const;
-		string GiveDataVarName(const string &CAFEVarName) const;
+		const string& GiveDataVarName(const string &CAFEVarName) const;
 		
-		string GiveDataLevel(const string &CAFEVarName, const size_t &CAFELevelIndex) const;
+		const string& GiveDataLevel(const string &CAFEVarName, const size_t &CAFELevelIndex) const;
 		size_t GiveDataLevelCount(const string &CAFEVarName) const;
 
 		pair<time_t, time_t> GiveTimeRange() const;

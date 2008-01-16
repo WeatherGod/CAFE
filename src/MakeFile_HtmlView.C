@@ -4,9 +4,12 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include <vector>
+#include <set>
 #include <cctype>			// for size_t
 #include <StrUtly.h>			// for RipWhiteSpace(), TakeDelimitedList()
+
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 
 #include <mysql++/mysql++.h>
 #include "Utils/CAFE_SQLUtly.h"		// for MemberCnt(), EstablishConnection()
@@ -95,7 +98,7 @@ void MakeEventPane(ofstream &HTMLStream, const int Height, const int Width, cons
 
 
 
-void MakeMainFile(const string HTMLName, const vector <string> &TimePeriods)
+void MakeMainFile(const string HTMLName, const set<string> &TimePeriods)
 {
 	ofstream HTMLStream(HTMLName.c_str());
 
@@ -126,7 +129,7 @@ void MakeMainFile(const string HTMLName, const vector <string> &TimePeriods)
 	HTMLStream << "<i><font style='font-size: 10pt'>";
 
 
-	for (vector<string>::const_iterator ATimePeriod = TimePeriods.begin();
+	for (set<string>::const_iterator ATimePeriod = TimePeriods.begin();
              ATimePeriod != TimePeriods.end();
              ATimePeriod++)
         {
@@ -158,7 +161,7 @@ void MakeMainFile(const string HTMLName, const vector <string> &TimePeriods)
 	
 int main(int argc, char *argv[])
 {
-	vector <string> CommandArgs = ProcessFlatCommandLine(argc, argv);
+	vector<string> CommandArgs = ProcessFlatCommandLine(argc, argv);
 
 	CmdOptions CAFEOptions;
 	string WebLoc = "./";
@@ -214,12 +217,14 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
 
 	mysqlpp::Connection ServerLink;
 
         try
         {
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.CAFEUserName, "", false);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetCAFEUserName(), "", false);
         }
         catch (const exception& Err)
         {
@@ -243,26 +248,15 @@ int main(int argc, char *argv[])
 
 	const string HTMLName = WebLoc + "/index.html";
 
-	vector <string> EventListNames(0);
-
 	try
         {
-		for (vector<string>::const_iterator ATimePeriod = CAFEOptions.TimePeriods.begin();
-                     ATimePeriod != CAFEOptions.TimePeriods.end();
-                     ATimePeriod++)
-		{
-			const string Database = CAFEOptions.GiveDatabaseName(*ATimePeriod);
-			EventListNames.push_back("EventList_" + *ATimePeriod + ".html");
-		}
+		MakeMainFile(HTMLName, currState.TimePeriod_Names());
 
-		MakeMainFile(HTMLName, CAFEOptions.TimePeriods);
-
-		for (vector<string>::const_iterator ATimePeriod = CAFEOptions.TimePeriods.begin();
-                     ATimePeriod != CAFEOptions.TimePeriods.end();
-                     ATimePeriod++)
+		for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
 		{
-			const string Database = CAFEOptions.GiveDatabaseName(*ATimePeriod);
-			const string ClustDatabase = CAFEOptions.GiveClusteredDatabaseName(*ATimePeriod);
+			const string Database = currState.Untrained_Name();
+			const string ClustDatabase = currState.Trained_Name();
+			const string eventListName = "EventList_" + currState.TimePeriod_Name() + ".html";
 
                         if (!ServerLink.select_db(ClustDatabase))
                         {
@@ -272,7 +266,7 @@ int main(int argc, char *argv[])
 
                         mysqlpp::Query TheQuery = MakeLoader_MemberCnt(ServerLink);
 
-			const string FullEventListName = WebLoc + '/' + EventListNames[ATimePeriod - CAFEOptions.TimePeriods.begin()];
+			const string FullEventListName = WebLoc + '/' + eventListName;
 
 			ofstream EventStream(FullEventListName.c_str());
 
@@ -284,16 +278,16 @@ int main(int argc, char *argv[])
 			EventStream << "<html><body>" << endl;
 			EventStream << "<p align='left'><b><u><font style='font-size: 13pt'>" << endl;
 		
-       			for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-	                     EventTypeName != CAFEOptions.EventTypes.end();
-        	             EventTypeName++)
+       			for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
 	        	{
-				TheQuery.def["table"] = *EventTypeName;
+				TheQuery.def["table"] = currState.EventType_Name();
 
-				const string CompareListStem = "CompareList_" + *EventTypeName + '_' + *ATimePeriod + ".html";
+				const string CompareListStem = "CompareList_" + currState.EventType_Name() + '_' 
+							       + currState.TimePeriod_Name() + ".html";
 				const string CompareListName = WebLoc + '/' + CompareListStem;
 
-				EventStream << "<a target='ListPane' href='" << CompareListStem << "'>" << *EventTypeName << "</a><br>" << endl;
+				EventStream << "<a target='ListPane' href='" << CompareListStem << "'>" 
+					    << currState.EventType_Name() << "</a><br>" << endl;
 
 				ofstream CompareStream(CompareListName.c_str());
 
@@ -302,25 +296,23 @@ int main(int argc, char *argv[])
                 		        throw("Could not open this file: " + CompareListName);
         	        	}
 
-				MakeHeaders(CompareStream, *ATimePeriod);
-				CompareStream << "<p align='left'><b><font style='font-size: 13pt'>" << *EventTypeName << "</font></b>" << endl;
+				MakeHeaders(CompareStream, currState.TimePeriod_Name());
+				CompareStream << "<p align='left'><b><font style='font-size: 13pt'>" 
+					      << currState.EventType_Name() << "</font></b>" << endl;
 				CompareStream << "<font style='font-size: 10pt'>" << endl;
 			
-				const vector <string> VarNames = CAFEOptions.GiveCAFEVarsToDo(ConfigInfo, *EventTypeName);
-				for (vector<string>::const_iterator AVarName = VarNames.begin(); AVarName != VarNames.end(); AVarName++)
-	       	        	{
-					const vector <string> CAFELabels = CAFEOptions.GiveLabelsToDo(ConfigInfo, *EventTypeName, *AVarName);
-
-	                                for (vector<string>::const_iterator ALabel = CAFELabels.begin(); ALabel != CAFELabels.end(); ALabel++)
+				for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
+				{
+					for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
         	                        {
 						CompareStream << "<p>" << endl;
 
-        			               	for (size_t PeakValIndex = 0; PeakValIndex < ConfigInfo.ExtremaCount(); PeakValIndex++)
+        			               	for (currState.Extrema_Begin(); currState.Extrema_HasNext(); currState.Extrema_Next())
 	        	        	        {
-	       	                        		const string FieldName = *ALabel + '_' + ConfigInfo.GiveExtremaName(PeakValIndex);
-							const string MapPlotName = *EventTypeName + '_' + FieldName + "_MapPlot.jpg";
-							const string HistPlotName = *EventTypeName + '_' + FieldName + "_Hist.jpg";
-							const string FieldMeasureName = *EventTypeName + '_' + FieldName + ".FieldMeasure";
+	       	                        		const string FieldName = currState.FieldExtremum_Name();
+							const string MapPlotName = currState.EventType_Name() + '_' + FieldName + "_MapPlot.jpg";
+							const string HistPlotName = currState.EventType_Name() + '_' + FieldName + "_Hist.jpg";
+							const string FieldMeasureName = currState.EventType_Name() + '_' + FieldName + ".FieldMeasure";
 
 							CompareStream << "<b>";
 							CompareStream << "<li>&nbsp;&nbsp;&nbsp;<a target='ImagePane' href='"
@@ -332,7 +324,7 @@ int main(int argc, char *argv[])
 								      << "\">Unclustered " << FieldName << "</a></li>" << endl;
 							CompareStream << "</b>";
 
-							const size_t MemberCount = LoadMemberCnt(TheQuery, FieldName, *EventTypeName);
+							const size_t MemberCount = LoadMemberCnt(TheQuery, FieldName, currState.EventType_Name());
 							if (MemberCount > 0)
 							// then there must have been a cluster made
 							{

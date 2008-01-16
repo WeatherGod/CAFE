@@ -122,17 +122,17 @@ bool DataVar::IsValid() const
 	return(myIsConfigured);
 }
 
-string DataVar::GiveDataVarName() const
+const string& DataVar::GiveDataVarName() const
 {
 	return(myDataVarName);
 }
 
-string DataVar::GiveCAFEVarName() const
+const string& DataVar::GiveCAFEVarName() const
 {
 	return(myCAFEVarName);
 }
 
-string DataVar::GiveDataLevel(const size_t &CAFELevelIndex) const
+const string& DataVar::GiveDataLevel(const size_t &CAFELevelIndex) const
 {
 	if (myDataLevels.find(CAFELevelIndex) == myDataLevels.end())
         {

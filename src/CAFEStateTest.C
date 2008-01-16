@@ -179,43 +179,43 @@ int main()
 		.SetExtremumNames(extremumNames);
 	cerr << "done\n";
 
-	cerr << "Initializing curState...";
-	CAFEState curState(cafeInfo);
+	cerr << "Initializing currState...";
+	CAFEState currState(cafeInfo);
 	cerr << "done\n";
 
 	cout << "CAFE State\n"
 	     << "==========\n"
-	     << "Verbose Level: " << curState.GetVerboseLevel() << '\n'
-	     << "Conf Filename: " << curState.GetConfigFilename() << '\n'
-	     << "CAFE Path    : " << curState.GetCAFEPath() << '\n'
-	     << "Login Name   : " << curState.GetLoginUserName() << '\n'
-	     << "CAFEUserName : " << curState.GetCAFEUserName() << '\n'
-	     << "ServerName   : " << curState.GetServerName() << '\n'
-	     << "TimePeriods  : " << curState.TimePeriods_Size() << '\n'
+	     << "Verbose Level: " << currState.GetVerboseLevel() << '\n'
+	     << "Conf Filename: " << currState.GetConfigFilename() << '\n'
+	     << "CAFE Path    : " << currState.GetCAFEPath() << '\n'
+	     << "Login Name   : " << currState.GetLoginUserName() << '\n'
+	     << "CAFEUserName : " << currState.GetCAFEUserName() << '\n'
+	     << "ServerName   : " << currState.GetServerName() << '\n'
+	     << "TimePeriods  : " << currState.TimePeriods_Size() << '\n'
 	     << "Offset\t Name\t Untrained\t Trained\n";
 	
-	for (curState.TimePeriods_Begin(); curState.TimePeriods_HasNext(); curState.TimePeriods_Next())
+	for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
 	{
-		cout << curState.TimePeriod_Offset() << "\t\t "
-		     << curState.TimePeriod_Name() << "\t "
-		     << curState.Untrained_Name() << "\t "
-		     << curState.Trained_Name() << '\n';
+		cout << currState.TimePeriod_Offset() << "\t\t "
+		     << currState.TimePeriod_Name() << "\t "
+		     << currState.Untrained_Name() << "\t "
+		     << currState.Trained_Name() << '\n';
 	}
 
-	cout << "\nEventTypes: " << curState.EventTypes_Size() << '\n';
+	cout << "\nEventTypes: " << currState.EventTypes_Size() << '\n';
 
-	for (curState.EventTypes_Begin(); curState.EventTypes_HasNext(); curState.EventTypes_Next())
+	for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
 	{
-		cout << '\t' << curState.EventType_Name() << "\t EventVars: " << curState.EventVars_Size() << '\n';
+		cout << '\t' << currState.EventType_Name() << "\t EventVars: " << currState.EventVars_Size() << '\n';
 
-		for (curState.EventVars_Begin(); curState.EventVars_HasNext(); curState.EventVars_Next())
+		for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
 		{
-			cout << "\t\t" << curState.EventVar_Name() << "\t " << curState.DataVar_Name() 
-			     << "\t Fields: " << curState.CAFELevels_Size() << '\n';
+			cout << "\t\t" << currState.EventVar_Name() << "\t " << currState.DataVar_Name() 
+			     << "\t Fields: " << currState.EventLevels_Size() << '\n';
 
-			for (curState.CAFELevels_Begin(); curState.CAFELevels_HasNext(); curState.CAFELevels_Next())
+			for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
 			{
-				cout << "\t\t\t" << curState.CAFEField_Name() << "\t " << curState.DataLevel_Name() << '\n';
+				cout << "\t\t\t" << currState.EventField_Name() << "\t " << currState.DataLevel_Name() << '\n';
 			}
 
 			cout << '\n';

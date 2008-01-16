@@ -23,9 +23,9 @@ class DataVar
                 bool ValidConfig() const;                                       //
                 bool IsValid() const;
 
-		string GiveDataVarName() const;
-		string GiveCAFEVarName() const;
-		string GiveDataLevel(const size_t &CAFELevelIndex) const;
+		const string& GiveDataVarName() const;
+		const string& GiveCAFEVarName() const;
+		const string& GiveDataLevel(const size_t &CAFELevelIndex) const;
 
 		size_t GiveDataLevelCount() const;
 

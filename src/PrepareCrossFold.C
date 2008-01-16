@@ -9,6 +9,8 @@ using namespace std;
 #include <cstdlib>					// for srand() and rand()
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
+
 #include "Utils/CAFE_SQLUtly.h"				// for LoadLonLatAnoms(), EstablishConnection()
 #include "Utils/CAFE_CmdLine.h"				// for generic CAFE command-line options support
 #include <StrUtly.h>					// for GiveDelimitedList()
@@ -42,45 +44,41 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 }
 
 
-void DoDatabaseBreakdown(mysqlpp::Connection &ServerLink, const Configuration &ConfigInfo, const CmdOptions &CAFEOptions)
+void DoDatabaseBreakdown(mysqlpp::Connection &ServerLink, CAFEState &currState)
 {
-	for (vector<string>::const_iterator ADatabaseName = CAFEOptions.DatabaseNames.begin();
-             ADatabaseName != CAFEOptions.DatabaseNames.end();
-             ADatabaseName++)
+	for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
         {
 		srand( time(NULL) );		// time to seed the randomizer.
-	        if (!ServerLink.select_db(*ADatabaseName))
+	        if (!ServerLink.select_db(currState.Untrained_Name()))
                 {
-                        throw("Could not select the database: " + *ADatabaseName + "\nMySQL message: " + ServerLink.error());
+                        throw("Could not select the database: " + currState.Untrained_Name() + "\nMySQL message: " + ServerLink.error());
                 }
 
                 mysqlpp::Query TheQuery = ServerLink.query();
 
-                for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-                     EventTypeName != CAFEOptions.EventTypes.end();
-                     EventTypeName++)
+                for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
                 {
-			vector <time_t> EventTimes( LoadEventDateTimes(TheQuery, *EventTypeName) );
-
+			vector<time_t> EventTimes = LoadEventDateTimes(TheQuery, currState.EventType_Name());
 			size_t ListSize = EventTimes.size();
 
 			if (ListSize < 10)
 			{
-				cerr << "Not enough cases for this event type: " << *EventTypeName << endl;
+				cerr << "Not enough cases for this event type: " << currState.EventType_Name() << endl;
 				cerr << "Moving on..." << endl;
 				continue;
 			}
 
 			double ApproxBlockSize = (double) ListSize / 10.0;
-			double NextCaseChange = (double) ListSize - ApproxBlockSize;
-			size_t CaseIndex = 1;
+			double NextFoldChange = (double) ListSize - ApproxBlockSize;
+			size_t foldIndex = 1;
 
-			string Casefilename = GetCaseFilename(CAFEOptions.CAFEPath, *ADatabaseName, *EventTypeName, CaseIndex);
-			ofstream CaseStream(Casefilename.c_str());
+			string foldFilename = GetCaseFilename(currState.GetCAFEPath(), currState.Untrained_Name(),
+							      currState.EventType_Name(), foldIndex);
+			ofstream foldStream(foldFilename.c_str());
 
-			if (!CaseStream.is_open())
+			if (!foldStream.is_open())
 			{
-				throw("Could not open the case file: " + Casefilename + " for writing...");
+				throw("Could not open the fold file: " + foldFilename + " for writing...");
 			}
 
 			while (ListSize > 0)
@@ -88,35 +86,37 @@ void DoDatabaseBreakdown(mysqlpp::Connection &ServerLink, const Configuration &C
 				// Could possibly improve this to produce better randomness
 				size_t RandomIndex = ((size_t) ((((double) rand())/((double) RAND_MAX)) * (ListSize - 1)));
 
-				CaseStream << EventTimes.at(RandomIndex) << "\n";
+				foldStream << EventTimes.at(RandomIndex) << "\n";
 				EventTimes.erase( EventTimes.begin() + RandomIndex );
 				ListSize--;
 
-				if ((double) ListSize <= NextCaseChange)
+				if ((double) ListSize <= NextFoldChange)
 				{
-					CaseIndex++;
-					NextCaseChange -= ApproxBlockSize;
-					if (CaseIndex <= 10)
+					foldIndex++;
+					NextFoldChange -= ApproxBlockSize;
+					if (foldIndex <= 10)
 					{
-						CaseStream.close();
-						Casefilename = GetCaseFilename(CAFEOptions.CAFEPath, *ADatabaseName, *EventTypeName, CaseIndex);
-						CaseStream.open( Casefilename.c_str() );
+						foldStream.close();
+						foldFilename = GetCaseFilename(currState.GetCAFEPath(), currState.Untrained_Name(),
+									       currState.EventType_Name(), foldIndex);
+						foldStream.open( foldFilename.c_str() );
 
-						if (!CaseStream.is_open())
+						if (!foldStream.is_open())
 			                        {
-                        			        throw("Could not open the case file: " + Casefilename + " for writing...");
+                        			        throw("Could not open the fold file: " + foldFilename + " for writing...");
                         			}
 					}
 				}
 			}
 
-			CaseStream.close();
+			foldStream.close();
 		}// end of EventType loop
 	}// end of database loop
 }
 
 int main(int argc, char *argv[])
 {
+	// Working on eliminationg this need
 	setenv("TZ", "UTC UTC", 1);			// to deal with the issue that the dates are in UTC, but I am in another locale.
 
 	vector <string> CommandArgs = ProcessFlatCommandLine(argc, argv);
@@ -163,12 +163,14 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
 
 	mysqlpp::Connection ServerLink;
 
         try
         {
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.CAFEUserName, false);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetCAFEUserName(), false);
         }
         catch (const exception& Err)
         {
@@ -192,7 +194,7 @@ int main(int argc, char *argv[])
 
 	try
 	{
-		DoDatabaseBreakdown(ServerLink, ConfigInfo, CAFEOptions);
+		DoDatabaseBreakdown(ServerLink, currState);
 	}
 	catch (const exception &Err)
 	{

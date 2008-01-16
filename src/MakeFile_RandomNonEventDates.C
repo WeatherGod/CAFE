@@ -11,14 +11,16 @@ using namespace std;
 #include <mysql++/mysql++.h>
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
+
 #include <StrUtly.h>			// for TakeDelimitedList()
-#include <TimeUtly.h>			// for RoundHour(), GiveRandomDate(), GiveTime(), GetTime()
+#include <TimeUtly.h>			// for RoundHour(), GiveRandomDate(), GiveTimeUTC(), GetTimeUTC()
 #include <CmdLineUtly.h>		// for ProcessFlatCommandLine()
 #include "Utils/CAFE_CmdLine.h"		// for generic CAFE command line control
 
 #include "Utils/CAFE_SQLUtly.h"       // for LoadEventDateTimes(), EstablishConnection()
 
-bool IsNonEvent(const time_t &TheTime, const vector <time_t> &EventTimes, const double &MinTimeFromEvent)
+bool IsNonEvent(const time_t &TheTime, const vector<time_t> &EventTimes, const double &MinTimeFromEvent)
 {
 	size_t MinPos = 1;
 	size_t MaxPos = EventTimes.size();
@@ -54,11 +56,6 @@ bool IsNonEvent(const time_t &TheTime, const vector <time_t> &EventTimes, const 
 	return(true);
 }
 
-void RoundTime(time_t &TheTime)
-{
-	RoundHour(TheTime, 6);
-}
-
 void PrintSyntax(const CmdOptions &CAFEOptions)
 {
         cout << endl;
@@ -85,6 +82,7 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 
 int main(int argc, char *argv[])
 {
+	// Working on eliminating this need from the code
 	setenv("TZ", "UTC UTC", 1);
 	srand(time(NULL));		// seeds the random number generator
 
@@ -126,13 +124,12 @@ int main(int argc, char *argv[])
         }
 
 	
-	const double MinTimeFromEvent = 60 * 60 * 56;		// 56 hours is the closest a random non-event can be from an event date
+	if (RandomDateCount < 0)
+	{
+		cerr << "ERROR: date count not given..." << endl;
+		return(8);
+	}
 
-	const string MinDateStr = "1948-01-01 00:00:00";
-	const string MaxDateStr = "2005-03-31 23:59:59";
-
-	const time_t MinDate = GetTime(MinDateStr);
-	const time_t MaxDate = GetTime(MaxDateStr);
 
 	Configuration ConfigInfo(CAFEOptions.CAFEPath + '/' + CAFEOptions.ConfigFilename);
 
@@ -149,18 +146,23 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
-	if (RandomDateCount < 0)
-	{
-		cerr << "ERROR: date count not given..." << endl;
-		return(8);
-	}
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
+
+
+	
+	const double MinTimeFromEvent = 60 * 60 * 56;		// 56 hours is the closest a random non-event can be from an event date
+
+	const pair<time_t, time_t> timeRange = currState.DefaultDataSource().GiveTimeRange();
+	const time_t MinDate = timeRange.first;
+	const time_t MaxDate = timeRange.second;
 
 
         mysqlpp::Connection ServerLink;
 
         try
         {
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.CAFEUserName, false);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetCAFEUserName(), false);
         }
         catch (const exception& Err)
         {
@@ -181,28 +183,25 @@ int main(int argc, char *argv[])
                 return(4);
         }
 
-	system(("mkdir '" + CAFEOptions.CAFEPath + "/SpecialDateLists'").c_str());
+	system(("mkdir '" + currState.GetCAFEPath() + "/SpecialDateLists'").c_str());
 
         try
         {
-                for (vector<string>::const_iterator ADatabase = CAFEOptions.DatabaseNames.begin();
-                     ADatabase != CAFEOptions.DatabaseNames.end(); ADatabase++)
+                for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
                 {
 /*
-                        if (!ServerLink.select_db(*ADatabase))
+                        if (!ServerLink.select_db(currState.Untrained_Name()))
                         {
-                                throw("Could not select the database: " + *ADatabase + "\nMySQL message: " + ServerLink.error());
+                                throw("Could not select the database: " + currState.Untrained_Name() + "\nMySQL message: " + ServerLink.error());
                         }
 
                         mysqlpp::Query TheQuery( MakeLoader_EventDateTimes(ServerLink) );
 
-			vector <time_t> MasterList_Dates(0);
+			vector<time_t> MasterList_Dates(0);
 
-                        for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-                             EventTypeName != CAFEOptions.EventTypes.end();
-                             EventTypeName++)
+                        for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
                         {
-                                vector <time_t> EventDates = LoadEventDateTimes(TheQuery, *EventTypeName);
+                                vector<time_t> EventDates = LoadEventDateTimes(TheQuery, currState.EventType_Name());
 
 				for (vector<time_t>::const_iterator ADate = EventDates.begin(); ADate != EventDates.end(); ADate++)
 				{
@@ -215,19 +214,19 @@ int main(int argc, char *argv[])
 
 			cout << "EventDates loaded..." << endl;
 */
-			vector <time_t> RandomDates(0);
+			vector<time_t> RandomDates(0);
 			RandomDates.reserve(RandomDateCount);
 			for (int DateCounter = 0; DateCounter < RandomDateCount;)
 			{
 				time_t RandomTime = GiveRandomDate(MinDate, MaxDate);      // range here is MinDate <= RandomTime <= MaxDate
 //				cout << "Before rounding: " << RandomTime;
-				RoundTime(RandomTime);
+				RoundHour(RandomTime, 6);
 //				cout << "    After rounding: " << RandomTime << endl;
 		
 //				while (!IsNonEvent(RandomTime, MasterList_Dates, MinTimeFromEvent))
 //				{
 //					RandomTime = GiveRandomDate(MinDate, MaxDate);
-//					RoundTime(RandomTime);
+//					RoundHour(RandomTime, 6);
 //				}
 
 				if (!binary_search(RandomDates.begin(), RandomDates.end(), RandomTime))
@@ -237,7 +236,7 @@ int main(int argc, char *argv[])
 				}
 			}
 
-			string RandomDateFile = CAFEOptions.CAFEPath + "/SpecialDateLists/" + "Non_Event_" + *ADatabase + ".dat";
+			string RandomDateFile = currState.GetCAFEPath() + "/SpecialDateLists/" + "Non_Event_" + currState.TimePeriod_Name() + ".dat";
 
 	
 		        ofstream RandomDateStream(RandomDateFile.c_str());
@@ -247,9 +246,11 @@ int main(int argc, char *argv[])
         			throw("Could not open RandomDateFile: " + RandomDateFile + " for reading.");
                 	}
 
-			for (vector<time_t>::const_iterator ARandomDate( RandomDates.begin() ); ARandomDate != RandomDates.end(); ARandomDate++)
+			for (vector<time_t>::const_iterator ARandomDate = RandomDates.begin();
+			     ARandomDate != RandomDates.end();
+			     ARandomDate++)
 			{
-				RandomDateStream << *ADatabase << " Non_Event " << GiveTime(*ARandomDate, "%HZ%d%b%Y") << endl;
+				RandomDateStream << currState.Untrained_Name() << " Non_Event " << GiveTimeUTC(*ARandomDate, "%HZ%d%b%Y") << endl;
 			}
 
 			RandomDateStream.close();

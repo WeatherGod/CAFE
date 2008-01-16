@@ -4,9 +4,10 @@ using namespace std;
 #include <string>
 #include <vector>
 #include <cctype>			// for size_t
-#include <iomanip>			// for (TODO: find what I am using this for)
+#include <iomanip>			// for printf
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 
 
 #include <CmdLineUtly.h>        // for ProcessFlatCommandLine()
@@ -114,45 +115,47 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
 
-	const string BaseDir = CAFEOptions.CAFEPath + "/AnalysisInfo/";
 
-        for (vector<string>::const_iterator ADatabase = CAFEOptions.ClustDatabaseNames.begin();
-                     ADatabase != CAFEOptions.DatabaseNames.end(); ADatabase++)
+	const string BaseDir = currState.GetCAFEPath() + "/AnalysisInfo/";
+
+        for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
         {
-		cout << "    Database: " << *ADatabase << endl;
+		cout << "    Database: " << currState.Trained_Name() << endl;
 		cout << "       Table: ";
 		
-		vector <double> EventScoreMaxes(CAFEOptions.EventTypes.size(), 0.0);
-		vector <double> AlphaTotals(CAFEOptions.EventTypes.size(), 0.0);
-		vector <double> PhiTotals(CAFEOptions.EventTypes.size(), 0.0);
-//		vector <double> MaxHindcastScores(CAFEOptions.EventTypes.size(), 0.0);
-//		vector <double> MinHindcastScores(CAFEOptions.EventTypes.size(), 0.0);
-//		vector <double> MeanHindcastScores(CAFEOptions.EventTypes.size(), 0.0);
-//		vector <double> MedianHindcastScores(CAFEOptions.EventTypes.size(), 0.0);
-//		vector <double> ThresholdScores1(CAFEOptions.EventTypes.size(), 0.0);
-//		vector <double> ThresholdScores2(CAFEOptions.EventTypes.size(), 0.0);
+		vector <double> EventScoreMaxes(currState.EventTypes_Size(), 0.0);
+		vector <double> AlphaTotals(currState.EventTypes_Size(), 0.0);
+		vector <double> PhiTotals(currState.EventTypes_Size(), 0.0);
+//		vector <double> MaxHindcastScores(currState.EventTypes_Size(), 0.0);
+//		vector <double> MinHindcastScores(currState.EventTypes_Size(), 0.0);
+//		vector <double> MeanHindcastScores(currState.EventTypes_Size(), 0.0);
+//		vector <double> MedianHindcastScores(currState.EventTypes_Size(), 0.0);
+//		vector <double> ThresholdScores1(currState.EventTypes_Size(), 0.0);
+//		vector <double> ThresholdScores2(currState.EventTypes_Size(), 0.0);
 
-//		vector <int> PassMeans(CAFEOptions.EventTypes.size(), 0);
-//		vector <int> FailMeans(CAFEOptions.EventTypes.size(), 0);
-//		vector <int> PassMedians(CAFEOptions.EventTypes.size(), 0);
-//		vector <int> FailMedians(CAFEOptions.EventTypes.size(), 0);
-//		vector <int> PassThresholds1(CAFEOptions.EventTypes.size(), 0);
-//		vector <int> FailThresholds1(CAFEOptions.EventTypes.size(), 0);
-//		vector <int> PassThresholds2(CAFEOptions.EventTypes.size(), 0);
-//		vector <int> FailThresholds2(CAFEOptions.EventTypes.size(), 0);
+//		vector <int> PassMeans(currState.EventTypes_Size(), 0);
+//		vector <int> FailMeans(currState.EventTypes_Size(), 0);
+//		vector <int> PassMedians(currState.EventTypes_Size(), 0);
+//		vector <int> FailMedians(currState.EventTypes_Size(), 0);
+//		vector <int> PassThresholds1(currState.EventTypes_Size(), 0);
+//		vector <int> FailThresholds1(currState.EventTypes_Size(), 0);
+//		vector <int> PassThresholds2(currState.EventTypes_Size(), 0);
+//		vector <int> FailThresholds2(currState.EventTypes_Size(), 0);
 
 		size_t TableIndex = 0;
-                for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-                     EventTypeName != CAFEOptions.EventTypes.end();
-                     EventTypeName++, TableIndex++)
+                for (currState.EventTypes_Begin();
+                     currState.EventTypes_HasNext();
+                     currState.EventTypes_Next(), TableIndex++)
                 {
-			printf("%-13.13s ", (*EventTypeName).c_str());
-//			const string EventScoreFilename = BaseDir + "CorrelationCalcs/" + *ADatabase + '/' + *EventTypeName + "_EventScore.csv";
+			printf("%-13.13s ", currState.EventType_Name().c_str());
+//			const string EventScoreFilename = BaseDir + "CorrelationCalcs/" + currState.Trained_Name() 
+//							+ '/' + currState.EventType_Name() + "_EventScore.csv";
 
 //			vector <double> EventScores(0);
 //			vector <string> DateStrs(0);
-//			if (!LoadEventScores(EventScores, DateStrs, EventScoreFilename, *EventTypeName))
+//			if (!LoadEventScores(EventScores, DateStrs, EventScoreFilename, currState.EventType_Name()))
 //			{
 //				cerr << "\n\tCould not load EventScores file: " << EventScoreFilename << endl;
 //				return(3);
@@ -169,20 +172,16 @@ int main(int argc, char *argv[])
 //			DeterminPassFail(EventScores, ThresholdScores1[TableIndex], PassThresholds1[TableIndex], FailThresholds1[TableIndex]);
 //			DeterminPassFail(EventScores, ThresholdScores2[TableIndex], PassThresholds2[TableIndex], FailThresholds2[TableIndex]);
 
-			const vector <string> VarNames = CAFEOptions.GiveCAFEVarsToDo(ConfigInfo, *EventTypeName);
-
-                        for (vector<string>::const_iterator AVarName = VarNames.begin(); AVarName != VarNames.end(); AVarName++)
+			for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
                         {
-				const vector <string> CAFELabels = CAFEOptions.GiveLabelsToDo(ConfigInfo, *EventTypeName, *AVarName);
-
-                                for (vector<string>::const_iterator ALabel = CAFELabels.begin(); ALabel != CAFELabels.end(); ALabel++)
+                                for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
                                 {
-					for (size_t PeakValIndex = 0; PeakValIndex < ConfigInfo.ExtremaCount(); PeakValIndex++)
+					for (currState.Extrema_Begin(); currState.Extrema_HasNext(); currState.Extrema_Next())
 					{
-						const string FieldName = *EventTypeName + '_' + *ALabel + '_' 
-									 + ConfigInfo.GiveExtremaName(PeakValIndex);
+						const string FieldName = currState.FieldExtrema_Name();
 
-						const string FieldMeasureFilename = BaseDir + '/' + *ADatabase + '/' + FieldName + ".FieldMeasure";
+						const string FieldMeasureFilename = BaseDir + '/' + currState.Trained_Name() 
+										  + '/' + FieldName + ".FieldMeasure";
 						double Alpha = 0.0;
 						double Phi = 0.0;
 
@@ -201,71 +200,71 @@ int main(int argc, char *argv[])
 		}// end event type loop
 		cout << endl << " Event Maxes: ";
 
-		for (size_t TableIndex = 0; TableIndex < CAFEOptions.EventTypes.size(); TableIndex++)
+		for (size_t TableIndex = 0; TableIndex < currState.EventTypes_Size(); TableIndex++)
 		{
 			printf("%-13.7g ", EventScoreMaxes[TableIndex]);
 		}
 
 /*		cout << endl << "     Means: ";
-		for (size_t TableIndex = 0; TableIndex < CAFEOptions.EventTypes.size(); TableIndex++)
+		for (size_t TableIndex = 0; TableIndex < currState.EventTypes_Size(); TableIndex++)
                 {
                         printf("%-11.5g ", MeanHindcastScores[TableIndex]);
                 }
 */
 		cout << endl << "TotAlpha/Phi: ";
-		for (size_t TableIndex = 0; TableIndex < CAFEOptions.EventTypes.size(); TableIndex++)
+		for (size_t TableIndex = 0; TableIndex < currState.EventTypes_Size(); TableIndex++)
                 {
                         printf("%6.4g/%-6.4g ", AlphaTotals[TableIndex], PhiTotals[TableIndex]);
                 }
 /*
 
 		cout << endl << "   Medians: ";
-                for (size_t TableIndex = 0; TableIndex < CAFEOptions.EventTypes.size(); TableIndex++)
+                for (size_t TableIndex = 0; TableIndex < currState.EventTypes_Size(); TableIndex++)
                 {
                         printf("%-11.5g ", MedianHindcastScores[TableIndex]);
                 }
 
 		cout << endl << " Pass/Fail: ";
-                for (size_t TableIndex = 0; TableIndex < CAFEOptions.EventTypes.size(); TableIndex++)
+                for (size_t TableIndex = 0; TableIndex < currState.EventTypes_Size(); TableIndex++)
                 {
                         printf("%-5i %-5i ", PassMedians[TableIndex], FailMedians[TableIndex]);
                 }
 
 
 		cout << endl << "Threshold1: ";
-                for (size_t TableIndex = 0; TableIndex < CAFEOptions.EventTypes.size(); TableIndex++)
+                for (size_t TableIndex = 0; TableIndex < currState.EventTypes_Size(); TableIndex++)
                 {
                         printf("%-11.5g ", ThresholdScores1[TableIndex]);
                 }
 
 		cout << endl << " Pass/Fail: ";
-                for (size_t TableIndex = 0; TableIndex < CAFEOptions.EventTypes.size(); TableIndex++)
+                for (size_t TableIndex = 0; TableIndex < currState.EventTypes_Size(); TableIndex++)
                 {
                         printf("%-5i %-5i ", PassThresholds1[TableIndex], FailThresholds1[TableIndex]);
                 }
 
 
 		cout << endl << "Threshold2: ";
-                for (size_t TableIndex = 0; TableIndex < CAFEOptions.EventTypes.size(); TableIndex++)
+                for (size_t TableIndex = 0; TableIndex < currState.EventTypes_Size(); TableIndex++)
                 {
                         printf("%-11.5g ", ThresholdScores2[TableIndex]);
                 }
 
 		cout << endl << " Pass/Fail: ";
-                for (size_t TableIndex = 0; TableIndex < CAFEOptions.EventTypes.size(); TableIndex++)
+                for (size_t TableIndex = 0; TableIndex < currState.EventTypes_Size(); TableIndex++)
                 {
                         printf("%-5i %-5i ", PassThresholds2[TableIndex], FailThresholds2[TableIndex]);
                 }
 
 
 		cout << endl << "  HindMax: ";
-                for (size_t TableIndex = 0; TableIndex < CAFEOptions.EventTypes.size(); TableIndex++)
+                for (size_t TableIndex = 0; TableIndex < currState.EventTypes_Size(); TableIndex++)
                 {
                         printf("%-11.5g ", MaxHindcastScores[TableIndex]);
                 }
 
 		cout << endl << "  HindMin: ";
-                for (size_t TableIndex = 0; TableIndex < CAFEOptions.EventTypes.size(); TableIndex++)
+                for (size_t TableIndex = 0; TableIndex < currState.EventTypes_Size(); TableIndex++)
                 {
                         printf("%-11.5g ", MinHindcastScores[TableIndex]);
                 }

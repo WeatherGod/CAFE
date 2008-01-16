@@ -169,7 +169,19 @@ bool BoardConvertor::SphericalToGrid(const double &Lon, const double &Lat, size_
 
 		if (XLoc >= myXsize || YLoc >= myYsize)
 		{
+			double tempLat, tempLon;
 			cerr << "ERROR: Off the board!" << endl;
+			cerr << "     : RealXLoc = " << RealXLoc << "  RealYLoc: " << RealYLoc << endl;
+			cerr << "     : Domain Corners -\n";
+			myProjection->XYToLatLon(myXOffset, myYOffset, tempLat, tempLon);
+			cerr << "     : (0, 0) -> " << tempLat << " Lat, " << tempLon << " Lon\n";
+			myProjection->XYToLatLon(myXOffset, myYOffset + myYsize - 1, tempLat, tempLon);
+			cerr << "     : (0, " << myYsize - 1 << ") -> " << tempLat << " Lat, " << tempLon << " Lon\n";
+			myProjection->XYToLatLon(myXOffset + myXsize - 1, myYOffset, tempLat, tempLon);
+			cerr << "     : (" << myXsize - 1 << ", 0) -> " << tempLat << " Lat, " << tempLon << " Lon\n";
+			myProjection->XYToLatLon(myXOffset + myXsize - 1, myYOffset + myYsize - 1, tempLat, tempLon);
+			cerr << "     : (" << myXsize - 1 << ", " << myYsize - 1 << ") -> " << tempLat << " Lat, " << tempLon << " Lon\n";
+			
 			// off the board!
 			return(false);
 		}
@@ -194,7 +206,19 @@ bool BoardConvertor::SphericalToGrid(const double &Lon, const double &Lat, doubl
 
                 if (XLoc >= myXsize || YLoc >= myYsize)
                 {
+			double tempLat, tempLon;
                         cerr << "ERROR: Off the board!" << endl;
+			cerr << "     : XLoc = " << XLoc << "   YLoc = " << YLoc << endl;
+			cerr << "     : Domain Corners -\n";
+			myProjection->XYToLatLon(myXOffset, myYOffset, tempLat, tempLon);
+			cerr << "     : (0, 0) -> " << tempLat << " Lat, " << tempLon << " Lon\n";
+			myProjection->XYToLatLon(myXOffset, myYOffset + myYsize - 1, tempLat, tempLon);
+			cerr << "     : (0, " << myYsize - 1 << ") -> " << tempLat << " Lat, " << tempLon << " Lon\n";
+			myProjection->XYToLatLon(myXOffset + myXsize - 1, myYOffset, tempLat, tempLon);
+			cerr << "     : (" << myXsize - 1 << ", 0) -> " << tempLat << " Lat, " << tempLon << " Lon\n";
+			myProjection->XYToLatLon(myXOffset + myXsize - 1, myYOffset + myYsize - 1, tempLat, tempLon);
+			cerr << "     : (" << myXsize - 1 << ", " << myYsize - 1 << ") -> " << tempLat << " Lat, " << tempLon << " Lon\n";
+
                         // off the board!
                         return(false);
                 }

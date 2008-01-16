@@ -18,6 +18,7 @@ using namespace std;
 #include <Utils/CAFE_CmdLine.h>			// for generic CAFE command line option handling...
 #include <Utils/LonLatAnom.h>			// for LonLatAnom structure
 #include <Utils/PeakValleyFile.h>
+#include <Config/CAFEState.h>
 
 #include <TimeUtly.h>				// for RoundHour() and others
 #include <FormatUtly.h>				// for Bold(), Underline()
@@ -26,9 +27,9 @@ using namespace std;
 
 
 
-bool ProcessAndPrint(const string &ProgOutputName, const vector <string> &AllCAFEVarLabels, const time_t &EventDateTime,
+bool ProcessAndPrint(const string &ProgOutputName, const set<string> &AllCAFEVarLabels, const time_t &EventDateTime,
 		     const double &EventLon, const double &EventLat, const string &EventType,
-		     mysqlpp::Query &TheQuery, const Configuration &ConfigInfo)
+		     mysqlpp::Query &TheQuery, const CAFEState &currState)
 // This funcrion will save the data to the mysql database.
 {
 	PeakValleyFile extremumStream(ProgOutputName.c_str(), ios::in);
@@ -39,7 +40,9 @@ bool ProcessAndPrint(const string &ProgOutputName, const vector <string> &AllCAF
 		return(false);
 	}
 
-	vector<LonLatAnom> extremumInfo = extremumStream.RetrieveExtrema(AllCAFEVarLabels.size(), ConfigInfo.ExtremaCount());
+	const vector<string> extremumNames = currState.Extremum_Names();
+
+	vector<LonLatAnom> extremumInfo = extremumStream.RetrieveExtrema(AllCAFEVarLabels.size(), extremumNames.size());
 
 	extremumStream.close();
 
@@ -51,15 +54,17 @@ bool ProcessAndPrint(const string &ProgOutputName, const vector <string> &AllCAF
 
 
 	// TODO: Refactor this into the TrainingInterface class, somehow...
-	vector <string> ColumnNames(AllCAFEVarLabels.size() * ConfigInfo.ExtremaCount(), "");
+	vector<string> ColumnNames(AllCAFEVarLabels.size() * extremumNames.size());
 
 	size_t PosOffset = 0;
-	for (vector<string>::const_iterator CAFELabel = AllCAFEVarLabels.begin(); CAFELabel != AllCAFEVarLabels.end(); CAFELabel++)
+	for (set<string>::const_iterator CAFELabel = AllCAFEVarLabels.begin();
+	     CAFELabel != AllCAFEVarLabels.end();
+	     CAFELabel++)
 	{
 		// PosOffset will be incremented by this for-loop
-		for (size_t ExtremumIndex = 0; ExtremumIndex < ConfigInfo.ExtremaCount(); ExtremumIndex++, PosOffset++)
+		for (size_t ExtremumIndex = 0; ExtremumIndex < extremumNames.size(); ExtremumIndex++, PosOffset++)
 		{
-			ColumnNames[PosOffset] = *CAFELabel + '_' + ConfigInfo.GiveExtremaName(ExtremumIndex);
+			ColumnNames[PosOffset] = *CAFELabel + '_' + extremumNames[ExtremumIndex];
 		}
 	}
 
@@ -77,21 +82,17 @@ bool ProcessAndPrint(const string &ProgOutputName, const vector <string> &AllCAF
 //------------------------------------------------------------------------------------------------------------------------------
 // These two functions, MakeCmdLineArgs() and RunPeakValExtractor() will need to be modified for 
 // whatever particular extractor program that you have.
-string MakeCmdLineArgs(const string &CAFEVarName, const vector <string> &CAFEVarLabels, Configuration &ConfigInfo)
-// assume that all the CAFEVarLabels are valid.
+string MakeCmdLineArgs(CAFEState &currInfo)
 {
-	const string DataVarName = ConfigInfo.Give_DataSource_DataName(CAFEVarName);
+	const string DataVarName = currInfo.DataVar_Name();
 
         string LevelArgs = "";
 	size_t LevelWrdCnt = 0;
-        for (vector<string>::const_iterator A_CAFEVarLabel = CAFEVarLabels.begin(); A_CAFEVarLabel != CAFEVarLabels.end(); A_CAFEVarLabel++)
+        for (currInfo.EventLevels_Begin(); currInfo.EventLevels_HasNext(); currInfo.EventLevels_Next())
         {
-		const string LevelName = ConfigInfo.Give_CAFEVar_LevelName(CAFEVarName, *A_CAFEVarLabel);
-//		cout << '+' << LevelName << '+' << endl;
-
-		const vector <string> TheLevWrds = TakeDelimitedList(ConfigInfo.Give_DataSource_DataLevel(CAFEVarName, LevelName), ',');
-		LevelWrdCnt += TheLevWrds.size();
-                LevelArgs += "'" + GiveDelimitedList(TheLevWrds, "' '") + "' ";
+		const vector<string> theLevWrds = TakeDelimitedList(currInfo.DataLevel_Name(), ',');
+		LevelWrdCnt += theLevWrds.size();
+                LevelArgs += "'" + GiveDelimitedList(theLevWrds, "' '") + "' ";
         }
 
 	return("'" + DataVarName + "' " + Size_tToStr(LevelWrdCnt) + ' ' + LevelArgs);
@@ -100,10 +101,9 @@ string MakeCmdLineArgs(const string &CAFEVarName, const vector <string> &CAFEVar
 bool RunPeakValExtractor(const string &ProgName, const string &CmdLineArg, const size_t VarCount, const CAFEDomain &TheDomain,
 			 const string &DateTimeStr, const string &ProgOutputName)
 // Could an injection attack happen here?  It would be pretty difficult, but possibly feasible.
-// Not going to worry about it since I will not be using GrADs that much longer.
 {
-	const vector <float> TheLons = TheDomain.GiveLons();
-	const vector <float> TheLats = TheDomain.GiveLats();
+	const vector<float> TheLons = TheDomain.GiveLons();
+	const vector<float> TheLats = TheDomain.GiveLats();
 
 	const string SysCommand = ProgName + ' ' + DateTimeStr + ' ' + Size_tToStr(VarCount) + ' '
 				  + FloatToStr(TheLats[0]) + ' ' + FloatToStr(TheLons[0]) + ' '
@@ -216,7 +216,6 @@ int main(int argc, char *argv[])
 		return(8);
 	}
 
-	const string PeakValoutputName = CAFEOptions.CAFEPath + "/scratch/tempdata.txt";
 	Configuration ConfigInfo( CAFEOptions.CAFEPath + '/' + CAFEOptions.ConfigFilename );
 
 	if (!ConfigInfo.ValidConfig())
@@ -238,17 +237,17 @@ int main(int argc, char *argv[])
 		return(1);
 	}
 
-	const string TheTimePeriod = CAFEOptions.GiveTimePeriod(TimeOffset.HourInterval);
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
 
-	if (TheTimePeriod.empty())
+	if (!currState.TimePeriods_JumpTo(TimeOffset.HourInterval))
 	{
 		cerr << "ERROR: Invalid timeperiod: " << TimeOffset.HourInterval << endl;
 		return(8);
 	}
 
-	const string DatabaseName = CAFEOptions.GiveDatabaseName(TheTimePeriod);
-	const string ClustDatabaseName = CAFEOptions.GiveClusteredDatabaseName(TheTimePeriod);
-	const string PeakValProgName = CAFEOptions.CAFEPath + "/bin/PeakValleyPicker";
+
+	const string PeakValoutputName = currState.GetCAFEPath() + "/scratch/tempdata.txt";
+	const string PeakValProgName = currState.GetCAFEPath() + "/bin/PeakValleyPicker";
 
 	vector <double> EventLons;
 	vector <double> EventLats;
@@ -280,10 +279,10 @@ int main(int argc, char *argv[])
 	                        EventFile.close();
         	                return(9);
                 	}
-			else if (binary_search(CAFEOptions.EventTypes.begin(), CAFEOptions.EventTypes.end(), TempHold[1]))
+			else if (currState.EventType_Check(TempHold[1]))
 			{
-				// the event type is an event type indicated by given command 
-				// line options or by the defaults (config file) if no options are given
+				// the event type is an event type indicated by given command-line
+				// options or by the defaults (config file) if no options are given
 				time_t TheDateTime = GetTimeUTC(TempHold[0]);
 				TheDateTime = IncrementDateTime(TheDateTime, TimeOffset);	// by default, no change occurs
 				RoundHour(TheDateTime, RoundingHourValue);			// round to the nearest RoundingHourValue hours, starting at 00Z.
@@ -318,7 +317,7 @@ int main(int argc, char *argv[])
 
         try
         {
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.LoginUserName, DatabaseName);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetLoginUserName(), currState.Untrained_Name());
 	}
 	catch (const string &ErrStr)
 	{
@@ -343,60 +342,43 @@ int main(int argc, char *argv[])
 	{
 		mysqlpp::Query TheQuery = ServerLink.query();
 
-		vector <string> UniqueTypesList(0);
-
 		for (size_t DateIndex = 0; DateIndex < EventDates.size(); DateIndex++)
 		{
-			if (!binary_search(UniqueTypesList.begin(), UniqueTypesList.end(), EventTypes[DateIndex]))
-			{
-				UniqueTypesList.insert(lower_bound(UniqueTypesList.begin(), UniqueTypesList.end(), EventTypes[DateIndex]), 
-						       EventTypes[DateIndex]);
-			}
-
-			char GradDateTimeStr[13];
-			memset(GradDateTimeStr, '\0', 13);
-			char DateTimeStr[20];
-			memset(DateTimeStr, '\0', 20);
-
-			struct tm DateTime;
-		        DateTime.tm_sec = 0;
- 	        	DateTime.tm_min = 0;
-        	
-			localtime_r(&EventDates[DateIndex], &DateTime);
-			strftime(GradDateTimeStr, 13, "%HZ%d%b%Y", &DateTime);
-			strftime(DateTimeStr, 20, "%Y-%m-%d %H:%M:%S", &DateTime);
+			const string GradDateTimeStr = GiveTimeUTC(EventDates[DateIndex], "%HZ%d%b%Y");
+			const string DateTimeStr = GiveTimeUTC(EventDates[DateIndex], "%Y-%m-%d %H:%M:%S");
 
 			cout << "EventType: " << EventTypes[DateIndex] << " for index: " << DateIndex << "  Date: " << DateTimeStr << endl;
 			
 			InsertEvent(EventDates[DateIndex], EventLons[DateIndex], EventLats[DateIndex], TheQuery, EventTypes[DateIndex]);
-			
-			const vector <string> CAFEVarNames = CAFEOptions.GiveCAFEVarsToDo(ConfigInfo, EventTypes[DateIndex]);
-			vector <string> AllCAFEVarLabels(0);
 
+			currState.EventTypes_JumpTo(EventTypes[DateIndex]);
+			
+			set<string> allCAFEVarLabels;
 			string CmdLineArg = "";
 			
-			for (vector<string>::const_iterator AVarName = CAFEVarNames.begin(); AVarName != CAFEVarNames.end(); AVarName++)
+			for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
 			{
-				const size_t OldSize = AllCAFEVarLabels.size();
-				const vector <string> CAFELabels = CAFEOptions.GiveLabelsToDo(ConfigInfo, EventTypes[DateIndex], *AVarName);
-				AllCAFEVarLabels.insert(AllCAFEVarLabels.end(), CAFELabels.begin(), CAFELabels.end());
+				set<string> eventFields;
+				for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
+				{
+					const set<string> fieldNames = currState.EventField_Names();
+					eventFields.insert(fieldNames.begin(), fieldNames.end());
+				}
+				
+				allCAFEVarLabels.insert(eventFields.begin(), eventFields.end());
 
-				inplace_merge(AllCAFEVarLabels.begin(), AllCAFEVarLabels.begin() + OldSize, AllCAFEVarLabels.end());
-				// this is ok since CAFELabels is sorted, and are
-				// unique from other calls to GiveLabelsToDo()
-
-				// assumes that the AVarName and CAFELabels are all valid.  If not, hilarity ensues...
-				CmdLineArg += MakeCmdLineArgs(*AVarName, CAFELabels, ConfigInfo) + ' ';
+				CmdLineArg += MakeCmdLineArgs(currState) + ' ';
 			}// end CAFEVar loop
 			
-			if (!RunPeakValExtractor(PeakValProgName, CmdLineArg, CAFEVarNames.size(), *ConfigInfo.GiveDomain(),
+			if (!RunPeakValExtractor(PeakValProgName, CmdLineArg, currState.EventVars_Size(), currState.GetCAFEDomain(),
 			                         GradDateTimeStr, PeakValoutputName))
                         {
                                 throw("Unable to execute the PeakValley collection. EventIndex: " + Size_tToStr(DateIndex));
                         }
 
-			if (!ProcessAndPrint(PeakValoutputName, AllCAFEVarLabels, EventDates[DateIndex], EventLons[DateIndex], EventLats[DateIndex],
-					     EventTypes[DateIndex], TheQuery, ConfigInfo))
+			if (!ProcessAndPrint(PeakValoutputName, allCAFEVarLabels, 
+					     EventDates[DateIndex], EventLons[DateIndex], EventLats[DateIndex],
+					     EventTypes[DateIndex], TheQuery, currState))
                         {
                                 throw("Unable to ProcessAndPrint(). EventIndex: " + Size_tToStr(DateIndex));
                         }
@@ -404,21 +386,21 @@ int main(int argc, char *argv[])
 
 
 
+		const set<string> uniqueEventTypes(EventTypes.begin(), EventTypes.end());
 
-
-		ServerLink.select_db(ClustDatabaseName);
-		for (vector<string>::const_iterator AnEventType = UniqueTypesList.begin(); 
-		     AnEventType != UniqueTypesList.end(); 
+		ServerLink.select_db(currState.Trained_Name());
+		for (set<string>::const_iterator AnEventType = uniqueEventTypes.begin(); 
+		     AnEventType != uniqueEventTypes.end(); 
 		     AnEventType++)
 		{
 			TheQuery << "INSERT IGNORE " << *AnEventType << " (DateInfo, Event_Lon, Event_Lat) "
-				 << "SELECT DateInfo, Event_Lon, Event_Lat FROM " << DatabaseName << '.' << *AnEventType;
+				 << "SELECT DateInfo, Event_Lon, Event_Lat FROM " << currState.Untrained_Name() << '.' << *AnEventType;
 
 			TheQuery.execute();
 
 			if (!TheQuery.success())
 			{
-				throw("Unable to insert event information to the clustered database: " + ClustDatabaseName
+				throw("Unable to insert event information to the clustered database: " + currState.Trained_Name()
 				      + " for event type: " + *AnEventType);
 			}
 		}

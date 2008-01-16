@@ -9,6 +9,7 @@ using namespace std;
 #include <cctype>			// for size_t
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 
 #include "Utils/CAFEUtly.h"			// for LoadEventScores()
 #include <StrUtly.h>			// for TakeDelimitedList(), StrToDouble(), StripWhiteSpace()
@@ -54,7 +55,7 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 	cout << "\t\tan optional prefix specifier to use if the event scores are not from the usual hindcast.\n\n";
 
 #ifdef _SAMPLINGRUN_
-        cout << Bold("\t--case") << endl;
+        cout << Bold("\t--fold") << endl;
 	cout << "\t\tspecify which case is being dealt with so that the correct event scores and thresholds are obtained.\n\n";
 #endif
 
@@ -101,7 +102,7 @@ int main(int argc, char *argv[])
         }
 
 #ifdef _SAMPLINGRUN_
-        int CaseNumber = -1;
+        int FoldNumber = -1;
 #endif
 
 	string OptionalPrefix = "";
@@ -123,9 +124,9 @@ int main(int argc, char *argv[])
 			OptionalPrefix = CommandArgs[ArgIndex].substr(9);
 		}
 #ifdef _SAMPLINGRUN_
-                else if (CommandArgs[ArgIndex].find("--case=") == 0)
+                else if (CommandArgs[ArgIndex].find("--fold=") == 0)
                 {
-                        CaseNumber = StrToInt( CommandArgs[ArgIndex].substr(7) );
+                        FoldNumber = StrToInt( CommandArgs[ArgIndex].substr(7) );
                 }
 #endif
                 else
@@ -137,9 +138,9 @@ int main(int argc, char *argv[])
         }
 
 #ifdef _SAMPLINGRUN_
-	if (CaseNumber <= 0 || CaseNumber > 10)
+	if (FoldNumber <= 0 || FoldNumber > 10)
 	{
-		cerr << "ERROR: Invalid case number.  The value was interpreated as: " << CaseNumber << endl;
+		cerr << "ERROR: Invalid fold number.  The value was interpreated as: " << FoldNumber << endl;
 		cerr << "Note: An invalid conversion from string to int returns a zero." << endl;
 		return(8);
 	}
@@ -160,22 +161,22 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
-	const string BaseDir = CAFEOptions.CAFEPath + "/AnalysisInfo/";
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
+	const string BaseDir = currState.GetCAFEPath() + "/AnalysisInfo/";
 
 	try
 	{
-        	for (vector<string>::const_iterator ADatabaseName( CAFEOptions.ClustDatabaseNames.begin()), ATimePeriod( CAFEOptions.TimePeriods.begin() );
-	             ADatabaseName != CAFEOptions.ClustDatabaseNames.end();
-        	     ADatabaseName++, ATimePeriod++)
+        	for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
         	{
 			cout << endl;
 			vector <string> TheTableList;
 			vector <double> ThresholdVals;
 
 #ifndef _SAMPLINGRUN_
-	                const string ThresholdFileName = BaseDir + *ADatabaseName + "/ThresholdVals.dat";
+	                const string ThresholdFileName = BaseDir + currState.Trained_Name() + "/ThresholdVals.dat";
 #else
-        	        const string ThresholdFileName = BaseDir + *ADatabaseName + "/ThresholdVals_Fold_" + IntToStr(CaseNumber) + ".dat";
+        	        const string ThresholdFileName = BaseDir + currState.Trained_Name() + "/ThresholdVals_Fold_" + IntToStr(FoldNumber) + ".dat";
 #endif
 
 			if (!LoadThresholdVals(ThresholdFileName, TheTableList, ThresholdVals))
@@ -183,39 +184,38 @@ int main(int argc, char *argv[])
 				throw("Could not load the threshold values from file: " + ThresholdFileName);
 			}
 
-               	        for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-                             EventTypeName != CAFEOptions.EventTypes.end();
-                             EventTypeName++)
+               	        for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
                         {
-				if (find(TheTableList.begin(), TheTableList.end(), *EventTypeName) == TheTableList.end())
+				if (find(TheTableList.begin(), TheTableList.end(), currState.EventType_Name()) == TheTableList.end())
 				{
-					cerr << "We do not have the threshold value for this event type: " << *EventTypeName << endl;
+					cerr << "We do not have the threshold value for this event type: " << currState.EventType_Name() << endl;
 					continue;
 				}
 
-				const size_t ThreshIndex = find(TheTableList.begin(), TheTableList.end(), *EventTypeName) - TheTableList.begin();
+				const size_t ThreshIndex = find(TheTableList.begin(), TheTableList.end(), currState.EventType_Name()) - TheTableList.begin();
 
 				vector <double> EventScores(0);
 				vector <string> EventDates(0);
 
-				string EventScoreFilename = BaseDir + "/CorrelationCalcs/" + *ADatabaseName + "/";
+				string EventScoreFilename = BaseDir + "/CorrelationCalcs/" + currState.Trained_Name() + "/";
 
-				EventScoreFilename += (OptionalPrefix != "") ? (OptionalPrefix + '.') : "";
+				EventScoreFilename += (!OptionalPrefix.empty()) ? (OptionalPrefix + '.') : "";
 
 #ifdef _SAMPLINGRUN_
-				EventScoreFilename += *EventTypeName + "_EventScore_Fold_" + IntToStr(CaseNumber) + ".csv";
+				EventScoreFilename += currState.EventType_Name() + "_EventScore_Fold_" + IntToStr(FoldNumber) + ".csv";
 #else
-				EventScoreFilename += *EventTypeName + "_EventScore.csv";
+				EventScoreFilename += currState.EventType_Name() + "_EventScore.csv";
 #endif
 
-				if (!LoadEventScores(EventScores, EventDates, EventScoreFilename, *EventTypeName))
+				if (!LoadEventScores(EventScores, EventDates, EventScoreFilename, currState.EventType_Name()))
 				{
 					throw("Could not read from the event scores file: " + EventScoreFilename);
 				}
 
 				vector <size_t> TruthTable = GenerateTruthTable(EventScores, ThresholdVals[ThreshIndex]);
 
-				printf("Time Period: %-5s  Table: %s\n", ATimePeriod->c_str(), EventTypeName->c_str());
+				printf("Time Period: %-5s  Table: %s\n", currState.TimePeriod_Name().c_str(), 
+									 currState.EventType_Name().c_str());
 				printf("                   Passed: %%%5.3f    Count: %zu\n", 
 				       100.0 * ((double) TruthTable[0]) / ((double) EventScores.size()),
 				       TruthTable[0]);

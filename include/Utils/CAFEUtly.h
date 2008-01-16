@@ -10,11 +10,14 @@
 // TODO: Refactor this need away.
 #include "SPAnalysis/BoardConvertor.h"
 #include "SPAnalysis/ClusterBoard.h"
-#include "Config/Configuration.h"
+#include "Config/CAFEDomain.h"
+
+#include <Projection_t.h>
 
 
 // TODO: Consider redesigning...
-bool GetGridInfo(const Configuration &ConfigInfo, BoardConvertor &ProjectionInfo, const size_t &Radius);
+bool GetGridInfo(const Projection_t* theProjection, const CAFEDomain &theDomain,
+		 BoardConvertor &ProjectionInfo, const size_t &Radius);
 bool LoadClusterBoard(ClusterBoard &EmptyBoard, const vector <LonLatAnomDate> &TheMembers,
                       const BoardConvertor &ProjectionTranslator);
 

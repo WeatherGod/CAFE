@@ -6,6 +6,7 @@ using namespace std;
 #include <cctype>		// for size_t
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 
 #include <mysql++/mysql++.h>
 #include "Utils/CAFE_SQLUtly.h"	// for EstablishConnection()
@@ -83,11 +84,13 @@ int main(int argc, char *argv[])
 		return(8);
 	}
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
 	mysqlpp::Connection ServerLink;
 
 	try
 	{
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.LoginUserName);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetLoginUserName());
 	}
 	catch (const exception& Err)
 	{
@@ -111,12 +114,10 @@ int main(int argc, char *argv[])
 	
 	try
 	{
-		for (vector<string>::const_iterator ATimePeriod = CAFEOptions.TimePeriods.begin();
-		     ATimePeriod != CAFEOptions.TimePeriods.end();
-		     ATimePeriod++)
+		for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
 		{
-			const string Database = CAFEOptions.GiveDatabaseName(*ATimePeriod);
-			const string ClustDatabase = CAFEOptions.GiveClusteredDatabaseName(*ATimePeriod);
+			const string Database = currState.Untrained_Name();
+			const string ClustDatabase = currState.Trained_Name();
 
 			mysqlpp::NoExceptions NE(ServerLink);		// if a database doesn't exist, it isn't an error.
 

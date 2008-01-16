@@ -7,6 +7,8 @@ using namespace std;
 #include <fstream>
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
+
 #include <StrUtly.h>			// for StrToUpper()
 #include <CmdLineUtly.h>                // for ProcessFlatCommandLine()
 #include "Utils/CAFE_CmdLine.h"               // for generic CAFE command line handling...
@@ -97,8 +99,9 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
 
-	const string ScriptName = CAFEOptions.CAFEPath + "/Objective_Hindcast.sh";
+	const string ScriptName = currState.GetCAFEPath() + "/Objective_Hindcast.sh";
 	ofstream ShScript(ScriptName.c_str());
 
 	if (!ShScript.is_open())
@@ -107,18 +110,18 @@ int main(int argc, char *argv[])
                 return(9);
         }
 
-	for (vector<string>::const_iterator ADatabaseName( CAFEOptions.DatabaseNames.begin()), ATimePeriod( CAFEOptions.TimePeriods.begin() );
-             ADatabaseName != CAFEOptions.DatabaseNames.end();
-             ADatabaseName++, ATimePeriod++)
+	for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
         {
-		for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-                     EventTypeName != CAFEOptions.EventTypes.end();
-                     EventTypeName++)
+		for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
 		{
-			const string FreshFileName = CAFEOptions.CAFEPath + "/SpecialDateLists/Fresh_" + *ATimePeriod + '_' + *EventTypeName + ".dat";
+			const string FreshFileName = currState.GetCAFEPath() + "/SpecialDateLists/Fresh_" 
+						     + currState.TimePeriod_Name() + '_' + currState.EventType_Name() + ".dat";
+
+			const string NonFileName = currState.GetCAFEPath() + "/SpecialDateLists/Non_"
+						   + currState.TimePeriod_Name() + '_' + currState.EventType_Name() + ".dat";
+
+
 			ifstream FreshFile(FreshFileName.c_str());
-			const string NonFileName = CAFEOptions.CAFEPath + "/SpecialDateLists/Non_" + *ATimePeriod + '_' + *EventTypeName + ".dat";
-			ifstream NonFile(NonFileName.c_str());
 
 			if (!FreshFile.is_open())
 			{
@@ -129,15 +132,18 @@ int main(int argc, char *argv[])
 			getline(FreshFile, LineRead);
 			while (!FreshFile.eof())
 			{
-				ShScript << CAFEOptions.CAFEPath << "/TotalRecall " << LineRead << '\n'
-				         << CAFEOptions.CAFEPath << "/CalcCorrelation --type=UNTRAINED." 
-					 << *EventTypeName << " --silent --date=" << LineRead
-					 << " --database=" << *ADatabaseName << endl;
+				ShScript << currState.GetCAFEPath() << "/TotalRecall " << LineRead << '\n'
+				         << currState.GetCAFEPath() << "/CalcCorrelation --type=UNTRAINED." 
+					 << currState.EventType_Name() << " --silent --date=" << LineRead
+					 << " --database=" << currState.Untrained_Name() << endl;
 					
 				getline(FreshFile, LineRead);
 			}
 
 			FreshFile.close();
+
+
+			ifstream NonFile(NonFileName.c_str());
 			
 			if (!NonFile.is_open())
                         {
@@ -148,10 +154,10 @@ int main(int argc, char *argv[])
 			getline(NonFile, LineRead);
                         while (!NonFile.eof())
                         {
-				ShScript << CAFEOptions.CAFEPath << "/TotalRecall " << LineRead << '\n'
-                                         << CAFEOptions.CAFEPath << "/CalcCorrelation --type=NON." 
-					 << *EventTypeName << " --silent --date=" << LineRead
-					 << " --database=" << *ADatabaseName << endl;
+				ShScript << currState.GetCAFEPath() << "/TotalRecall " << LineRead << '\n'
+                                         << currState.GetCAFEPath() << "/CalcCorrelation --type=NON." 
+					 << currState.EventType_Name() << " --silent --date=" << LineRead
+					 << " --database=" << currState.Untrained_Name() << endl;
 
                                 getline(NonFile, LineRead);
                         }

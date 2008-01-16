@@ -239,7 +239,7 @@ size_t DataSource::GiveDataVarCount() const
 	return(myDataVars.size());
 }
 
-string DataSource::GiveDataVarName(const string &CAFEVarName) const
+const string& DataSource::GiveDataVarName(const string &CAFEVarName) const
 {
 	map<string, DataVar>::const_iterator ADataVar = myDataVars.find(CAFEVarName);
         if (ADataVar == myDataVars.end())
@@ -250,7 +250,7 @@ string DataSource::GiveDataVarName(const string &CAFEVarName) const
 	return(ADataVar->second.GiveDataVarName());
 }
 
-string DataSource::GiveDataLevel(const string &CAFEVarName, const size_t &CAFELevelIndex) const
+const string& DataSource::GiveDataLevel(const string &CAFEVarName, const size_t &CAFELevelIndex) const
 {
 	map<string, DataVar>::const_iterator ADataVar = myDataVars.find(CAFEVarName);
 	if (ADataVar == myDataVars.end())

@@ -8,6 +8,7 @@ using namespace std;
 
 #include <StrUtly.h>			// for GiveDelimitedList()
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 #include <CmdLineUtly.h>		// for ProcessFlatCommandLine()
 #include "Utils/CAFE_CmdLine.h"		// for generic CAFE command line handling...
 
@@ -98,18 +99,23 @@ int main(int argc, char *argv[])
 		PrintSyntax(CAFEOptions);
 		return(8);
 	}
-        
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+        
+	// TODO: Bit of a kludge for now...
+	const set<string> eventNames = currState.EventType_Names();
 	// Do the unclustered stuff first
-	string SysCommand = "matlab -nodisplay -nodesktop -r \"MakeFingerprintMaps('" + CAFEOptions.CAFEPath
-                            + "', '" + CAFEOptions.ConfigFilename + "', {'" + GiveDelimitedList(CAFEOptions.EventTypes, "','")
+	string SysCommand = "matlab -nodisplay -nodesktop -r \"MakeFingerprintMaps('" + currState.GetCAFEPath()
+                            + "', '" + currState.GetConfigFilename() + "', {'" 
+			    + GiveDelimitedList(vector<string>(eventNames.begin(), eventNames.end()), "','")
                             + "'},0)\"";
 
         system(SysCommand.c_str());
 
 	// Then do the clustered stuff next
-        SysCommand = "matlab -nodisplay -nodesktop -r \"MakeFingerprintMaps('" + CAFEOptions.CAFEPath
-                            + "', '" + CAFEOptions.ConfigFilename + "', {'" + GiveDelimitedList(CAFEOptions.EventTypes, "','")
+        SysCommand = "matlab -nodisplay -nodesktop -r \"MakeFingerprintMaps('" + currState.GetCAFEPath()
+                            + "', '" + currState.GetConfigFilename() + "', {'" 
+			    + GiveDelimitedList(vector<string>(eventNames.begin(), eventNames.end()), "','")
                             + "'},1)\"";
 
         system(SysCommand.c_str());

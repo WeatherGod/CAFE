@@ -106,6 +106,22 @@ class CAFEParam
 		// ---------------
 		const vector<string>& GetExtremumNames() const;
 
+
+		// ************************************
+		// --- Basic Interpretive Functions ---
+		// ************************************
+		/*   These functions perform basic interpretive
+			duties of the CAFE parameters.  For
+			example, one function would return all
+			of the field names for a particular
+			event type.
+		*/
+		// Returns all field names for the entire CAFE config.
+		set<string> GetCAFEFields() const;
+
+		// Returns all field names across the Event Types.
+		set<string> GetEventFields() const;
+
 	private:
 		int myVerboseLevel;
 		string myUntrainedNameStem;

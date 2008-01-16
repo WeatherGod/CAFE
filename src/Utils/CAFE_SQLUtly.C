@@ -4,6 +4,7 @@
 using namespace std;
 
 #include <vector>
+#include <set>
 #include <string>
 #include <mysql++/mysql++.h>
 
@@ -19,8 +20,7 @@ using namespace std;
 #include <StrUtly.h>
 #include <TimeUtly.h>				// for GiveTimeUTC()
 
-#include "Config/Configuration.h"
-#include "Utils/CAFE_CmdLine.h"
+#include "Config/CAFEState.h"
 
 #include "SPAnalysis/ClusterBoard.h"
 #include "SPAnalysis/BoardConvertor.h"
@@ -701,26 +701,34 @@ vector <string> GiveTableNames(mysqlpp::Query &TheQuery, const string &Database)
 	return(TableNames);
 }
 
-bool DropTables(mysqlpp::Query &TheQuery, const vector <string> &TableNames)
+bool DropTables(mysqlpp::Query &TheQuery, const set<string> &TableNames)
 {
 	if (TableNames.empty())
         {
                 return(true);
         }
 
-	if (!TheQuery.exec("DROP TABLE IF EXISTS " + GiveDelimitedList(TableNames, ',')))
+	set<string>::const_iterator ATable = TableNames.begin();
+	string tableList = *ATable;
+	string fieldMeasList = *ATable + "_FieldMeas";
+	ATable++;
+	for (; ATable != TableNames.end(); ATable++)
+	{
+		tableList += ", " + *ATable;
+		fieldMeasList += ", " + *ATable + "_FieldMeas";
+	}
+
+	if (!TheQuery.exec("DROP TABLE IF EXISTS " + tableList))
 	{
 		return(false);
 	}
 
-// A bit of a kludge for now.
-	string TableList = *TableNames.begin() + "_FieldMeas";
-	for (vector<string>::const_iterator ATable = TableNames.begin() + 1; ATable != TableNames.end(); ATable++)
+	if (!TheQuery.exec("DROP TABLE IF EXISTS " + fieldMeasList))
 	{
-		TableList += "," + *ATable + "_FieldMeas";
+		return(false);
 	}
 
-	return(TheQuery.exec("DROP TABLE IF EXISTS " + TableList));
+	return(true);
 }
 
 bool ClearTable(mysqlpp::Query &TheQuery, const string &TableName)
@@ -754,21 +762,18 @@ bool UpdateTable(const vector <LonLatAnom> &TheValues, const vector <string> &Co
 }
 
 
-void CreateFieldMeasureTable(mysqlpp::Query &TheQuery, const string &EventTypeName, const Configuration &ConfigInfo, const CmdOptions &CAFEOptions)
+void CreateFieldMeasureTable(mysqlpp::Query &TheQuery, const string &EventTypeName, CAFEState &currState)
 {
 	size_t MaxSize = 0;
-	const vector <string> VarNames = CAFEOptions.GiveCAFEVarsToDo(ConfigInfo, EventTypeName);
 	vector <string> FieldNames(0);
 	
-        for (vector<string>::const_iterator AVarName = VarNames.begin(); AVarName != VarNames.end(); AVarName++)
-        {
-                const vector <string> CAFELabels = CAFEOptions.GiveLabelsToDo(ConfigInfo, EventTypeName, *AVarName);
-
-                for (vector<string>::const_iterator ALabel = CAFELabels.begin(); ALabel != CAFELabels.end(); ALabel++)
+	for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
+	{
+		for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
                 {
-                        for (size_t PeakValIndex = 0; PeakValIndex < ConfigInfo.ExtremaCount(); PeakValIndex++)
+                        for (currState.Extrema_Begin(); currState.Extrema_HasNext(); currState.Extrema_Next())
                         {
-				FieldNames.push_back(*ALabel + '_' + ConfigInfo.GiveExtremaName(PeakValIndex));
+				FieldNames.push_back(currState.FieldExtremum_Name());
 				if (FieldNames.back().size() > MaxSize)
 				{
 					MaxSize = FieldNames.back().size();
@@ -1070,7 +1075,7 @@ void SaveGammaChiMaxValues(mysqlpp::Query &TheQuery, const string &FieldName,
 }
 
 
-void CreateTable(mysqlpp::Query &TheQuery, const string &EventTypeName, const Configuration &ConfigInfo, const CmdOptions &CAFEOptions)
+void CreateTable(mysqlpp::Query &TheQuery, const string &EventTypeName, CAFEState &currState)
 {
 	vector <string> DataNames(3);
         DataNames[0] = "StdAnom float(8, 6)";
@@ -1080,21 +1085,18 @@ void CreateTable(mysqlpp::Query &TheQuery, const string &EventTypeName, const Co
 	TheQuery << "CREATE TABLE " << EventTypeName << "(DateInfo datetime NOT NULL PRIMARY KEY,"
 		 << " Event_Lon float(6, 3) NOT NULL, Event_Lat float(6, 3) NOT NULL";
 
-	const vector <string> VarNames = CAFEOptions.GiveCAFEVarsToDo(ConfigInfo, EventTypeName);
-        for (vector<string>::const_iterator AVarName = VarNames.begin(); AVarName != VarNames.end(); AVarName++)
+        for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
         {
-	        const vector <string> CAFELabels = CAFEOptions.GiveLabelsToDo(ConfigInfo, EventTypeName, *AVarName);
-
-                for (vector<string>::const_iterator ALabel = CAFELabels.begin(); ALabel != CAFELabels.end(); ALabel++)
+                for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
 		{
-	                for (size_t PeakValIndex = 0; PeakValIndex < ConfigInfo.ExtremaCount(); PeakValIndex++)
+	                for (currState.Extrema_Begin(); currState.Extrema_HasNext(); currState.Extrema_Next())
                         {
-	                        string TypeName = *ALabel + '_' + ConfigInfo.GiveExtremaName(PeakValIndex);
-                                TheQuery << ',' << TypeName + '_' + DataNames.at(0);
+	                        const string fieldName = currState.FieldExtremum_Name();
+                                TheQuery << ',' << fieldName + '_' + DataNames.at(0);
 
                                 for (size_t DataIndex = 1; DataIndex < DataNames.size(); DataIndex++)
                                 {
-        	                        TheQuery << ", " << TypeName + '_' + DataNames[DataIndex];
+        	                        TheQuery << ", " << fieldName + '_' + DataNames[DataIndex];
                                 }
                         }// end of extremum loop
 		}// end of Label loop

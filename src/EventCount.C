@@ -7,6 +7,7 @@ using namespace std;
 #include <string>
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 
 #include <mysql++/mysql++.h>
 
@@ -88,12 +89,13 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
 
 	mysqlpp::Connection ServerLink;
 
         try
         {
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.CAFEUserName, "", false);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetCAFEUserName(), "", false);
         }
         catch (const exception& Err)
         {
@@ -117,33 +119,30 @@ int main(int argc, char *argv[])
 
 	try
 	{
-		for (vector<string>::const_iterator ATimePeriod = CAFEOptions.TimePeriods.begin();
-                     ATimePeriod != CAFEOptions.TimePeriods.end();
-                     ATimePeriod++)
+		for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
 	        {
-        	        const string Database = CAFEOptions.GiveDatabaseName(*ATimePeriod);
+        	        const string Database = currState.Untrained_Name();
 		
 			if (!ServerLink.select_db(Database))
 			{
 				throw("Could not select the database: " + Database + "\nMySQL message: " + ServerLink.error());
 			}
                 
-			if (system(("mkdir --parents '" + CAFEOptions.CAFEPath + "/AnalysisInfo/" + Database + "'").c_str()) != 0)
+			if (system(("mkdir --parents '" + currState.GetCAFEPath() + "/AnalysisInfo/" + Database + "'").c_str()) != 0)
 			{
-				cerr << "WARNING: Problems while trying to make directory " + CAFEOptions.CAFEPath + "/AnalysisInfo/" + Database << endl;
+				cerr << "WARNING: Problems while trying to make directory " + currState.GetCAFEPath() + "/AnalysisInfo/" + Database << endl;
 				cerr << "       : You may have difficulties saving the event counts.\n";
 			}
 
 			mysqlpp::Query TheQuery( MakeLoader_EventCnt(ServerLink) );
 
-	                for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-	                     EventTypeName != CAFEOptions.EventTypes.end();
-        	             EventTypeName++)
+	                for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
         	        {
-                	        const string QueryOutput = CAFEOptions.CAFEPath + "/AnalysisInfo/" + Database + '/' + *EventTypeName + ".eventcnt";
+                	        const string QueryOutput = currState.GetCAFEPath() + "/AnalysisInfo/" + Database 
+							   + '/' + currState.EventType_Name() + ".eventcnt";
 				
 
-				const size_t EventCount = LoadEventCnt(TheQuery, *EventTypeName);
+				const size_t EventCount = LoadEventCnt(TheQuery, currState.EventType_Name());
 
 				string SysCommand = "echo " + Size_tToStr(EventCount) + " > " + QueryOutput;
 				if (system(SysCommand.c_str()) != 0)

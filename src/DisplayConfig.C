@@ -90,43 +90,46 @@ int main(int argc, char* argv[])
 
 	cerr << "Good merge!\n";
 
-	CAFEState curState( CAFEOptions.ConfigMerge( configInfo.GiveCAFEInfo() ) );
+	CAFEState currState( CAFEOptions.ConfigMerge( configInfo.GiveCAFEInfo() ) );
 
 	cout << "CAFE State\n"
 	     << "==========\n"
-	     << "Verbose Level: " << curState.GetVerboseLevel() << '\n'
-	     << "Conf Filename: " << curState.GetConfigFilename() << '\n'
-	     << "CAFE Path    : " << curState.GetCAFEPath() << '\n'
-	     << "Login Name   : " << curState.GetLoginUserName() << '\n'
-	     << "CAFEUserName : " << curState.GetCAFEUserName() << '\n'
-	     << "ServerName   : " << curState.GetServerName() << '\n'
-	     << "TimePeriods  : " << curState.TimePeriods_Size() << '\n'
+	     << "Verbose Level: " << currState.GetVerboseLevel() << '\n'
+	     << "Conf Filename: " << currState.GetConfigFilename() << '\n'
+	     << "CAFE Path    : " << currState.GetCAFEPath() << '\n'
+	     << "Login Name   : " << currState.GetLoginUserName() << '\n'
+	     << "CAFEUserName : " << currState.GetCAFEUserName() << '\n'
+	     << "ServerName   : " << currState.GetServerName() << '\n'
+	     << "TimePeriods  : " << currState.TimePeriods_Size() << '\n'
+	     << "DataSource   : " << currState.DataSource_Name() << '\n'
 	     << "Offset\t Name\t Untrained\t Trained" << endl;
 	
-	for (curState.TimePeriods_Begin(); curState.TimePeriods_HasNext(); curState.TimePeriods_Next())
+	for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
 	{
-		cout << curState.TimePeriod_Offset() << "\t "
-		     << curState.TimePeriod_Name() << "\t "
-		     << curState.Untrained_Name() << "\t "
-		     << curState.Trained_Name() << '\n';
+		cout << currState.TimePeriod_Offset() << "\t "
+		     << currState.TimePeriod_Name() << "\t "
+		     << currState.Untrained_Name() << "\t "
+		     << currState.Trained_Name() << '\n';
 	}
 
-	cout << "\nEventTypes: " << curState.EventTypes_Size() << endl;
+	cout << "\nEventTypes: " << currState.EventTypes_Size() << endl;
 
-	for (curState.EventTypes_Begin(); curState.EventTypes_HasNext(); curState.EventTypes_Next())
+	for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
 	{
-		cout << '\t' << curState.EventType_Name() << "\t EventVars: " << curState.EventVars_Size() << '\n';
+		cout << '\t' << currState.EventType_Name() << "\t EventVars: " << currState.EventVars_Size() << endl;
 
-		for (curState.EventVars_Begin(); curState.EventVars_HasNext(); curState.EventVars_Next())
+		for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
 		{
-			cout << "\t\t" << curState.EventVar_Name() << "\t " << curState.DataVar_Name() 
-			     << "\t Fields: " << curState.CAFELevels_Size() << '\n';
+			cerr << "\t\t";
+			cerr << currState.EventVar_Name() << "\t ";
+			cerr << currState.DataVar_Name() << "\t Fields: ";
+			cerr << currState.EventLevels_Size() << endl;
 
-			for (curState.CAFELevels_Begin(); curState.CAFELevels_HasNext(); curState.CAFELevels_Next())
+			for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
 			{
 				cerr << "\t\t\t";
-				cerr << curState.CAFEField_Name() << "\t "; 
-				cerr << curState.DataLevel_Name() << '\n';
+				cerr << currState.EventField_Name() << "\t "; 
+				cerr << currState.DataLevel_Name() << '\n';
 			}
 
 			cout << '\n';
@@ -136,4 +139,4 @@ int main(int argc, char* argv[])
 	}
 
 	return(0);
-}	
+}

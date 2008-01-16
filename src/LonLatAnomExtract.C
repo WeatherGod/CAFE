@@ -2,10 +2,12 @@ using namespace std;
 
 #include <iostream>
 #include <vector>
+#include <set>
 #include <cctype>					// for size_t
 #include <string>
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 #include "Utils/CAFEUtly.h"					// for WriteLonLatAnoms(), WriteFieldMeasure()
 #include "Utils/CAFE_SQLUtly.h"				// for LoadLonLatAnoms(), LoadFieldMeasValues(), EstablishConnection()
 #include "Utils/CAFE_CmdLine.h"				// for generic CAFE command-line options support
@@ -18,7 +20,6 @@ using namespace std;
 void PrintSyntax(const CmdOptions &CAFEOptions)
 {
         cout << "\nLonLatAnomExtract " << Bold("[--help] [--syntax]") << endl;
-	cout << "\t\t\tUSE THIS PROGRAM TO HELP DEAL WITH BACKWARDS COMPATIBILITY ISSUES!" << endl;
 	cout << endl;
 
         CAFEOptions.PrintSyntax(17, 63);
@@ -41,10 +42,12 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 }
 
 
-void DoDatabaseExtraction(mysqlpp::Connection &ServerLink, const Configuration &ConfigInfo, const CmdOptions &CAFEOptions, 
-			  const vector <string> &DatabaseNames, const bool &IsProcessedDatabases)
+void DoDatabaseExtraction(mysqlpp::Connection &ServerLink, CAFEState &currState, 
+			  const bool &IsProcessedDatabases)
 {
-	for (vector<string>::const_iterator ADatabaseName = DatabaseNames.begin();
+	const set<string> DatabaseNames = (IsProcessedDatabases ? currState.Trained_Names()
+								: currState.Untrained_Names());
+	for (set<string>::const_iterator ADatabaseName = DatabaseNames.begin();
              ADatabaseName != DatabaseNames.end();
              ADatabaseName++)
         {
@@ -53,43 +56,38 @@ void DoDatabaseExtraction(mysqlpp::Connection &ServerLink, const Configuration &
                         throw("Could not select the database: " + *ADatabaseName + "\nMySQL message: " + ServerLink.error());
                 }
 
-		if (system(("mkdir --parents '" + CAFEOptions.CAFEPath + "/AnalysisInfo/" + *ADatabaseName + "'").c_str()) != 0)
+		if (system(("mkdir --parents '" + currState.GetCAFEPath() + "/AnalysisInfo/" + *ADatabaseName + "'").c_str()) != 0)
 		{
-			cerr << "WARNING: Trouble while trying to make directory " << CAFEOptions.CAFEPath + "/AnalysisInfo/" + *ADatabaseName << endl
+			cerr << "WARNING: Trouble while trying to make directory " << currState.GetCAFEPath() + "/AnalysisInfo/" + *ADatabaseName << endl
 			     << "       : You may have difficulty trying to save the LonLatAnom and FieldMeasure files.\n";
 		}
 
                 mysqlpp::Query TheQuery = MakeLoader_LonLatAnoms(ServerLink);
 		mysqlpp::Query FieldMeasQuery = MakeLoader_FieldMeasValues(ServerLink);
 
-                for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-                     EventTypeName != CAFEOptions.EventTypes.end();
-                     EventTypeName++)
+                for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
                 {
-			TheQuery.def["table"] = *EventTypeName;
-			FieldMeasQuery.def["table"] = *EventTypeName;
+			TheQuery.def["table"] =
+			FieldMeasQuery.def["table"] = currState.EventType_Name();
 
-        	        const vector <string> VarNames = CAFEOptions.GiveCAFEVarsToDo(ConfigInfo, *EventTypeName);
-                        for (vector<string>::const_iterator AVarName = VarNames.begin(); AVarName != VarNames.end(); AVarName++)
+                        for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
                         {
-                	        const vector <string> CAFELabels = CAFEOptions.GiveLabelsToDo(ConfigInfo, *EventTypeName, *AVarName);
-
-                                for (vector<string>::const_iterator ALabel = CAFELabels.begin(); ALabel != CAFELabels.end(); ALabel++)
+				for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
                                 {
-                        	        for (size_t PeakValIndex = 0; PeakValIndex < ConfigInfo.ExtremaCount(); PeakValIndex++)
-                                        {
-                                	        const string FieldName = *ALabel + '_' + ConfigInfo.GiveExtremaName(PeakValIndex);
+					for (currState.Extrema_Begin(); currState.Extrema_HasNext(); currState.Extrema_Next())
+					{
+                                	        const string FieldName = currState.FieldExtremum_Name();
 
 		                                // This is just a kludge for now as I deal with the transition from flat files to mysql.
 						if (IsProcessedDatabases)
                 		                {
 							double AlphaVal, PhiVal, GammaMax, ChiMax;
 
-							LoadFieldMeasValues(FieldMeasQuery, FieldName, *EventTypeName,
-										AlphaVal, PhiVal, GammaMax, ChiMax);
+							LoadFieldMeasValues(FieldMeasQuery, FieldName, currState.EventType_Name(),
+									    AlphaVal, PhiVal, GammaMax, ChiMax);
 
-							string FieldMeasFile = CAFEOptions.CAFEPath + "/AnalysisInfo/" + *ADatabaseName
-									       + '/' + *EventTypeName + '_' + FieldName + ".FieldMeasure";
+							string FieldMeasFile = currState.GetCAFEPath() + "/AnalysisInfo/" + *ADatabaseName
+									       + '/' + currState.EventType_Name() + '_' + FieldName + ".FieldMeasure";
 
 							if (!WriteFieldMeasure(AlphaVal, PhiVal, GammaMax, ChiMax, FieldMeasFile))
 							{
@@ -99,10 +97,10 @@ void DoDatabaseExtraction(mysqlpp::Connection &ServerLink, const Configuration &
 											
 
 
-                                                const string QueryOutput = CAFEOptions.CAFEPath + "/AnalysisInfo/" + *ADatabaseName + '/'
-                                                                            + *EventTypeName + '_' + FieldName + ".lonlatanom";
+                                                const string QueryOutput = currState.GetCAFEPath() + "/AnalysisInfo/" + *ADatabaseName + '/'
+                                                                           + currState.EventType_Name() + '_' + FieldName + ".lonlatanom";
 
-                                                const vector <LonLatAnom> TheMembers( LoadLonLatAnoms(TheQuery, FieldName) );
+                                                const vector<LonLatAnom> TheMembers( LoadLonLatAnoms(TheQuery, FieldName) );
 
                                                 if (!WriteLonLatAnoms(TheMembers, QueryOutput))
                                                 {
@@ -121,7 +119,7 @@ void DoDatabaseExtraction(mysqlpp::Connection &ServerLink, const Configuration &
 
 int main(int argc, char *argv[])
 {
-	vector <string> CommandArgs = ProcessFlatCommandLine(argc, argv);
+	vector<string> CommandArgs = ProcessFlatCommandLine(argc, argv);
 	CmdOptions CAFEOptions;
 
 	if (CAFEOptions.ParseCommandArgs(CommandArgs) != 0)
@@ -164,12 +162,14 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
 
 	mysqlpp::Connection ServerLink;
 
         try
         {
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.CAFEUserName, "", false);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetCAFEUserName(), "", false);
         }
         catch (const exception& Err)
         {
@@ -193,8 +193,8 @@ int main(int argc, char *argv[])
 
 	try
 	{
-		DoDatabaseExtraction(ServerLink, ConfigInfo, CAFEOptions, CAFEOptions.DatabaseNames, false);
-		DoDatabaseExtraction(ServerLink, ConfigInfo, CAFEOptions, CAFEOptions.ClustDatabaseNames, true);
+		DoDatabaseExtraction(ServerLink, currState, false);
+		DoDatabaseExtraction(ServerLink, currState, true);
 	}
 	catch (const exception &Err)
 	{

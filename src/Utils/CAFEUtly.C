@@ -20,7 +20,7 @@ using namespace std;
 // TODO: Refactor away...
 #include "SPAnalysis/ClusterBoard.h"		// for the ClusterBoard class
 #include "SPAnalysis/BoardConvertor.h"		// for the BoardConvertor class
-#include "Config/Configuration.h"
+#include "Config/CAFEDomain.h"
 
 
 #include <Projection_t.h>			// for the Projection_t base class
@@ -31,35 +31,29 @@ using namespace std;
 #include "Utils/CAFEUtly.h"
 
 
-bool GetGridInfo(const Configuration &ConfigInfo, BoardConvertor &ProjectionInfo, const size_t &Radius)
+bool GetGridInfo(const Projection_t* TheProjection, const CAFEDomain &theDomain,
+		 BoardConvertor &ProjectionInfo, const size_t &Radius)
 {
         double X1 = 0.0;
         double X2 = 0.0;
         double Y1 = 0.0;
         double Y2 = 0.0;
 
-	// The Configuration class guarrentees to give a non-NULL pointer.
-	// TODO: Check best practices for dealing with pointers.
-	const Projection_t* TheProjection = ConfigInfo.Give_DataSource_Projection();
-        vector <float> BoundingBox = ConfigInfo.GiveCAFEDomainBoundingBox();
+        vector<float> BoundingBox = theDomain.GiveBoundingBox();
 
 	if (!TheProjection->LatLonToXY(BoundingBox[2], BoundingBox[0], X1, Y1))
 	{
 		cerr << "ERROR: Bad projection attempt!" << endl;
-		delete TheProjection;
 		return(false);
 	}
 
 	if (!TheProjection->LatLonToXY(BoundingBox[3], BoundingBox[1], X2, Y2))
 	{
 		cerr << "ERROR: Bad projection attempt!" << endl;
-		delete TheProjection;
 		return(false);
 	}
 
 	ProjectionInfo.SetUpBoard(TheProjection, X1, X2, Y1, Y2, Radius, Radius);
-
-	delete TheProjection;
 
         return(true);
 }

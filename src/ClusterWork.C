@@ -10,6 +10,7 @@ using namespace std;
 
 #include <StrUtly.h>				// for TakeDelimitedList(), StrToDouble(), DoubleToStr(), ValidNumber()
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 
 #include <mysql++/mysql++.h>
 
@@ -84,6 +85,7 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 
 int main(int argc, char *argv[])
 {
+	// Working on eliminating this need.
 	setenv("TZ", "UTC UTC", 1);
 
 	vector <string> CommandArgs = ProcessFlatCommandLine(argc, argv);
@@ -149,22 +151,30 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
 
-	if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Preparing the board...";}
+
+	if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Preparing the board...";}
 
         BoardConvertor ProjectionTranslator;
 
-        if (!GetGridInfo(ConfigInfo, ProjectionTranslator, ClusterOptions.SeekingRadius))
+	// TODO: Must eliminate the use of ConfigInfo...
+	// Must delete the projection when finished.
+	const Projection_t* theProjection = ConfigInfo.Give_DataSource_Projection();
+        if (!GetGridInfo(theProjection, currState.GetCAFEDomain(), ProjectionTranslator, ClusterOptions.SeekingRadius))
         {
                 cerr << "ERROR: Could not obtain grad grid info..." << endl;
+		delete theProjection;
                 return(9);
 	}
 
-	if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
+	delete theProjection;
+
+	if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
 
         ClusterConfig MasterConfiguration;
 
-	if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Setting basic configurations...";}
+	if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Setting basic configurations...";}
 
         MasterConfiguration.SetRadius(ClusterOptions.SeekingRadius);
         MasterConfiguration.SetTouchingRule(ClusterOptions.TouchingParameter);
@@ -172,7 +182,7 @@ int main(int argc, char *argv[])
         MasterConfiguration.SetLowStdDeviationValue(ClusterOptions.LowStdDeviationValue);
         MasterConfiguration.SetGridSize(ProjectionTranslator.Xsize(), ProjectionTranslator.Ysize());
 
-	if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
+	if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
 
         if (ClusterOptions.ShowInfo)
         {
@@ -193,18 +203,19 @@ int main(int argc, char *argv[])
 		// when I can log in using the read-only account that does not have a password.
 		if (ClusterOptions.SaveBestCluster)
 		{
-			EstablishConnection(ClustLink, CAFEOptions.ServerName, 
-				    	    CAFEOptions.LoginUserName, "",
+			EstablishConnection(ClustLink, currState.GetServerName(), 
+				    	    currState.GetLoginUserName(), "",
 				    	    true);
 		}
 		else
 		{
-			EstablishConnection(ClustLink, CAFEOptions.ServerName,
-                                            CAFEOptions.CAFEUserName, "",
+			EstablishConnection(ClustLink, currState.GetServerName(),
+                                            currState.GetCAFEUserName(), "",
                                             false);
 		}
 
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.CAFEUserName, "", false);
+		// Read-only
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetCAFEUserName(), "", false);
         }
         catch (const exception& Err)
         {
@@ -233,28 +244,28 @@ int main(int argc, char *argv[])
 
 	try
 	{
-		if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Going into the mega for loops..." << endl;}
-		for (size_t TimePeriodIndex = 0; TimePeriodIndex < CAFEOptions.TimePeriods.size(); TimePeriodIndex++)
+		if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Going into the mega for loops..." << endl;}
+		for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
 		{
 		
-			const string Database = CAFEOptions.DatabaseNames[TimePeriodIndex];
-			const string ClustDatabase = CAFEOptions.ClustDatabaseNames[TimePeriodIndex];
+			const string Database = currState.Untrained_Name();
+			const string ClustDatabase = currState.Trained_Name();
 
-			if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL - 1) {cout << "\tDatabase: " << Database << endl;}
+			if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL - 1) {cout << "\tDatabase: " << Database << endl;}
 
 			if (!ServerLink.select_db(Database))
                         {
                                 throw("Could not select the database: " + Database + "\nMySQL message: " + ServerLink.error());
                         }
 
-			if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "UnclusteredDatabase selected...\n";}
+			if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "UntrainedDatabase selected...\n";}
 
 			if (!ClustLink.select_db(ClustDatabase))
 			{
 				throw("Could not select the database: " + ClustDatabase + "\nMySQL message: " + ClustLink.error());
 			}
 
-			if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "ClusteredDatabase selected...\n";}
+			if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "TrainedDatabase selected...\n";}
 
 
                         mysqlpp::Query EventCntQuery = MakeLoader_EventCnt(ServerLink);
@@ -262,115 +273,106 @@ int main(int argc, char *argv[])
 			mysqlpp::Query ClustLonLatAnomDatesQuery = MakeSaver_LonLatAnomDate(ClustLink);
 			mysqlpp::Query AlphaPhiQuery = MakeSaver_AlphaPhiValues(ClustLink);
 
-			if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) cerr << "Queries created...\n";
+			if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) cerr << "Queries created...\n";
 			
 
-			for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin(); 
-			     EventTypeName != CAFEOptions.EventTypes.end(); 
-			     EventTypeName++)
+			for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
 			{
-				if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) cerr << "EventType: " << *EventTypeName << endl;
+				if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) cerr << "EventType: " << currState.EventType_Name() << endl;
 
 				EventCntQuery.def["table"] 		= 
 				LonLatAnomDatesQuery.def["table"] 	= 
 				ClustLonLatAnomDatesQuery.def["table"] 	= 
-				AlphaPhiQuery.def["table"] 		= 	*EventTypeName;
+				AlphaPhiQuery.def["table"] 		= currState.EventType_Name();
 
 //------------------------------------------------------------------------------------------------------------------------------------
 #ifndef _SAMPLINGRUN_
-				const size_t OccurranceCnt = LoadEventCnt(EventCntQuery, *EventTypeName);
+				const size_t OccurranceCnt = LoadEventCnt(EventCntQuery, currState.EventType_Name());
 #else
 
-				size_t OccurranceCnt = LoadEventCnt(EventCntQuery, *EventTypeName);
+				size_t OccurranceCnt = LoadEventCnt(EventCntQuery, currState.EventType_Name());
 
 				if (OccurranceCnt < 10)
 				{
-					cerr << "Not enough events for this eventtype: " << *EventTypeName << "  database: " << Database << endl;
+					cerr << "Not enough events for this eventtype: " << currState.EventType_Name() << "  database: " << Database << endl;
 					cerr << "Moving on to the next event type..." << endl;
 					continue;
 				}
 
-				string FoldName = GetCaseFilename(CAFEOptions.CAFEPath, Database, *EventTypeName, FoldNumber);
+				string FoldName = GetCaseFilename(currState.GetCAFEPath(), Database, currState.EventType_Name(), FoldNumber);
 				vector <time_t> FoldDates = LoadCaseTimes(FoldName);
 				OccurranceCnt -= FoldDates.size();
 #endif
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
 
-				const vector <string> VarNames = CAFEOptions.GiveCAFEVarsToDo(ConfigInfo, *EventTypeName);
-				for (vector<string>::const_iterator AVarName = VarNames.begin(); 
-				     AVarName != VarNames.end();
-				     AVarName++)
+				for (currState.EventVars_Begin(); currState.EventVars_HasNext(); currState.EventVars_Next())
 				{
-					const vector <string> CAFELabels = CAFEOptions.GiveLabelsToDo(ConfigInfo, *EventTypeName, *AVarName);
-
-                        	        for (vector<string>::const_iterator ALabel = CAFELabels.begin(); ALabel != CAFELabels.end(); ALabel++)
-                                	{
-						for (size_t PeakValIndex = 0; PeakValIndex < ConfigInfo.ExtremaCount(); PeakValIndex++)
+					for (currState.EventLevels_Begin(); currState.EventLevels_HasNext(); currState.EventLevels_Next())
+					{
+						for (currState.Extrema_Begin(); currState.Extrema_HasNext(); currState.Extrema_Next())
 						{
-							ClusterBoard FreshBoard(MasterConfiguration);
+							ClusterBoard freshBoard(MasterConfiguration);
 
-							const string FieldStem = *ALabel + '_' + ConfigInfo.GiveExtremaName(PeakValIndex);
-					
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Loading LonLatAnoms file...";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Loading LonLatAnoms data...";}
 
-							vector <LonLatAnomDate> TheMembers = LoadLonLatAnomDates(LonLatAnomDatesQuery, 
-														 FieldStem);
+							vector<LonLatAnomDate> TheMembers = LoadLonLatAnomDates(LonLatAnomDatesQuery, 
+														currState.FieldExtremum_Name());
 
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
 //---------------------------------------------------------------------------------------------------
 #ifdef _SAMPLINGRUN_
 							RemoveCaseDates(TheMembers, FoldDates);
 #endif
 //---------------------------------------------------------------------------------------------------
 
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Loading cluster board...";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Loading cluster board...";}
 
-							if (!LoadClusterBoard(FreshBoard, TheMembers, ProjectionTranslator))
+							if (!LoadClusterBoard(freshBoard, TheMembers, ProjectionTranslator))
 							{
 								throw("Could not load the Cluster board: " + Database + " EventType: " 
-								      + *EventTypeName + "  field: " + FieldStem);
+								      + currState.EventType_Name() + "  field: " + currState.FieldExtremum_Name());
 							}
 
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
 					
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Analyzing board...";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Analyzing board...";}
 
-							FreshBoard.AnalyzeBoard();
+							freshBoard.AnalyzeBoard();
 							
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
 
 							if (ClusterOptions.ShowMap)
 							{
-								FreshBoard.PrintBoard();
+								freshBoard.PrintBoard();
 							}
 
 
 							if (ClusterOptions.ShowInfo)
 							{
-								cout << "\nDatabase: " << Database << "  EventType: " << *EventTypeName
-								     << "   field: " << FieldStem << endl;
+								cout << "\nDatabase: " << Database << "  EventType: " << currState.EventType_Name()
+								     << "   field: " << currState.FieldExtremum_Name() << endl;
 								cout << "OccurranceCount: " << OccurranceCnt << endl;
 						
-								FreshBoard.myBoardConfig.PrintConfiguration();
+								freshBoard.myBoardConfig.PrintConfiguration();
 							}
 
 							StrongPointAnalysis AnalysisStuff;
 
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Receiving unclustered grid...";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Receiving unclustered grid...";}
 
-							AnalysisStuff.ReceiveUnclusteredGrid(FreshBoard);
+							AnalysisStuff.ReceiveUnclusteredGrid(freshBoard);
 
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done.\n";}
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Clustering the grid...";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done.\n";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Clustering the grid...";}
 
 							AnalysisStuff.ClusterTheGrid();
 
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done.\n";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done.\n";}
 						
 							const size_t ClusterCount = AnalysisStuff.NumberOfClusters();
 
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Padding clusters...";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Padding clusters...";}
 
 							vector <double> AlphaVals(ClusterCount, 0.0);
 							vector <double> PhiVals(ClusterCount, 0.0);
@@ -390,7 +392,7 @@ int main(int argc, char *argv[])
 									AnalysisStuff.PrintCluster(index);
 								}
 							}
-							if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
+							if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
 
 							if (ClusterOptions.ShowAllClusters)
 							{
@@ -420,56 +422,56 @@ int main(int argc, char *argv[])
 												
 							if (ClusterOptions.SaveBestCluster)
 							{
-								if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Saving cluster...";}
+								if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Saving cluster...";}
 
 								SaveBoardToDatabase(TheCluster, ClustLonLatAnomDatesQuery, 
-										    FieldStem, ProjectionTranslator);
+										    currState.FieldExtremum_Name(), ProjectionTranslator);
 
-								if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
-								if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Saving AlphaPhi...";}
+								if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
+								if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Saving AlphaPhi...";}
 
-								SaveAlphaPhiValues(AlphaPhiQuery, FieldStem,
+								SaveAlphaPhiValues(AlphaPhiQuery, currState.FieldExtremum_Name(),
 										   AlphaVals[BestClusterIndex], PhiVals[BestClusterIndex]);
 								
-								if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
-								if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Tidy up database...";}
+								if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
+								if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Tidy up database...";}
 								// This is very important because it prevents previous runs from
 								// contaminating the correlation calculations later.
 								// This is done by setting all the information for those unused dates in the cluster
 								// database to nulls (or NANs).
 
 								// The dates come in ascending order.
-								vector <time_t> ClusteredDates = GiveClusteredDates(TheCluster, 
-														    ProjectionTranslator);
-								vector <time_t> OrigDates = SplitIntoTime(TheMembers);
+								vector<time_t> ClusteredDates = GiveClusteredDates(TheCluster, 
+														   ProjectionTranslator);
+								vector<time_t> OrigDates = SplitIntoTime(TheMembers);
 								sort(OrigDates.begin(), OrigDates.end());
 
-								vector <time_t> UnusedDates(OrigDates.size() - ClusteredDates.size());
+								vector<time_t> UnusedDates(OrigDates.size() - ClusteredDates.size());
 
-								if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "set difference...";}
+								if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "set difference...";}
 
 								set_difference(OrigDates.begin(), OrigDates.end(),
 									       ClusteredDates.begin(), ClusteredDates.end(),
 									       UnusedDates.begin());
 
 								
-								const vector <double> TempHold(UnusedDates.size(), nan("nan"));
+								const vector<double> TempHold(UnusedDates.size(), NAN);
 
-								if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "saving...";}
+								if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "saving...";}
 
 								SaveLonLatAnoms(TempHold, TempHold, TempHold, UnusedDates,
-										ClustLonLatAnomDatesQuery, FieldStem);
+										ClustLonLatAnomDatesQuery, currState.FieldExtremum_Name());
 
-								if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
+								if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
 //---------------------------------------------------------------------------------------------------------------------------------------------
 #ifdef _SAMPLINGRUN_
 								// Remember, I removed dates from the original list of members,
 								// so those dates wouldn't have been cleaned up.
-								if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "Clean up old folds...";}
-								const vector <double> TempFoldHold(FoldDates.size(), nan("nan"));
+								if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "Clean up old folds...";}
+								const vector<double> TempFoldHold(FoldDates.size(), NAN);
 								SaveLonLatAnoms(TempFoldHold, TempFoldHold, TempFoldHold, FoldDates, 
-										ClustLonLatAnomDatesQuery, FieldStem);
-								if (CAFEOptions.VerboseLevel >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
+										ClustLonLatAnomDatesQuery, currState.FieldExtremum_Name());
+								if (currState.GetVerboseLevel() >= DEBUG_VERBOSE_LEVEL) {cerr << "done\n";}
 #endif
 //----------------------------------------------------------------------------------------------------------------------------------------------
 							}// end if (SaveToFiles)

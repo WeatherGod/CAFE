@@ -9,6 +9,7 @@ using namespace std;
 #include <cctype>		// for toupper(), size_t
 
 #include "Config/Configuration.h"
+#include "Config/CAFEState.h"
 
 #include <mysql++/mysql++.h>
 
@@ -131,6 +132,8 @@ int main(int argc, char *argv[])
                 return(8);
         }
 
+	CAFEState currState( CAFEOptions.ConfigMerge( ConfigInfo.GiveCAFEInfo() ) );
+
 	cout << "Are you sure you want to ";
 	if (DoDrop)
 	{
@@ -141,7 +144,9 @@ int main(int argc, char *argv[])
 		cout << "clear";
 	}
 
-	cout << " these tables (" << GiveDelimitedList(CAFEOptions.EventTypes, ", ") << ")\nfor ";
+	// TODO: Bit of a kludge for now...
+	const set<string> eventNames = currState.EventType_Names();
+	cout << " these tables (" << GiveDelimitedList(vector<string>(eventNames.begin(), eventNames.end()), ", ") << ")\nfor ";
 	
 	if (DoBoth)
 	{
@@ -152,7 +157,10 @@ int main(int argc, char *argv[])
 		cout << "the clustered ";
 	}
 
-	cout << "databases of timeperiods: " << GiveDelimitedList(CAFEOptions.TimePeriods, ", ") << "? (Y/N)" << endl;
+	// TODO: same thing here...
+	const set<string> timePeriods = currState.TimePeriod_Names();
+	cout << "databases of timeperiods: " 
+	     << GiveDelimitedList(vector<string>(timePeriods.begin(), timePeriods.end()), ", ") << "? (Y/N)" << endl;
 
 	// CheckResponse can only return a 'Y' or 'N'
         if (CheckResponse() == 'N')
@@ -166,7 +174,7 @@ int main(int argc, char *argv[])
 
         try
         {
-		EstablishConnection(ServerLink, CAFEOptions.ServerName, CAFEOptions.LoginUserName);
+		EstablishConnection(ServerLink, currState.GetServerName(), currState.GetLoginUserName());
         }
         catch (const exception& Err)
         {
@@ -189,12 +197,10 @@ int main(int argc, char *argv[])
 
 	try
 	{
-		for (vector<string>::const_iterator ATimePeriod = CAFEOptions.TimePeriods.begin();
-                     ATimePeriod != CAFEOptions.TimePeriods.end();
-                     ATimePeriod++)
+		for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next())
 		{
-			const string Database = CAFEOptions.GiveDatabaseName(*ATimePeriod);
-			const string ClustDatabase = CAFEOptions.GiveClusteredDatabaseName(*ATimePeriod);
+			const string Database = currState.Untrained_Name();
+			const string ClustDatabase = currState.Trained_Name();
 
 			if (!ServerLink.select_db(ClustDatabase))
                         {
@@ -205,7 +211,7 @@ int main(int argc, char *argv[])
 
                         if (DoDrop)
                         {
-                                if (!DropTables(TheQuery, CAFEOptions.EventTypes))
+                                if (!DropTables(TheQuery, currState.EventType_Names()))
                                 {
                                         throw("Could not drop the tables requested for database: " + ClustDatabase
                                               + "\nMySQL message: " + TheQuery.error());
@@ -213,17 +219,15 @@ int main(int argc, char *argv[])
                         }
                         else
                         {
-                                for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-		                     EventTypeName != CAFEOptions.EventTypes.end();
-                		     EventTypeName++)
+                                for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
                                 {
-                                        if (!ClearTable(TheQuery, *EventTypeName))
+                                        if (!ClearTable(TheQuery, currState.EventType_Name()))
                                         {
-                                                throw("Could not clear the table, " + *EventTypeName
+                                                throw("Could not clear the table, " + currState.EventType_Name()
                                                       + ", for database: " + ClustDatabase + "\nMySQL message: " + TheQuery.error());
                                         }
 
-					TheQuery << "UPDATE " << mysqlpp::escape << (*EventTypeName + "_FieldMeas") << 
+					TheQuery << "UPDATE " << mysqlpp::escape << (currState.EventType_Name() + "_FieldMeas") << 
 						    " SET Alpha = NULL, Phi = NULL, Gamma_Max = NULL, Chi_Max = NULL";
 
 					try
@@ -248,20 +252,19 @@ int main(int argc, char *argv[])
 			
 				if (DoDrop)
 				{
-					if (!DropTables(TheQuery, CAFEOptions.EventTypes))
+					if (!DropTables(TheQuery, currState.EventType_Names()))
                         		{
-                                		throw("Could not drop the tables requested for database: " + Database + "\nMySQL message: " + TheQuery.error());
+                                		throw("Could not drop the tables requested for database: " 
+						      + Database + "\nMySQL message: " + TheQuery.error());
                         		}
 				}
 				else
 				{
-					for (vector<string>::const_iterator EventTypeName = CAFEOptions.EventTypes.begin();
-	                                     EventTypeName != CAFEOptions.EventTypes.end();
-        	                             EventTypeName++)
+					for (currState.EventTypes_Begin(); currState.EventTypes_HasNext(); currState.EventTypes_Next())
 					{
-						if (!ClearTable(TheQuery, *EventTypeName))
+						if (!ClearTable(TheQuery, currState.EventType_Name()))
 						{
-							throw("Could not clear the table, " + *EventTypeName
+							throw("Could not clear the table, " + currState.EventType_Name()
 						      		+ ", for database: " + Database + "\nMySQL message: " + TheQuery.error());
 						}
 					}
