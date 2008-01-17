@@ -22,7 +22,7 @@ class Variable
                 // right now, they do the same thing, but there should be a difference.
                 // ValidConfig() will return whether it was able to load a configuration correctly.
                 // IsValid() will return whether the data contained is valid information.
-                bool ValidConfig() const;                                       //
+                bool ValidConfig() const;
                 bool IsValid() const;
 
 		const string& GiveCAFEVariableName() const;
@@ -40,21 +40,6 @@ class Variable
 		bool myIsConfigured;
 
 		vector<string> InitTagWords() const;
-/*
-	friend bool operator > (const Variable &TheVar, const string VariableName);
-	friend bool operator < (const Variable &TheVar, const string VariableName);
-	friend bool operator >= (const Variable &TheVar, const string VariableName);
-	friend bool operator <= (const Variable &TheVar, const string VariableName);
-	friend bool operator == (const Variable &TheVar, const string VariableName);
-	friend bool operator != (const Variable &TheVar, const string VariableName);
-
-	friend bool operator > (const string VariableName, const Variable &TheVar);
-        friend bool operator < (const string VariableName, const Variable &TheVar);
-        friend bool operator >= (const string VariableName, const Variable &TheVar);
-        friend bool operator <= (const string VariableName, const Variable &TheVar);
-        friend bool operator == (const string VariableName, const Variable &TheVar);
-        friend bool operator != (const string VariableName, const Variable &TheVar);
-*/
 };
 
 #endif

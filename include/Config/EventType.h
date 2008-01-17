@@ -46,37 +46,6 @@ class EventType
 
 		vector<string> InitTagWords() const;
 
-	friend bool operator == (const EventType &Lefty, const EventType &Righty);
-	friend bool operator != (const EventType &Lefty, const EventType &Righty);
-
-	friend bool operator < (const EventType &TheEvent, const string &EventTypeName);
-	friend bool operator > (const EventType &TheEvent, const string &EventTypeName);
-	friend bool operator <= (const EventType &TheEvent, const string &EventTypeName);
-	friend bool operator >= (const EventType &TheEvent, const string &EventTypeName);
-	friend bool operator == (const EventType &TheEvent, const string &EventTypeName);
-	friend bool operator != (const EventType &TheEvent, const string &EventTypeName);
-
-	friend bool operator < (const string &EventTypeName, const EventType &TheEvent);
-	friend bool operator > (const string &EventTypeName, const EventType &TheEvent);
-	friend bool operator <= (const string &EventTypeName, const EventType &TheEvent);
-	friend bool operator >= (const string &EventTypeName, const EventType &TheEvent);
-	friend bool operator == (const string &EventTypeName, const EventType &TheEvent);
-	friend bool operator != (const string &EventTypeName, const EventType &TheEvent);
-};
-
-class EventTypeID_t
-{
-	public:
-		EventTypeID_t();
-		EventTypeID_t(const size_t &EventTypeIndex);
-		EventTypeID_t(const string &EventTypeName);
-
-		size_t GiveIndex(const vector <EventType> &EventTypes) const;
-		string GiveName() const;
-
-	private:
-		size_t myEventTypeIndex;
-		string myEventTypeName;
 };
 
 

@@ -22,64 +22,30 @@ class CAFEVar
                 bool ValidConfig() const;
                 bool IsValid() const;
 
-		map<string, size_t> GiveCAFELevels() const;
+		const map<string, size_t>& GiveCAFELevels() const;
 
 		const string& GiveCAFEVarName() const;
 		size_t GiveCAFELevelCount() const;
 
-		string GiveCAFELevelName(const size_t &CAFELevelIndex) const;
+		// TODO: Turn into sets?
 		// Gives the LevelNames in the order of the Names!
-		vector <string> GiveCAFELevelNames() const;
+		vector<string> GiveCAFELevelNames() const;
 
 		size_t GiveCAFELevelIndex(const string &CAFELevelName) const;
 		// Gives the LevelIndicies in the order of the LevelName, not the indicies!
-		vector <size_t> GiveCAFELevelIndicies() const;
+		vector<size_t> GiveCAFELevelIndicies() const;
 		
 		bool AddCAFELevel(const string &NewCAFELevelName, const size_t &CAFELevelIndex);
 		
 	private:
 		string myCAFEVarName;
-
-		// Cannot be a map!
-		// TODO: Why not?
-		vector <size_t> myCAFELevelIndicies;
-		vector <string> myCAFELevelNames;
+		map<string, size_t> myCAFELevels;;
 
 		bool myIsConfigured;
 
 		vector<string> InitTagWords() const;
 
-	friend bool operator == (const CAFEVar &Lefty, const CAFEVar &Righty);
-	friend bool operator != (const CAFEVar &Lefty, const CAFEVar &Righty);
-
-	friend bool operator > (const CAFEVar &TheVar, const string &CAFEVarName);
-	friend bool operator < (const CAFEVar &TheVar, const string &CAFEVarName);
-	friend bool operator >= (const CAFEVar &TheVar, const string &CAFEVarName);
-	friend bool operator <= (const CAFEVar &TheVar, const string &CAFEVarName);
-	friend bool operator == (const CAFEVar &TheVar, const string &CAFEVarName);
-	friend bool operator != (const CAFEVar &TheVar, const string &CAFEVarName);
-
-	friend bool operator > (const string &CAFEVarName, const CAFEVar &TheVar);
-	friend bool operator < (const string &CAFEVarName, const CAFEVar &TheVar);
-	friend bool operator >= (const string &CAFEVarName, const CAFEVar &TheVar);
-	friend bool operator <= (const string &CAFEVarName, const CAFEVar &TheVar);
-	friend bool operator == (const string &CAFEVarName, const CAFEVar &TheVar);
-	friend bool operator != (const string &CAFEVarName, const CAFEVar &TheVar);
 };
 
-
-class CAFEVarID_t
-{
-	public:
-		CAFEVarID_t();
-		CAFEVarID_t(const size_t &CAFEVarIndex);
-		CAFEVarID_t(const string &CAFEVarName);
-
-		size_t GiveIndex(const vector <CAFEVar> &TheCAFEVars) const;
-
-	private:
-		size_t myCAFEVarIndex;
-		string myCAFEVarName;
-};
 
 #endif

@@ -85,15 +85,15 @@ bool Configuration::SetConfigFilename(const string &fileName)
 	}
 }
 
-bool Configuration::SetDefaultSource(const DataSourceID_t &DataSourceID)
+bool Configuration::SetDefaultSource(const string &DataSourceID)
 {
-	if (myCAFEInfo.GetDataSources().end() == myCAFEInfo.GetDataSources().find(DataSourceID.GiveName()))
+	if (myCAFEInfo.GetDataSources().end() == myCAFEInfo.GetDataSources().find(DataSourceID))
 	{
 		return(false);
 	}
 	else
 	{
-		myCAFEInfo.SetDefaultDataSource(DataSourceID.GiveName());
+		myCAFEInfo.SetDefaultDataSource(DataSourceID);
 		return(true);
 	}
 }
@@ -106,6 +106,7 @@ Configuration::GiveCAFEInfo() const
 }
 
 // -------------- Class-Level Counters ------------------
+/*
 size_t Configuration::DatabaseCount() const
 {
         return(TimePeriodCount());
@@ -135,13 +136,17 @@ size_t Configuration::TimePeriodCount() const
 {
 	return(myCAFEInfo.GetTimeOffsets().size());
 }
+*/
 // ============ end Class-Level counters ===========================
 
 // ------------ Class-Level pointer returns -------------------------
+/*
 const CAFEDomain* Configuration::GiveDomain() const
 {
         return(&(myCAFEInfo.GetCAFEDomain()));
 }
+*/
+
 
 const Projection_t* Configuration::Give_DataSource_Projection() const
 // It is the programmer's responsibility to delete the contents of the pointer when finished!
@@ -149,10 +154,11 @@ const Projection_t* Configuration::Give_DataSource_Projection() const
 	return(Give_DataSource_Projection(myCAFEInfo.GetDefaultDataSource()));
 }
 
-const Projection_t* Configuration::Give_DataSource_Projection(const DataSourceID_t &DataSourceID) const
+
+const Projection_t* Configuration::Give_DataSource_Projection(const string &DataSourceID) const
 {
 	const map<string, DataSource>::const_iterator theSource = myCAFEInfo.GetDataSources()
-									    .find( DataSourceID.GiveName() );
+									    .find( DataSourceID );
 
 	if (myCAFEInfo.GetDataSources().end() == theSource)
 	{
@@ -167,18 +173,19 @@ const Projection_t* Configuration::Give_DataSource_Projection(const DataSourceID
 
 	return(TheFactory.ProjectionFromStr(ConfigStr, ProjName));
 }
-
 //============== end Class-Level pointer returns ===================
 
+
+/*
 pair<time_t, time_t> Configuration::Give_DataSource_TimeRange() const
 {
 	return(Give_DataSource_TimeRange(myCAFEInfo.GetDefaultDataSource()));
 }
 
-pair<time_t, time_t> Configuration::Give_DataSource_TimeRange(const DataSourceID_t &DataSourceID) const
+pair<time_t, time_t> Configuration::Give_DataSource_TimeRange(const string &DataSourceID) const
 {
 	const map<string, DataSource>::const_iterator theSource = myCAFEInfo.GetDataSources()
-									    .find(DataSourceID.GiveName());
+									    .find(DataSourceID);
 
 	if (myCAFEInfo.GetDataSources().end() == theSource)
 	{
@@ -187,7 +194,7 @@ pair<time_t, time_t> Configuration::Give_DataSource_TimeRange(const DataSourceID
 
 	return(theSource->second.GiveTimeRange());
 }
-
+*/
 
 
 //-------------- Class-Level string value returners ----------------
@@ -196,11 +203,12 @@ string Configuration::GiveConfigFilename() const
 	return(myCAFEInfo.GetConfigFilename());
 }
 
+/*
 vector <float> Configuration::GiveCAFEDomainBoundingBox() const
 {
 	return(myCAFEInfo.GetCAFEDomain().GiveBoundingBox());
 }
-
+*/
 /*
 string Configuration::GiveTimePeriod(const size_t &TimePeriodIndex) const
 {
@@ -235,17 +243,18 @@ string Configuration::GiveClusteredDatabaseName(const size_t &DatabaseIndex) con
         return(myProcessedNames[DatabaseIndex]);
 }
 */
-
+/*
 string Configuration::GiveDatabaseName(const string &TimePeriod) const
 {
 	return(myCAFEInfo.GetUntrainedNameStem() + "_" + TimePeriod);
 }
-
+*/
+/*
 string Configuration::GiveClusteredDatabaseName(const string &TimePeriod) const
 {
 	return(myCAFEInfo.GetTrainedNameStem() + "_" + TimePeriod);
 }
-
+*/
 /*
 string Configuration::GiveEventTypeName(const size_t &EventTypeIndex) const
 {
@@ -269,12 +278,13 @@ string Configuration::GiveDataSourceName(const size_t &DataSourceIndex) const
 	return(myDataSources[DataSourceIndex].GiveSourceName());
 }
 */
-
+/*
 string Configuration::GiveDefaultSourceName() const
 {
 	return(myCAFEInfo.GetDefaultDataSource());
 }
-
+*/
+/*
 string Configuration::GiveExtremaName(const size_t &ExtremaIndex) const
 {
         if (ExtremaIndex == string::npos || ExtremaIndex >= myCAFEInfo.GetExtremumNames().size())
@@ -284,9 +294,11 @@ string Configuration::GiveExtremaName(const size_t &ExtremaIndex) const
 
         return(myCAFEInfo.GetExtremumNames()[ExtremaIndex]);
 }
+*/
 //=============== end Class-Level string value returners =============================
 
 // ---------------- Class-Level string vector returners ------------------------------
+/*
 vector <string> Configuration::GiveDatabaseNames() const
 {
 	size_t index = 0;
@@ -302,7 +314,8 @@ vector <string> Configuration::GiveDatabaseNames() const
 	
 	return(theNames);
 }
-
+*/
+/*
 vector <string> Configuration::GiveClusteredDatabaseNames() const
 {
 	size_t index = 0;
@@ -318,7 +331,8 @@ vector <string> Configuration::GiveClusteredDatabaseNames() const
 
 	return(theNames);
 }
-
+*/
+/*
 vector <string> Configuration::GiveEventTypeNames() const
 {
 	vector<string> EventTypeNames(myCAFEInfo.GetEventTypes().size());
@@ -333,7 +347,8 @@ vector <string> Configuration::GiveEventTypeNames() const
 
 	return(EventTypeNames);
 }
-
+*/
+/*
 vector <string> Configuration::GiveDataSourceNames() const
 {
         vector <string> DataSourceNames(myCAFEInfo.GetDataSources().size());
@@ -348,7 +363,8 @@ vector <string> Configuration::GiveDataSourceNames() const
 
         return(DataSourceNames);
 }
-
+*/
+/*
 vector <string> Configuration::GiveCAFEVarNames() const
 {
         vector <string> CAFEVarNames(myCAFEInfo.GetCAFEVars().size());
@@ -363,17 +379,20 @@ vector <string> Configuration::GiveCAFEVarNames() const
 
         return(CAFEVarNames);
 }
-
+*/
+/*
 vector <string> Configuration::GiveExtremaNames() const
 {
 	return(myCAFEInfo.GetExtremumNames());
 }
-
+*/
+/*
 vector <string> Configuration::GiveTimePeriods() const
 {
 	const set<string> tempHold = myCAFEInfo.GetTimePeriods();
 	return(vector<string>(tempHold.begin(), tempHold.end()));
 }
+*/
 //================= end Class-Level string vector returners =========================
 
 //----------------- Index Reporters -------------------------------------------------
@@ -387,7 +406,7 @@ size_t Configuration::GiveDefaultSourceIndex() const
 /*
 size_t Configuration::GiveEventTypeIndex(const string &EventTypeName) const
 {
-	EventTypeID_t EventTypeID = EventTypeName;
+	string EventTypeID = EventTypeName;
 	return(EventTypeID.GiveIndex(myEventTypes));
 }
 */
@@ -400,7 +419,7 @@ bool Configuration::ValidEventType(const string &eventTypeName) const
 /*
 size_t Configuration::GiveDataSourceIndex(const string &DataSourceName) const
 {
-	DataSourceID_t DataSourceID = DataSourceName;
+	string DataSourceID = DataSourceName;
 	return(DataSourceID.GiveIndex(myDataSources));
 }
 */
@@ -455,6 +474,7 @@ size_t Configuration::GiveTimePeriodIndex(const string &TimePeriod) const
 //================= end Index Reporters ============================================
 
 // --------------------- Container-Level counters ----------------------------------
+/*
 size_t Configuration::CAFEVar_LevelCount(const string &CAFEVarName) const
 {
 	const map<string, CAFEVar>::const_iterator varFind = myCAFEInfo.GetCAFEVars().find(CAFEVarName);
@@ -466,11 +486,12 @@ size_t Configuration::CAFEVar_LevelCount(const string &CAFEVarName) const
 
 	return(varFind->second.GiveCAFELevelCount());
 }
-
-size_t Configuration::DataSource_VarCount(const DataSourceID_t &DataSourceID) const
+*/
+/*
+size_t Configuration::DataSource_VarCount(const string &DataSourceID) const
 {
 	const map<string, DataSource>::const_iterator theSource = myCAFEInfo.GetDataSources()
-									    .find(DataSourceID.GiveName());
+									    .find(DataSourceID);
 
 	if (myCAFEInfo.GetDataSources().end() == theSource)
 	{
@@ -479,11 +500,12 @@ size_t Configuration::DataSource_VarCount(const DataSourceID_t &DataSourceID) co
 
 	return(theSource->second.GiveDataVarCount());
 }
-
-size_t Configuration::DataSource_DataLevelCount(const DataSourceID_t &DataSourceID, const string &CAFEVarName) const
+*/
+/*
+size_t Configuration::DataSource_DataLevelCount(const string &DataSourceID, const string &CAFEVarName) const
 {
 	const map<string, DataSource>::const_iterator theSource = myCAFEInfo.GetDataSources()
-									    .find(DataSourceID.GiveName());         
+									    .find(DataSourceID);         
 
 	if (myCAFEInfo.GetDataSources().end() == theSource)
 	{
@@ -493,21 +515,24 @@ size_t Configuration::DataSource_DataLevelCount(const DataSourceID_t &DataSource
 
         return(theSource->second.GiveDataLevelCount(CAFEVarName));
 }
-
+*/
+/*
 size_t Configuration::DataSource_VarCount() const
 {
 	return(DataSource_VarCount(myCAFEInfo.GetDefaultDataSource()));
 }
-
+*/
+/*
 size_t Configuration::DataSource_DataLevelCount(const string &CAFEVarName) const
 {
 	return(DataSource_DataLevelCount(myCAFEInfo.GetDefaultDataSource(), CAFEVarName));
 }
-
-size_t Configuration::EventType_VarCount(const EventTypeID_t &EventTypeID) const
+*/
+/*
+size_t Configuration::EventType_VarCount(const string &EventTypeID) const
 {
 	const map<string, EventType>::const_iterator eventFind = myCAFEInfo.GetEventTypes()
-									   .find(EventTypeID.GiveName());
+									   .find(EventTypeID);
 
 	if (eventFind == myCAFEInfo.GetEventTypes().end())
 	{
@@ -516,11 +541,12 @@ size_t Configuration::EventType_VarCount(const EventTypeID_t &EventTypeID) const
 
 	return(eventFind->second.GiveVariableCount());
 }
-
-size_t Configuration::EventType_LevelCount(const EventTypeID_t &EventTypeID, const string &CAFEVarName) const
+*/
+/*
+size_t Configuration::EventType_LevelCount(const string &EventTypeID, const string &CAFEVarName) const
 {
         const map<string, EventType>::const_iterator eventFind = myCAFEInfo.GetEventTypes()
-                                                                           .find(EventTypeID.GiveName());
+                                                                           .find(EventTypeID);
 
         if (eventFind == myCAFEInfo.GetEventTypes().end())
         {
@@ -529,13 +555,15 @@ size_t Configuration::EventType_LevelCount(const EventTypeID_t &EventTypeID, con
 
 	return(eventFind->second.GiveLevelCount(CAFEVarName));
 }
+*/
 //============================== end Container-level counters =========================
 
 //--------------------------- Container-level value reporters -------------------------
-string Configuration::Give_DataSource_DataLevel(const DataSourceID_t &DataSourceID, const string &CAFEVarName, const string &CAFELevelName) const
+/*
+string Configuration::Give_DataSource_DataLevel(const string &DataSourceID, const string &CAFEVarName, const string &CAFELevelName) const
 {
 	const map<string, DataSource>::const_iterator theSource = myCAFEInfo.GetDataSources()
-									    .find(DataSourceID.GiveName());
+									    .find(DataSourceID);
 
         if (myCAFEInfo.GetDataSources().end() == theSource)
         {
@@ -553,11 +581,12 @@ string Configuration::Give_DataSource_DataLevel(const DataSourceID_t &DataSource
 	return(theSource->second.GiveDataLevel(CAFEVarName, 
 					       varFind->second.GiveCAFELevelIndex(CAFELevelName)));
 }
-
-string Configuration::Give_DataSource_DataName(const DataSourceID_t &DataSourceID, const string &CAFEVarName) const
+*/
+/*
+string Configuration::Give_DataSource_DataName(const string &DataSourceID, const string &CAFEVarName) const
 {
         const map<string, DataSource>::const_iterator theSource = myCAFEInfo.GetDataSources()
-									    .find(DataSourceID.GiveName());
+									    .find(DataSourceID);
 
         if (myCAFEInfo.GetDataSources().end() == theSource)
         {
@@ -566,17 +595,20 @@ string Configuration::Give_DataSource_DataName(const DataSourceID_t &DataSourceI
 
         return(theSource->second.GiveDataVarName(CAFEVarName));
 }
-
+*/
+/*
 string Configuration::Give_DataSource_DataLevel(const string &CAFEVarName, const string &CAFELevelName) const
 {
         return(Give_DataSource_DataLevel(myCAFEInfo.GetDefaultDataSource(), CAFEVarName, CAFELevelName));
 }
-
+*/
+/*
 string Configuration::Give_DataSource_DataName(const string &CAFEVarName) const
 {
         return(Give_DataSource_DataName(myCAFEInfo.GetDefaultDataSource(), CAFEVarName));
 }
-
+*/
+/*
 string Configuration::Give_CAFEVar_LevelName(const string &CAFEVarName, const string &CAFEVarLabel) const
 // Derives the LevelName from the Label.  Very useful if a Label is given as user input.
 // This function generates the possible Labels for the particular CAFEVar, and tries to match it.
@@ -611,7 +643,8 @@ string Configuration::Give_CAFEVar_LevelName(const string &CAFEVarName, const st
 		return("");
 	}
 }
-
+*/
+/*
 vector <string> Configuration::Give_CAFEVar_LevelNames(const string &CAFEVarName) const
 // NOTE: The LevelNames are in alphabetical order
 {
@@ -624,7 +657,8 @@ vector <string> Configuration::Give_CAFEVar_LevelNames(const string &CAFEVarName
 
 	return(varFind->second.GiveCAFELevelNames());
 }
-
+*/
+/*
 vector <string> Configuration::Give_CAFEVar_CAFEVarLabels(const string &CAFEVarName) const
 //-----------------------
 // NOTE: The Labels will be in alphabetical order.
@@ -672,9 +706,9 @@ vector <string> Configuration::Give_CAFEVar_CAFEVarLabels(const string &CAFEVarN
                 return(vector<string>(0));
         }
 }
-
+*/
 /*
-vector <string> Configuration::Give_DataSource_DataLevels(const DataSourceID_t &DataSourceID, const string &CAFEVarName) const
+vector <string> Configuration::Give_DataSource_DataLevels(const string &DataSourceID, const string &CAFEVarName) const
 // assumes that the level count for the datavar is the same as the level count for the CAFEvar.
 // This can be verified using IsValid(), which will test all the various components to make sure
 // that such errors do not exist in the configuration.
@@ -709,7 +743,8 @@ vector <string> Configuration::Give_DataSource_DataLevels(const DataSourceID_t &
         return(DataLevelNames);
 }
 */
-vector <string> Configuration::Give_DataSource_DataNames(const DataSourceID_t &DataSourceID) const
+/*
+vector <string> Configuration::Give_DataSource_DataNames(const string &DataSourceID) const
 // assumes that the number of CAFEVars is the same as the number of DataVars
 // this can be checked using IsValid(), which will test all these kinds of connections...some day...maybe...
 
@@ -717,7 +752,7 @@ vector <string> Configuration::Give_DataSource_DataNames(const DataSourceID_t &D
 {
 	vector <string> DataVarNames(0);
         const map<string, DataSource>::const_iterator theSource = myCAFEInfo.GetDataSources()
-									    .find(DataSourceID.GiveName());
+									    .find(DataSourceID);
 
 	if (myCAFEInfo.GetDataSources().end() == theSource)
 	{
@@ -734,7 +769,7 @@ vector <string> Configuration::Give_DataSource_DataNames(const DataSourceID_t &D
 
         return(DataVarNames);
 }
-
+*/
 /*
 vector <string> Configuration::Give_DataSource_DataLevels(const string &CAFEVarName) const
 // assumes that the level count for the datavar is the same as the level count for the CAFEvar.
@@ -746,19 +781,20 @@ vector <string> Configuration::Give_DataSource_DataLevels(const string &CAFEVarN
         return(Give_DataSource_DataLevels(myDefaultDataSourceID, CAFEVarName));
 }
 */
-
+/*
 vector <string> Configuration::Give_DataSource_DataNames() const
 // assumes that the number of CAFEVars is the same as the number of DataVars
 // this can be checked using IsValid(), which will test all these kinds of connections...
 {
 	return(Give_DataSource_DataNames(myCAFEInfo.GetDefaultDataSource()));
 }
-
-vector <string> Configuration::Give_EventType_CAFEVarNames(const EventTypeID_t &EventTypeID) const
+*/
+/*
+vector <string> Configuration::Give_EventType_CAFEVarNames(const string &EventTypeID) const
 // The elements in the CAFEVarNames vector are in alphabetical order
 {
 	const map<string, EventType>::const_iterator eventFind = myCAFEInfo.GetEventTypes()
-									   .find(EventTypeID.GiveName());
+									   .find(EventTypeID);
 
 	if (myCAFEInfo.GetEventTypes().end() == eventFind)
 	{
@@ -767,13 +803,13 @@ vector <string> Configuration::Give_EventType_CAFEVarNames(const EventTypeID_t &
 
 	return(eventFind->second.GiveEventVariableNames());
 }
-
-
-vector <string> Configuration::Give_EventType_LevelNames(const EventTypeID_t &EventTypeID, const string &CAFEVarName) const
+*/
+/*
+vector <string> Configuration::Give_EventType_LevelNames(const string &EventTypeID, const string &CAFEVarName) const
 // The elements in the CAFELevelNames vector are in alphabetical order.
 {
 	const map<string, EventType>::const_iterator eventFind = myCAFEInfo.GetEventTypes()
-									   .find(EventTypeID.GiveName());
+									   .find(EventTypeID);
 
 	if (myCAFEInfo.GetEventTypes().end() == eventFind)
 	{
@@ -782,10 +818,10 @@ vector <string> Configuration::Give_EventType_LevelNames(const EventTypeID_t &Ev
 
 	return(eventFind->second.GiveEventLevels(CAFEVarName));
 }
+*/
 
-
-
-vector <string> Configuration::Give_EventType_CAFEVarLabels(const EventTypeID_t &EventTypeID, const string &CAFEVarName) const
+/*
+vector <string> Configuration::Give_EventType_CAFEVarLabels(const string &EventTypeID, const string &CAFEVarName) const
 //---------------------
 // The elements of CAFEVarLabels are in alphabetical order
 //---------------------
@@ -831,11 +867,13 @@ vector <string> Configuration::Give_EventType_CAFEVarLabels(const EventTypeID_t 
 		return(vector<string>(0));
 	}
 }
+*/
 // ======================== end Container-level value returners ==============================================
 
 
 
 //--------------------------- Configuration Modifiers --------------------------------------------------------
+/*
 bool Configuration::ReplaceDatabaseStems(const string &NewDatabaseStem, const string &NewProcessedStem)
 {
 	if (!NewDatabaseStem.empty() && !NewProcessedStem.empty())
@@ -849,7 +887,8 @@ bool Configuration::ReplaceDatabaseStems(const string &NewDatabaseStem, const st
 		return(false);
 	}
 }
-
+*/
+/*
 bool Configuration::ReplaceDomain(const CAFEDomain &NewDomain)
 {
         if (NewDomain.IsValid())
@@ -862,7 +901,7 @@ bool Configuration::ReplaceDomain(const CAFEDomain &NewDomain)
                 return(false);
         }
 }
-
+*/
 /*
 bool Configuration::ReplaceCAFEVar(const CAFEVar &NewVar, const string &OldCAFEVarName)
 {
@@ -879,7 +918,7 @@ bool Configuration::ReplaceCAFEVar(const CAFEVar &NewVar, const string &OldCAFEV
 }
 */
 /*
-bool Configuration::ReplaceDataSource(const DataSource &NewSource, const DataSourceID_t &OldDataSourceID)
+bool Configuration::ReplaceDataSource(const DataSource &NewSource, const string &OldDataSourceID)
 {
         if (NewSource.IsValid())
         {
@@ -911,7 +950,7 @@ bool Configuration::ReplaceDataSource(const DataSource &NewSource)
 }
 */
 /*
-bool Configuration::ReplaceEventType(const EventType &NewType, const EventTypeID_t &OldEventTypeID)
+bool Configuration::ReplaceEventType(const EventType &NewType, const string &OldEventTypeID)
 {
 	if (NewType.IsValid())
         {
@@ -1042,9 +1081,9 @@ bool Configuration::RemoveCAFEVar(const string &CAFEVarName)
 }
 */
 /*
-bool Configuration::RemoveDataSource(const DataSourceID_t &DataSourceID)
+bool Configuration::RemoveDataSource(const string &DataSourceID)
 {
-	map<DataSourceID_t, DataSource>::iterator theSource = myDataSources.find(DataSourceID);
+	map<string, DataSource>::iterator theSource = myDataSources.find(DataSourceID);
 	if (myDataSources.end() == theSource)
 	{
 		return(false);
@@ -1055,7 +1094,7 @@ bool Configuration::RemoveDataSource(const DataSourceID_t &DataSourceID)
 }
 */
 /*
-bool Configuration::RemoveEventType(const EventTypeID_t &EventTypeID)
+bool Configuration::RemoveEventType(const string &EventTypeID)
 {
 	size_t EventTypeIndex = EventTypeID.GiveIndex(myEventTypes);
 
@@ -1149,9 +1188,13 @@ void Configuration::GetConfigInfo(string &FileLine, fstream &ReadData)
 				FileLine = ReadNoComments(ReadData);
 				CAFEDomain TempDomain;
 				TempDomain.GetConfigInfo(FileLine, ReadData);
-				if (!ReplaceDomain(TempDomain))
+				if (!TempDomain.IsValid())
 				{
 					BadObject = true;
+				}
+				else
+				{
+					myCAFEInfo.SetCAFEDomain(TempDomain);
 				}
 			}
 			else if (FoundStartTag(FileLine, TagWords[5]))	// CAFEVar
@@ -1225,11 +1268,11 @@ void Configuration::GetConfigInfo(string &FileLine, fstream &ReadData)
 		cerr << "Status:" << endl;
 		cerr << "Database Stem: " << myCAFEInfo.GetUntrainedNameStem() 
 		     << "   Processed Stem: " << myCAFEInfo.GetTrainedNameStem() << endl;
-		cerr << "TimePeriods count: " << TimePeriodCount() << endl;
+		cerr << "TimePeriods count: " << myCAFEInfo.GetTimeOffsets().size() << endl;
 		cerr << "CAFEDomain Valid? " << myCAFEInfo.GetCAFEDomain().IsValid() << endl;
-		cerr << "CAFEVars count: " << CAFEVarCount() << endl;
-		cerr << "DataSources count: " << DataSourceCount() << endl;
-		cerr << "EventTypes count: " << EventTypeCount() << endl;
+		cerr << "CAFEVars count: " << myCAFEInfo.GetCAFEVars().size() << endl;
+		cerr << "DataSources count: " << myCAFEInfo.GetDataSources().size() << endl;
+		cerr << "EventTypes count: " << myCAFEInfo.GetEventTypes().size() << endl;
 	}
 }// ends GetConfigInfo()
 
@@ -1257,7 +1300,10 @@ bool Configuration::MakeConfigFile(const string &ConfigFileName)
 	ConfigStream << "<Config>" << endl;
 	ConfigStream << "\t<DatabaseStem>" << myCAFEInfo.GetUntrainedNameStem() << "</DatabaseStem>" << endl;
 	ConfigStream << "\t<ProcessedStem>" << myCAFEInfo.GetTrainedNameStem() << "</ProcessedStem>" << endl;
-	ConfigStream << "\t<TimePeriods>" << GiveDelimitedList(GiveTimePeriods(), ',') << "</TimePeriods>" << endl;
+	const set<string> timePeriods = myCAFEInfo.GetTimePeriods();
+	ConfigStream << "\t<TimePeriods>" << GiveDelimitedList(vector<string>(timePeriods.begin(),
+									      timePeriods.end()), ',') 
+		     << "</TimePeriods>" << endl;
 	ConfigStream << "\t<Domain>" << endl;
 	ConfigStream << "\t\t<Lon>" << GiveDelimitedList(FloatToStr(myCAFEInfo.GetCAFEDomain().GiveLons()), ',') << "</Lon>" << endl;
 	ConfigStream << "\t\t<Lat>" << GiveDelimitedList(FloatToStr(myCAFEInfo.GetCAFEDomain().GiveLats()), ',') << "</Lat>" << endl;
@@ -1270,19 +1316,27 @@ bool Configuration::MakeConfigFile(const string &ConfigFileName)
 		ConfigStream << "\t<CAFEVar>\n"
 			     << "\t\t<Name>" << aVar->first << "</Name>" << endl;
 
-		vector <string> CAFELevelNames = aVar->second.GiveCAFELevelNames();
-		vector <size_t> CAFELevelIndicies = aVar->second.GiveCAFELevelIndicies();
-
-		for (size_t CAFELevelIndex = 0; CAFELevelIndex < CAFELevelNames.size(); CAFELevelIndex++)
+		for (map<string, size_t>::const_iterator aLevel = aVar->second.GiveCAFELevels().begin();
+		     aLevel != aVar->second.GiveCAFELevels().end();
+		     aLevel++)
 		{
-			ConfigStream << "\t\t<Level>$" << CAFELevelIndicies[CAFELevelIndex] << " = "
-				     << CAFELevelNames[CAFELevelIndex] << "</Level>" << endl;
+			if (aLevel->second != string::npos)
+			{
+				ConfigStream << "\t\t<Level>$" << aLevel->second << " = "
+					     << aLevel->first << "</Level>" << endl;
+			}
+			else if (!aLevel->first.empty())
+			{
+				// So, I have a string::npos, but a non-empty level name...
+				// this can happen, I think...
+				ConfigStream << "\t\t<Level>" << aLevel->first << "</Level>" << endl;
+			}
 		}
 
 		ConfigStream << "\t</CAFEVar>" << endl;
 	}
 
-	ConfigStream << "\t<Default>" << GiveDefaultSourceName() << "</Default>" << endl;
+	ConfigStream << "\t<Default>" << myCAFEInfo.GetDefaultDataSource() << "</Default>" << endl;
 	
 	for (map<string, DataSource>::const_iterator theSource = myCAFEInfo.GetDataSources().begin();
 	     theSource != myCAFEInfo.GetDataSources().end();
@@ -1291,25 +1345,35 @@ bool Configuration::MakeConfigFile(const string &ConfigFileName)
 		ConfigStream << "\t<DataSource>\n"
 			     << "\t\t<Name>" << theSource->first << "</Name>" << endl;
 
-		for (map<string, CAFEVar>::const_iterator aVar = myCAFEInfo.GetCAFEVars().begin();
-		     aVar != myCAFEInfo.GetCAFEVars().end();
+		for (map<string, DataVar>::const_iterator aVar = theSource->second.GiveDataVars().begin();
+		     aVar != theSource->second.GiveDataVars().end();
 		     aVar++)
 		{
 			ConfigStream << "\t\t<DataVar>" << endl
 				     << "\t\t\t<Name>" 
-				     << Give_DataSource_DataName(theSource->first, aVar->first)
+				     << aVar->second.GiveDataVarName()
 				     << "</Name>" << endl
-				     << "\t\t\t<CAFEname>" << aVar->first
+				     << "\t\t\t<CAFEname>" << aVar->second.GiveCAFEVarName()
                         	     << "</CAFEname>" << endl;
 
-			const vector <size_t> CAFELevelIndicies = aVar->second.GiveCAFELevelIndicies();
-			const vector <string> CAFELevelNames = aVar->second.GiveCAFELevelNames();
-			for (size_t LevelIndex = 0; LevelIndex < CAFELevelIndicies.size(); LevelIndex++)
+			for (map<size_t, string>::const_iterator aLevel = aVar->second.GiveDataLevels().begin();
+			     aLevel != aVar->second.GiveDataLevels().end();
+			     aLevel++)
 			{
-				ConfigStream << "\t\t\t<Level>"
-					     << Give_DataSource_DataLevel(theSource->first, aVar->first, CAFELevelNames[LevelIndex])
-					     << " = $" << CAFELevelIndicies[LevelIndex]
-					     << "</Level>" << endl;
+				if (aLevel->first != string::npos)
+				{
+					ConfigStream << "\t\t\t<Level>"
+						     << aLevel->second
+						     << " = $" << aLevel->first
+						     << "</Level>" << endl;
+				}
+				else if (!aLevel->second.empty())
+				{
+					// So there is a string::npos index, but a non-empty
+					// level name, which is allowed.
+					ConfigStream << "\t\t\t<Level>"
+						     << aLevel->second << "</Level>" << endl;
+				}
 			}
 
 			ConfigStream << "\t\t</DataVar>" << endl;
@@ -1325,16 +1389,17 @@ bool Configuration::MakeConfigFile(const string &ConfigFileName)
 		ConfigStream << "\t<EventType>" << endl;
 		ConfigStream << "\t\t<TypeName>" << anEvent->first << "</TypeName>" << endl;
 
-		const vector <string> CAFEVarNames = Give_EventType_CAFEVarNames(anEvent->first);
-		for (size_t VarIndex = 0; VarIndex < CAFEVarNames.size(); VarIndex++)
+		for (map<string, Variable>::const_iterator aVar = anEvent->second.GiveEventVariables().begin();
+		     aVar != anEvent->second.GiveEventVariables().end();
+		     aVar++)
 		{
 			ConfigStream << "\t\t<Variable>" << endl;
-			ConfigStream << "\t\t\t<Name>" << CAFEVarNames[VarIndex] << "</Name>" << endl;
+			ConfigStream << "\t\t\t<Name>" << aVar->first << "</Name>" << endl;
 			
-			if (EventType_LevelCount(anEvent->first, CAFEVarNames[VarIndex]) > 0)
+			if (aVar->second.GiveLevelCount() > 0)
 			{
 				ConfigStream << "\t\t\t<Level>";
-				ConfigStream << GiveDelimitedList(Give_EventType_LevelNames(anEvent->first, CAFEVarNames[VarIndex]), ',');
+				ConfigStream << GiveDelimitedList(aVar->second.GiveCAFELevels(), ',');
 				ConfigStream << "</Level>" << endl;
 			}
 

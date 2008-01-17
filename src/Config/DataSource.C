@@ -21,66 +21,6 @@ using namespace std;
 #include <ctime>
 
 
-DataSourceID_t::DataSourceID_t()
-	:	myDataSourceName("")
-{
-}
-
-DataSourceID_t::DataSourceID_t(const DataSourceID_t &ACopy)
-	:	myDataSourceName( ACopy.myDataSourceName )
-{
-}
-
-
-DataSourceID_t::DataSourceID_t(const string &DataSourceName)
-	:	myDataSourceName(DataSourceName)
-{
-}
-
-DataSourceID_t::DataSourceID_t(const char* DataSourceName)
-	:	myDataSourceName(DataSourceName)
-{
-}
-
-
-void DataSourceID_t::operator = (const DataSourceID_t &ACopy)
-{
-	myDataSourceName = ACopy.myDataSourceName;
-}
-
-void DataSourceID_t::operator = (const string &dataSourceName)
-{
-	myDataSourceName = dataSourceName;
-}
-
-
-ostream& operator << (ostream& os, const DataSourceID_t &dataSource)
-{
-	return(os << dataSource.myDataSourceName);
-}
-
-bool operator == (const DataSourceID_t &lefty, const DataSourceID_t &righty)
-{
-	return(lefty.myDataSourceName == righty.myDataSourceName);
-}
-
-bool operator != (const DataSourceID_t &lefty, const DataSourceID_t &righty)
-{
-	return(lefty.myDataSourceName != righty.myDataSourceName);
-}
-
-bool operator < (const DataSourceID_t &lefty, const DataSourceID_t &righty)
-{
-	return(lefty.myDataSourceName < righty.myDataSourceName);
-}
-
-
-
-
-
-
-
-
 
 DataSource::DataSource()
 	:	mySourceName(""),
@@ -272,6 +212,12 @@ size_t DataSource::GiveDataLevelCount(const string &CAFEVarName) const
         return(ADataVar->second.GiveDataLevelCount());
 }
 
+const map<string, DataVar>&
+DataSource::GiveDataVars() const
+{
+	return(myDataVars);
+}
+
 
 pair<time_t, time_t> DataSource::GiveTimeRange() const
 {
@@ -295,7 +241,7 @@ bool DataSource::AddDataVar(const DataVar &NewDataVar)
 			if (DataVarMatch->second.GiveDataVarName() == NewDataVar.GiveDataVarName())
 			{
 				// they have the same CAFEName and the same DataVarName, will then update the stored info.
-				// NOTE: is this supposed to be done here or elsewhere?
+				// TODO: is this supposed to be done here or elsewhere?
 				return(true);
 			}
 			else
@@ -324,76 +270,6 @@ vector<string> DataSource::InitTagWords() const
 	TagWords[4] = "Time";
 	
 	return(TagWords);
-}
-
-bool operator == (const DataSource &Lefty, const DataSource &Righty)
-{
-	return(Lefty.mySourceName == Righty.mySourceName);
-}
-
-bool operator != (const DataSource &Lefty, const DataSource &Righty)
-{
-	return(Lefty.mySourceName != Righty.mySourceName);
-}
-
-bool operator > (const DataSource &TheSource, const string &ASourceName)
-{
-	return(TheSource.mySourceName > ASourceName);
-}
-
-bool operator < (const DataSource &TheSource, const string &ASourceName)
-{
-        return(TheSource.mySourceName < ASourceName);
-}
-
-bool operator >= (const DataSource &TheSource, const string &ASourceName)
-{
-        return(TheSource.mySourceName >= ASourceName);
-}
-
-bool operator <= (const DataSource &TheSource, const string &ASourceName)
-{
-        return(TheSource.mySourceName <= ASourceName);
-}
-
-bool operator == (const DataSource &TheSource, const string &ASourceName)
-{
-        return(TheSource.mySourceName == ASourceName);
-}
-
-bool operator != (const DataSource &TheSource, const string &ASourceName)
-{
-        return(TheSource.mySourceName != ASourceName);
-}
-
-bool operator > (const string &ASourceName, const DataSource &TheSource)
-{
-        return(ASourceName > TheSource.mySourceName);
-}
-
-bool operator < (const string &ASourceName, const DataSource &TheSource)
-{
-        return(ASourceName < TheSource.mySourceName);
-}
-
-bool operator >= (const string &ASourceName, const DataSource &TheSource)
-{
-        return(ASourceName >= TheSource.mySourceName);
-}
-
-bool operator <= (const string &ASourceName, const DataSource &TheSource)
-{
-        return(ASourceName <= TheSource.mySourceName);
-}
-
-bool operator == (const string &ASourceName, const DataSource &TheSource)
-{
-        return(ASourceName == TheSource.mySourceName);
-}
-
-bool operator != (const string &ASourceName, const DataSource &TheSource)
-{
-        return(ASourceName != TheSource.mySourceName);
 }
 
 #endif

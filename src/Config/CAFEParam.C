@@ -224,6 +224,20 @@ CAFEParam::GetUntrainedNameStem() const
 	return(myUntrainedNameStem);
 }
 
+set<string>
+CAFEParam::GetUntrainedNames() const
+{
+	set<string> theNames;
+	for (set<int>::const_iterator anOffset = myTimeOffsets.begin();
+	     anOffset != myTimeOffsets.end();
+	     anOffset++)
+	{
+		theNames.insert(theNames.end(), myUntrainedNameStem + "_" + OffsetToTimePeriod(*anOffset));
+	}
+
+	return(theNames);
+}
+
 CAFEParam&
 CAFEParam::SetTrainedNameStem(const string &newNameStem)
 {
@@ -238,6 +252,20 @@ const string&
 CAFEParam::GetTrainedNameStem() const
 {
 	return(myTrainedNameStem);
+}
+
+set<string>
+CAFEParam::GetTrainedNames() const
+{
+	set<string> theNames;
+	for (set<int>::const_iterator anOffset = myTimeOffsets.begin();
+	     anOffset != myTimeOffsets.end();
+	     anOffset++)
+	{
+		theNames.insert(theNames.end(), myTrainedNameStem + "_" + OffsetToTimePeriod(*anOffset));
+	}
+
+	return(theNames);
 }
 
 CAFEParam&
@@ -274,6 +302,20 @@ const map<string, DataSource>&
 CAFEParam::GetDataSources() const
 {
 	return(myDataSources);
+}
+
+set<string>
+CAFEParam::GetDataSourceNames() const
+{
+	set<string> theNames;
+	for (map<string, DataSource>::const_iterator aSource = myDataSources.begin();
+	     aSource != myDataSources.end();
+	     aSource++)
+	{
+		theNames.insert(theNames.end(), aSource->first);
+	}
+
+	return(theNames);
 }
 
 CAFEParam&
@@ -337,6 +379,20 @@ CAFEParam::GetCAFEVars() const
 	return(myCAFEVars);
 }
 
+set<string>
+CAFEParam::GetCAFEVarNames() const
+{
+	set<string> theNames;
+	for (map<string, CAFEVar>::const_iterator aVar = myCAFEVars.begin();
+	     aVar != myCAFEVars.end();
+	     aVar++)
+	{
+		theNames.insert(theNames.end(), aVar->first);
+	}
+
+	return(theNames);
+}
+
 CAFEParam&
 CAFEParam::AddCAFEVars(const map<string, CAFEVar> &newCAFEVars)
 {
@@ -397,6 +453,20 @@ const map<string, EventType>&
 CAFEParam::GetEventTypes() const
 {
 	return(myEventTypes);
+}
+
+set<string>
+CAFEParam::GetEventTypeNames() const
+{
+	set<string> theNames;
+	for (map<string, EventType>::const_iterator anEvent = myEventTypes.begin();
+	     anEvent != myEventTypes.end();
+	     anEvent++)
+	{
+		theNames.insert(theNames.end(), anEvent->first);
+	}
+
+	return(theNames);
 }
 
 CAFEParam&

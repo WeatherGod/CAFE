@@ -7,7 +7,7 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include <vector>
-#include <cmath>
+#include <cmath>			// for NAN
 
 #include "Config/CAFEDomain.h"
 

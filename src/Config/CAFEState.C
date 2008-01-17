@@ -6,7 +6,6 @@ using namespace std;
 #include <algorithm>			// for find()
 #include <string>
 #include <cctype>			// for size_t
-#include <cmath>			// for abs()
 
 #include <Config/CAFEVar.h>
 #include <Config/EventType.h>
@@ -14,7 +13,11 @@ using namespace std;
 #include <Config/DataSource.h>
 #include <Config/CAFEParam.h>
 
+
+#include <Utils/CAFEUtly.h>		// for OffsetToTimePeriod()
+
 #include <Config/CAFEState.h>
+
 
 
 CAFEState::CAFEState()
@@ -28,7 +31,6 @@ CAFEState::CAFEState()
 		myEventVarIter(GetEventVars().end()),
 		myTempEventVarLevelNames(0),
 		myEventVarLevelIter(GetEventLevels().end()),
-		myTempCAFELevelNames(0),
 		myCAFELevelIter(GetCAFELevels().end())
 {
 }
@@ -44,7 +46,6 @@ CAFEState::CAFEState(const CAFEState &stateCopy)
                 myEventVarIter(),
 		myTempEventVarLevelNames(stateCopy.GetEventLevels()),
                 myEventVarLevelIter(),
-		myTempCAFELevelNames(stateCopy.GetCAFELevels()),
 		myCAFELevelIter()
 {
 	if (stateCopy.TimePeriods_HasNext())
@@ -91,8 +92,14 @@ CAFEState::CAFEState(const CAFEState &stateCopy)
 	myEventVarLevelIter = GetEventLevels().begin() 
 			     + (stateCopy.myEventVarLevelIter - stateCopy.GetEventLevels().begin());
 
-	myCAFELevelIter = GetCAFELevels().begin()
-			 + (stateCopy.myCAFELevelIter - stateCopy.GetCAFELevels().begin());
+	if (stateCopy.CAFELevels_HasNext())
+	{
+		myCAFELevelIter = GetCAFELevels().find(stateCopy.CAFELevel_Name());
+	}
+	else
+	{
+		myCAFELevelIter = GetCAFELevels().end();
+	}
 }
 
 CAFEState::CAFEState(const CAFEParam &cafeConfig)
@@ -106,12 +113,10 @@ CAFEState::CAFEState(const CAFEParam &cafeConfig)
                 myEventVarIter(),
                 myTempEventVarLevelNames(0),
                 myEventVarLevelIter(),
-		myTempCAFELevelNames(0),
-		myCAFELevelIter()
+		myCAFELevelIter(GetCAFELevels().begin())
 {
 	ResetEventVars();	// Initializes myTempEventVarNames, myEventVarIter,
 				//             myTempEventVarLevelNames, and myEventVarLevelIter
-	ResetCAFELevels();	// Initializes myTempCAFELevelNames, and myCAFELevelIter
 }
 
 
@@ -305,15 +310,7 @@ CAFEState::TimePeriod_Offset() const
 set<string>
 CAFEState::TimePeriod_Names() const
 {
-	set<string> theNames;
-	for (set<int>::const_iterator anOffset = GetTimeOffsets().begin();
-	     anOffset != GetTimeOffsets().end();
-	     anOffset++)
-	{
-		theNames.insert(theNames.end(), GiveTimePeriod(*anOffset));
-	}
-
-	return(theNames);
+	return(myCAFEInfo.GetTimePeriods());
 }
 
 string
@@ -325,16 +322,7 @@ CAFEState::TimePeriod_Name() const
 set<string>
 CAFEState::Untrained_Names() const
 {
-        set<string> theNames;
-        for (set<int>::const_iterator anOffset = GetTimeOffsets().begin();
-             anOffset != GetTimeOffsets().end();
-             anOffset++)
-        {
-                theNames.insert(theNames.end(), GetUntrainedNameStem() 
-						+ "_" + GiveTimePeriod(*anOffset));
-        }
-
-        return(theNames);
+        return(myCAFEInfo.GetUntrainedNames());
 }
 
 string
@@ -346,16 +334,7 @@ CAFEState::Untrained_Name() const
 set<string>
 CAFEState::Trained_Names() const
 {
-        set<string> theNames;
-        for (set<int>::const_iterator anOffset = GetTimeOffsets().begin();
-             anOffset != GetTimeOffsets().end();
-             anOffset++)
-        {
-                theNames.insert(theNames.end(), GetTrainedNameStem() 
-						+ "_" + GiveTimePeriod(*anOffset));
-        }
-
-        return(theNames);
+        return(myCAFEInfo.GetTrainedNames());
 }
 
 string
@@ -771,14 +750,14 @@ CAFEState&
 CAFEState::CAFEVars_Begin()
 {
 	myCAFEVarIter = GetCAFEVars().begin();
-	return(ResetCAFELevels());
+	return(CAFELevels_Begin());
 }
 
 CAFEState&
 CAFEState::CAFEVars_Next()
 {
 	myCAFEVarIter++;
-	return(ResetCAFELevels());
+	return(CAFELevels_Begin());
 }
 
 bool
@@ -795,7 +774,7 @@ CAFEState::CAFEVars_JumpTo(const string &varName)
 	if (GetCAFEVars().end() != varFind)
 	{
 		myCAFEVarIter = varFind;
-		ResetCAFELevels();
+		CAFELevels_Begin();
 		return(true);
 	}
 	else
@@ -808,15 +787,7 @@ CAFEState::CAFEVars_JumpTo(const string &varName)
 set<string>
 CAFEState::CAFEVar_Names() const
 {
-	set<string> theNames;
-	for (map<string, CAFEVar>::const_iterator aVar = GetCAFEVars().begin();
-	     aVar != GetCAFEVars().end();
-	     aVar++)
-	{
-		theNames.insert(theNames.end(), aVar->first);
-	}
-
-	return(theNames);
+	return(myCAFEInfo.GetCAFEVarNames());
 }
 
 const string&
@@ -892,9 +863,7 @@ CAFEState::CAFELevels_HasNext() const
 bool
 CAFEState::CAFELevels_JumpTo(const string &levelName)
 {
-	const vector<string>::const_iterator levelFind = find(GetCAFELevels().begin(),
-							      GetCAFELevels().end(),
-							      levelName);
+	const map<string, size_t>::const_iterator levelFind = GetCAFELevels().find(levelName);
 
 	if (GetCAFELevels().end() != levelFind)
 	{
@@ -912,11 +881,11 @@ set<string>
 CAFEState::CAFELevel_Names() const
 {
 	set<string> theNames;
-	for (vector<string>::const_iterator aLevel = GetCAFELevels().begin();
+	for (map<string, size_t>::const_iterator aLevel = GetCAFELevels().begin();
 	     aLevel != GetCAFELevels().end();
 	     aLevel++)
 	{
-		theNames.insert(theNames.end(), *aLevel);
+		theNames.insert(theNames.end(), aLevel->first);
 	}
 
 	return(theNames);
@@ -925,20 +894,18 @@ CAFEState::CAFELevel_Names() const
 const string&
 CAFEState::CAFELevel_Name() const
 {
-	return(*myCAFELevelIter);
+	return(myCAFELevelIter->first);
 }
 
 map<string, string>
 CAFEState::CAFELevel_CAFEDataLevel_Names() const
 {
 	map<string, string> logicalPairings;
-	for (vector<string>::const_iterator aLevel = GetCAFELevels().begin();
+	for (map<string, size_t>::const_iterator aLevel = GetCAFELevels().begin();
 	     aLevel != GetCAFELevels().end();
 	     aLevel++)
 	{
-		logicalPairings[*aLevel] = GetDataSource().GiveDataLevel(CAFEVar_Name(),
-							      		 GetCAFEVars().find(CAFEVar_Name())
-									   ->second.GiveCAFELevelIndex(*aLevel));
+		logicalPairings[aLevel->first] = GetDataSource().GiveDataLevel(CAFEVar_Name(), aLevel->second);
 	}
 
 	return(logicalPairings);
@@ -948,13 +915,11 @@ set<string>
 CAFEState::CAFEDataLevel_Names() const
 {
 	set<string> theNames;
-	for (vector<string>::const_iterator aLevel = GetCAFELevels().begin();
+	for (map<string, size_t>::const_iterator aLevel = GetCAFELevels().begin();
 	     aLevel != GetCAFELevels().end();
 	     aLevel++)
 	{
-		theNames.insert( GetDataSource().GiveDataLevel(CAFEVar_Name(),
-							       GetCAFEVars().find(CAFEVar_Name())
-								 ->second.GiveCAFELevelIndex(*aLevel)) );
+		theNames.insert( GetDataSource().GiveDataLevel(CAFEVar_Name(), aLevel->second) );
 	}
 
 	return(theNames);
@@ -963,8 +928,7 @@ CAFEState::CAFEDataLevel_Names() const
 const string&
 CAFEState::CAFEDataLevel_Name() const
 {
-	return(GetDataSource().GiveDataLevel(CAFEVar_Name(), GetCAFEVars().find(CAFEVar_Name())
-							       ->second.GiveCAFELevelIndex(CAFELevel_Name())));
+	return(GetDataSource().GiveDataLevel(CAFEVar_Name(), myCAFELevelIter->second));
 }
 
 
@@ -972,17 +936,23 @@ set<string>
 CAFEState::CAFEField_Names() const
 {
 	set<string> theNames;
-	for (vector<string>::const_iterator aLevel = GetCAFELevels().begin();
+	for (map<string, size_t>::const_iterator aLevel = GetCAFELevels().begin();
 	     aLevel != GetCAFELevels().end();
 	     aLevel++)
 	{
-		theNames.insert(theNames.end(), (CAFELevel_Name().empty() ? CAFEVar_Name()
-									  : CAFEVar_Name() + "_" + CAFELevel_Name()));
+		theNames.insert(theNames.end(), (aLevel->first.empty() ? CAFEVar_Name()
+								       : CAFEVar_Name() + "_" + aLevel->first));
 	}
 
 	return(theNames);
 }
 
+string
+CAFEState::CAFEField_Name() const
+{
+	return(CAFELevel_Name().empty() ? CAFEVar_Name()
+					: CAFEVar_Name() + "_" + CAFELevel_Name());
+}
 
 
 
@@ -1045,13 +1015,7 @@ CAFEState::DefaultDataSource() const
 set<string>
 CAFEState::DataSource_Names() const
 {
-	set<string> theNames;
-	for (map<string, DataSource>::const_iterator aSource = GetDataSources().begin();
-	     aSource != GetDataSources().end();
-	     aSource++)
-	{
-		theNames.insert(theNames.end(), aSource->first);
-	}
+	return(myCAFEInfo.GetDataSourceNames());
 }
 
 const string&
@@ -1070,19 +1034,7 @@ CAFEState::DataSource_Name() const
 string
 CAFEState::GiveTimePeriod(const int &timeOffset) const
 {
-	char timePeriodStr[10];
-	memset(timePeriodStr, '\0', 10);
-
-	if (timeOffset <= 0)
-	{
-		snprintf(timePeriodStr, 10, "Tm%.2d", abs(timeOffset));
-	}
-	else
-	{
-		snprintf(timePeriodStr, 10, "Tp%.2d", timeOffset);
-	}
-
-	return(timePeriodStr);
+	return(OffsetToTimePeriod(timeOffset));
 }
 
 CAFEState&
@@ -1115,20 +1067,6 @@ CAFEState::ResetEventLevels()
 	return(EventLevels_Begin());
 }
 
-CAFEState&
-CAFEState::ResetCAFELevels()
-{
-	if (CAFEVars_HasNext())
-	{
-		myTempCAFELevelNames = GetCAFEVar().GiveCAFELevelNames();
-	}
-	else
-	{
-		myTempCAFELevelNames.clear();
-	}
-
-	return(CAFELevels_Begin());
-}
 
 
 //-----------------------------------------------
@@ -1174,10 +1112,10 @@ CAFEState::GetEventLevels() const
 	return(myTempEventVarLevelNames);
 }
 
-const vector<string>&
+const map<string, size_t>&
 CAFEState::GetCAFELevels() const
 {
-	return(myTempCAFELevelNames);
+	return(GetCAFEVar().GiveCAFELevels());
 }
 
 

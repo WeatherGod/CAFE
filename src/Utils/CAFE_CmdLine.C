@@ -197,40 +197,28 @@ string CmdOptions::OptionMerge(vector <string> &GivenValues, const vector <strin
 
 bool CmdOptions::MergeWithConfiguration(const Configuration &ConfigInfo)
 {
+	const CAFEParam cafeInfo = ConfigInfo.GiveCAFEInfo();
 //	cout << "Merging..." << endl;
 	string ErrorMesg = "";
 
-	ErrorMesg += OptionMerge(EventTypes, ConfigInfo.GiveEventTypeNames(), (string) "event type(s)");
-	ErrorMesg += OptionMerge(TimePeriods, ConfigInfo.GiveTimePeriods(), (string) "time period(s)");
-	ErrorMesg += OptionMerge(CAFEVarNames, ConfigInfo.GiveCAFEVarNames(), (string) "CAFE Variable(s)");
+	const set<string> eventNames = cafeInfo.GetEventTypeNames();
+	const set<string> timePeriods = cafeInfo.GetTimePeriods();
+	const set<string> varNames = cafeInfo.GetCAFEVarNames();
+
+	ErrorMesg += OptionMerge(EventTypes, vector<string>(eventNames.begin(), eventNames.end()), (string) "event type(s)");
+	ErrorMesg += OptionMerge(TimePeriods, vector<string>(timePeriods.begin(), timePeriods.end()), (string) "time period(s)");
+	ErrorMesg += OptionMerge(CAFEVarNames, vector<string>(varNames.begin(), varNames.end()), (string) "CAFE Variable(s)");
 
 //	cout << '^' << GiveDelimitedList(CAFEVarNames, ' ') << '^' << endl;
 
-	DatabaseNames.resize(TimePeriods.size(), "");
-	ClustDatabaseNames.resize(TimePeriods.size(), "");
+	const set<string> untrainedNames = cafeInfo.GetUntrainedNames();
+	const set<string> trainedNames = cafeInfo.GetTrainedNames();
 
-	for (vector<string>::iterator ATimePeriod( TimePeriods.begin() ),
-	                              ADatabaseName( DatabaseNames.begin() ), 
-				      AClustName( ClustDatabaseNames.begin() );
-	     ATimePeriod != TimePeriods.end(); 
-	     ATimePeriod++, ADatabaseName++, AClustName++)
-	{
-		*ADatabaseName = ConfigInfo.GiveDatabaseName(*ATimePeriod);
-		*AClustName = ConfigInfo.GiveClusteredDatabaseName(*ATimePeriod);
-	}
+	DatabaseNames.assign(untrainedNames.begin(), untrainedNames.end());
+	ClustDatabaseNames.assign(trainedNames.begin(), trainedNames.end());
 
-	vector <string> AllCAFELabels(0);
-	for (vector<string>::const_iterator AVarName = CAFEVarNames.begin(); 
-	     AVarName != CAFEVarNames.end(); 
-	     AVarName++)
-	{
-		const size_t OldSize = AllCAFELabels.size();
-		const vector <string> SomeCAFELabels = ConfigInfo.Give_CAFEVar_CAFEVarLabels(*AVarName);
-		AllCAFELabels.insert(AllCAFELabels.end(), SomeCAFELabels.begin(), SomeCAFELabels.end());
-
-//		cout << '$' << GiveDelimitedList(ConfigInfo.Give_CAFEVar_CAFEVarLabels(*AVarName), ' ') << '$' << endl;
-		inplace_merge(AllCAFELabels.begin(), AllCAFELabels.begin() + OldSize, AllCAFELabels.end());
-	}
+	const set<string> cafeFields = cafeInfo.GetCAFEFields();
+	const vector<string> AllCAFELabels(cafeFields.begin(), cafeFields.end());
 
 //	cout << '#' << GiveDelimitedList(AllCAFELabels, ' ') << '#' << endl;
 
@@ -241,8 +229,10 @@ bool CmdOptions::MergeWithConfiguration(const Configuration &ConfigInfo)
 		cerr << "ERROR: " << ErrorMesg << endl;
 		return(false);
 	}
-
-	return(true);
+	else
+	{
+		return(true);
+	}
 }
 
 CAFEParam
@@ -364,6 +354,7 @@ CmdOptions::ConfigMerge(const CAFEParam& configInfo)
 	return(mergedInfo);
 }
 
+/*
 string CmdOptions::GiveDatabaseName(const string &TheTimePeriod) const
 {
 	if (binary_search(TimePeriods.begin(), TimePeriods.end(), TheTimePeriod))
@@ -374,7 +365,8 @@ string CmdOptions::GiveDatabaseName(const string &TheTimePeriod) const
 	
 	return("");
 }
-
+*/
+/*
 string CmdOptions::GiveClusteredDatabaseName(const string &TheTimePeriod) const
 {
         if (binary_search(TimePeriods.begin(), TimePeriods.end(), TheTimePeriod))
@@ -385,8 +377,8 @@ string CmdOptions::GiveClusteredDatabaseName(const string &TheTimePeriod) const
 
         return("");
 }
-
-
+*/
+/*
 // Deprecated
 string CmdOptions::GiveTimePeriod(const int &HourOffset) const
 // Will only work properly if done AFTER the MergeWithConfiguration()
@@ -403,7 +395,7 @@ string CmdOptions::GiveTimePeriod(const int &HourOffset) const
 		return(TheTimePeriod);
 	}
 }
-
+*/
 
 void CmdOptions::SetUpSwitchers()
 {
@@ -460,6 +452,7 @@ void CmdOptions::DoDecrement(vector <string> &CmdArgs, vector<string>::iterator 
 	ACmdArg = CmdArgs.erase(ACmdArg);
 }
 
+/*
 vector <string> CmdOptions::GiveLabelsToDo(const Configuration &ConfigInfo, const string &EventTypeName, const string &CAFEVarName) const
 // it is assumed that CAFELabelNames is in lexiconal order!!
 {
@@ -475,7 +468,9 @@ vector <string> CmdOptions::GiveLabelsToDo(const Configuration &ConfigInfo, cons
 //	cout << '-' << GiveDelimitedList(TheLabelsToDo, ' ') << '-' << endl;
 	return(TheLabelsToDo);
 }
+*/
 
+/*
 vector <string> CmdOptions::GiveCAFEVarsToDo(const Configuration &ConfigInfo, const string &EventTypeName) const
 {
 	const vector <string> SomeCAFEVarNames = ConfigInfo.Give_EventType_CAFEVarNames(EventTypeName);
@@ -487,7 +482,7 @@ vector <string> CmdOptions::GiveCAFEVarsToDo(const Configuration &ConfigInfo, co
 	CAFEVarsToDo.resize(VarEnd - CAFEVarsToDo.begin());
 	return(CAFEVarsToDo);
 }
-
+*/
 
 int CmdOptions::ParseCommandArgs(vector <string> &CmdArgs)
 {

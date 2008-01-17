@@ -23,6 +23,8 @@ class DataVar
                 bool ValidConfig() const;                                       //
                 bool IsValid() const;
 
+		const map<size_t, string>& GiveDataLevels() const;
+
 		const string& GiveDataVarName() const;
 		const string& GiveCAFEVarName() const;
 		const string& GiveDataLevel(const size_t &CAFELevelIndex) const;
@@ -40,21 +42,6 @@ class DataVar
 		bool myIsConfigured;
 
 		vector<string> InitTagWords() const;
-/*
-	friend bool operator > (const DataVar &TheDataVar, const string DataVarName);
-	friend bool operator < (const DataVar &TheDataVar, const string DataVarName);
-	friend bool operator >= (const DataVar &TheDataVar, const string DataVarName);
-	friend bool operator <= (const DataVar &TheDataVar, const string DataVarName);
-	friend bool operator != (const DataVar &TheDataVar, const string DataVarName);
-	friend bool operator == (const DataVar &TheDataVar, const string DataVarName);
-
-	friend bool operator > (const string DataVarName, const DataVar &TheDataVar);
-	friend bool operator < (const string DataVarName, const DataVar &TheDataVar);
-	friend bool operator >= (const string DataVarName, const DataVar &TheDataVar);
-	friend bool operator <= (const string DataVarName, const DataVar &TheDataVar);
-	friend bool operator == (const string DataVarName, const DataVar &TheDataVar);
-	friend bool operator != (const string DataVarName, const DataVar &TheDataVar);
-*/
 };
 
 

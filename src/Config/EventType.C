@@ -16,46 +16,6 @@ using namespace std;
 #include <StrUtly.h>			// for RipWhiteSpace()
 #include <ConfigUtly.h>			// for ReadNoComments(), StripTags(), FoundStartTag(), FoundEndTag()
 
-EventTypeID_t::EventTypeID_t()
-	:	myEventTypeIndex(string::npos),
-		myEventTypeName("")
-{
-}
-
-EventTypeID_t::EventTypeID_t(const size_t &EventTypeIndex)
-        :       myEventTypeIndex(EventTypeIndex),
-                myEventTypeName("")
-{
-}
-
-EventTypeID_t::EventTypeID_t(const string &EventTypeName)
-        :       myEventTypeIndex(string::npos),
-                myEventTypeName(EventTypeName)
-{
-}
-
-size_t EventTypeID_t::GiveIndex(const vector <EventType> &EventTypes) const
-{
-	if (myEventTypeIndex != string::npos)
-	{
-		return(myEventTypeIndex);
-	}
-
-	if (!myEventTypeName.empty())
-	{
-		if (binary_search(EventTypes.begin(), EventTypes.end(), myEventTypeName))
-		{
-			return(lower_bound(EventTypes.begin(), EventTypes.end(), myEventTypeName) - EventTypes.begin());
-		}
-	}
-
-	return(string::npos);
-}
-
-string EventTypeID_t::GiveName() const
-{
-	return(myEventTypeName);
-}
 
 
 EventType::EventType()
@@ -256,77 +216,5 @@ vector<string> EventType::InitTagWords() const
 	return(TagWords);
 }
 
-bool operator == (const EventType &Lefty, const EventType &Righty)
-{
-	return(Lefty.myEventTypeName == Righty.myEventTypeName);
-}
-
-bool operator != (const EventType &Lefty, const EventType &Righty)
-{
-	return(Lefty.myEventTypeName != Righty.myEventTypeName);
-}
-
-
-
-bool operator > (const EventType &Lefty, const string &EventTypeName)
-{
-	return(Lefty.myEventTypeName > EventTypeName);
-}
-
-bool operator < (const EventType &Lefty, const string &EventTypeName)
-{
-        return(Lefty.myEventTypeName < EventTypeName);
-}
-
-bool operator >= (const EventType &Lefty, const string &EventTypeName)
-{
-        return(Lefty.myEventTypeName >= EventTypeName);
-}
-
-bool operator <= (const EventType &Lefty, const string &EventTypeName)
-{
-        return(Lefty.myEventTypeName <= EventTypeName);
-}
-
-bool operator == (const EventType &Lefty, const string &EventTypeName)
-{
-        return(Lefty.myEventTypeName == EventTypeName);
-}
-
-bool operator != (const EventType &Lefty, const string &EventTypeName)
-{
-        return(Lefty.myEventTypeName != EventTypeName);
-}
-
-
-bool operator > (const string &EventTypeName, const EventType &TheEvent)
-{
-        return(EventTypeName > TheEvent.myEventTypeName);
-}
-
-bool operator < (const string &EventTypeName, const EventType &TheEvent)
-{
-        return(EventTypeName < TheEvent.myEventTypeName);
-}
-
-bool operator >= (const string &EventTypeName, const EventType &TheEvent)
-{
-        return(EventTypeName >= TheEvent.myEventTypeName);
-}
-
-bool operator <= (const string &EventTypeName, const EventType &TheEvent)
-{
-        return(EventTypeName <= TheEvent.myEventTypeName);
-}
-
-bool operator == (const string &EventTypeName, const EventType &TheEvent)
-{
-        return(EventTypeName == TheEvent.myEventTypeName);
-}
-
-bool operator != (const string &EventTypeName, const EventType &TheEvent)
-{
-        return(EventTypeName != TheEvent.myEventTypeName);
-}
 
 #endif

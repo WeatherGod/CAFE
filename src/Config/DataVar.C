@@ -132,6 +132,12 @@ const string& DataVar::GiveCAFEVarName() const
 	return(myCAFEVarName);
 }
 
+const map<size_t, string>&
+DataVar::GiveDataLevels() const
+{
+	return(myDataLevels);
+}
+
 const string& DataVar::GiveDataLevel(const size_t &CAFELevelIndex) const
 {
 	if (myDataLevels.find(CAFELevelIndex) == myDataLevels.end())

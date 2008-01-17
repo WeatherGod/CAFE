@@ -32,6 +32,8 @@ class DataSource
 		string GiveProjectionName() const;
 		string GiveProjectionConfig() const;
 
+		const map<string, DataVar>& GiveDataVars() const;
+
 		size_t GiveDataVarCount() const;
 		const string& GiveDataVarName(const string &CAFEVarName) const;
 		
@@ -54,44 +56,6 @@ class DataSource
 	
 		vector<string> InitTagWords() const;
 
-	friend bool operator == (const DataSource &Lefty, const DataSource &Righty);
-	friend bool operator != (const DataSource &Lefty, const DataSource &Righty);
-
-	friend bool operator > (const DataSource &TheSource, const string &ASourceName);
-	friend bool operator < (const DataSource &TheSource, const string &ASourceName);
-	friend bool operator >= (const DataSource &TheSource, const string &ASourceName);
-	friend bool operator <= (const DataSource &TheSource, const string &ASourceName);
-	friend bool operator == (const DataSource &TheSource, const string &ASourceName);
-	friend bool operator != (const DataSource &TheSource, const string &ASourceName);
-
-	friend bool operator > (const string &ASourceName, const DataSource &TheSource);
-	friend bool operator < (const string &ASourceName, const DataSource &TheSource);
-	friend bool operator >= (const string &ASourceName, const DataSource &TheSource);
-	friend bool operator <= (const string &ASourceName, const DataSource &TheSource);
-	friend bool operator == (const string &ASourceName, const DataSource &TheSource);
-	friend bool operator != (const string &ASourceName, const DataSource &TheSource);
-};
-
-class DataSourceID_t
-{
-	public:
-		DataSourceID_t();
-		explicit DataSourceID_t(const DataSourceID_t &ACopy);
-		DataSourceID_t(const string &DataSourceName);
-		DataSourceID_t(const char* DataSourceName);
-
-		string GiveName() const { return myDataSourceName; };
-
-		void operator = (const DataSourceID_t &ACopy);
-		void operator = (const string &dataSourceName);
-
-	private:
-		string myDataSourceName;
-
-	friend ostream& operator << (ostream& os, const DataSourceID_t &dataSourceID);
-	friend bool operator == (const DataSourceID_t &lefty, const DataSourceID_t &righty);
-	friend bool operator != (const DataSourceID_t &lefty, const DataSourceID_t &righty);
-	friend bool operator < (const DataSourceID_t &lefty, const DataSourceID_t &righty);
 };
 
 

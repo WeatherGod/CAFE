@@ -9,9 +9,7 @@
 class CAFEDomain;
 class CAFEVar;
 class DataSource;
-class DataSourceID_t;
 class EventType;
-class EventTypeID_t;
 
 #include "CAFEParam.h"
 
@@ -29,7 +27,7 @@ class Configuration
 						// are represented.
 
 		bool SetConfigFilename(const string &FileName);
-		bool SetDefaultSource(const DataSourceID_t &DataSourceID);
+		bool SetDefaultSource(const string &DataSourceID);
 
 		const CAFEParam& GiveCAFEInfo() const;
 
@@ -42,42 +40,42 @@ class Configuration
                 bool MakeConfigFile();
 
 		
-		size_t DatabaseCount() const;
-		size_t CAFEVarCount() const;
-		size_t DataSourceCount() const;
-                size_t EventTypeCount() const;
-		size_t ExtremaCount() const;
-		size_t TimePeriodCount() const;
+		//size_t DatabaseCount() const;
+		//size_t CAFEVarCount() const;
+		//size_t DataSourceCount() const;
+                //size_t EventTypeCount() const;
+		//size_t ExtremaCount() const;
+		//size_t TimePeriodCount() const;
 
 		const Projection_t* Give_DataSource_Projection() const;		// uses the default data source's projection.
-		const Projection_t* Give_DataSource_Projection(const DataSourceID_t &DataSourceID) const;
-		const CAFEDomain* GiveDomain() const;
-		vector <float> GiveCAFEDomainBoundingBox() const;
+		const Projection_t* Give_DataSource_Projection(const string &DataSourceID) const;
+		//const CAFEDomain* GiveDomain() const;
+		//vector <float> GiveCAFEDomainBoundingBox() const;
 
-		pair<time_t, time_t> Give_DataSource_TimeRange() const;		// uses the default data source's time range
-		pair<time_t, time_t> Give_DataSource_TimeRange(const DataSourceID_t &DataSourceID) const;
+		//pair<time_t, time_t> Give_DataSource_TimeRange() const;		// uses the default data source's time range
+		//pair<time_t, time_t> Give_DataSource_TimeRange(const string &DataSourceID) const;
 
 		// Note that the CAFEVars will NEVER be accessible by index numbers publically.
 		// So, "GiveCAFEVarName(const size_t CAFEVarIndex)" will NOT be allowed.
 		//string GiveDatabaseName(const size_t &DatabaseIndex) const;
 		//string GiveClusteredDatabaseName(const size_t &DatabaseIndex) const;
-		string GiveDatabaseName(const string &TimePeriod) const;
-		string GiveClusteredDatabaseName(const string &TimePeriod) const;
+		//string GiveDatabaseName(const string &TimePeriod) const;
+		//string GiveClusteredDatabaseName(const string &TimePeriod) const;
                 //string GiveEventTypeName(const size_t &EventTypeIndex) const;
-		string GiveExtremaName(const size_t &ExtremaIndex) const;
+		//string GiveExtremaName(const size_t &ExtremaIndex) const;
 		string GiveConfigFilename() const;
                 //string GiveTimePeriod(const size_t &DatabaseIndex) const;
 		//string GiveDataSourceName(const size_t &DataSourceIndex) const;
-		string GiveDefaultSourceName() const;
+		//string GiveDefaultSourceName() const;
 
 
-		vector <string> GiveDatabaseNames() const;
-		vector <string> GiveClusteredDatabaseNames() const;
-		vector <string> GiveEventTypeNames() const;
-		vector <string> GiveDataSourceNames() const;
-		vector <string> GiveCAFEVarNames() const;
-		vector <string> GiveExtremaNames() const;
-		vector <string> GiveTimePeriods() const;
+		//vector <string> GiveDatabaseNames() const;
+		//vector <string> GiveClusteredDatabaseNames() const;
+		//vector <string> GiveEventTypeNames() const;
+		//vector <string> GiveDataSourceNames() const;
+		//vector <string> GiveCAFEVarNames() const;
+		//vector <string> GiveExtremaNames() const;
+		//vector <string> GiveTimePeriods() const;
 
 		// Note that the CAFEVars will NEVER be accessible by index numbers publically.
 		// So, "GiveCAFEVarIndex(const string CAFEVarName)" will NOT be allowed.
@@ -91,44 +89,44 @@ class Configuration
 
 
 		// Container-level counters...
-		size_t CAFEVar_LevelCount(const string &CAFEVarName) const;
+		//size_t CAFEVar_LevelCount(const string &CAFEVarName) const;
 
-		size_t DataSource_VarCount(const DataSourceID_t &DataSourceID) const;
-		size_t DataSource_DataLevelCount(const DataSourceID_t &DataSourceID, const string &CAFEVarName) const;
-		size_t DataSource_VarCount() const;		// uses the default datasource
-		size_t DataSource_DataLevelCount(const string &CAFEVarName) const;	// uses the default datasource
+		//size_t DataSource_VarCount(const string &DataSourceID) const;
+		//size_t DataSource_DataLevelCount(const string &DataSourceID, const string &CAFEVarName) const;
+		//size_t DataSource_VarCount() const;		// uses the default datasource
+		//size_t DataSource_DataLevelCount(const string &CAFEVarName) const;	// uses the default datasource
 
-		size_t EventType_VarCount(const EventTypeID_t &EventTypeID) const;
-		size_t EventType_LevelCount(const EventTypeID_t &EventTypeID, const string &CAFEVarName) const;
+		//size_t EventType_VarCount(const string &EventTypeID) const;
+		//size_t EventType_LevelCount(const string &EventTypeID, const string &CAFEVarName) const;
 		
 		
 		//Container-level reporters...
-		string Give_DataSource_DataLevel(const DataSourceID_t &DataSourceID, const string &CAFEVarName, const string &CAFELevelName) const;
-		string Give_DataSource_DataName(const DataSourceID_t &DataSourceID, const string &CAFEVarName) const;
-		string Give_DataSource_DataLevel(const string &CAFEVarName, const string &CAFELevelName) const;
-		string Give_DataSource_DataName(const string &CAFEVarName) const;
+		//string Give_DataSource_DataLevel(const string &DataSourceID, const string &CAFEVarName, const string &CAFELevelName) const;
+		//string Give_DataSource_DataName(const string &DataSourceID, const string &CAFEVarName) const;
+		//string Give_DataSource_DataLevel(const string &CAFEVarName, const string &CAFELevelName) const;
+		//string Give_DataSource_DataName(const string &CAFEVarName) const;
 
-		string Give_CAFEVar_LevelName(const string &CAFEVarName, const string &CAFEVarLabel) const;
-		vector <string> Give_CAFEVar_LevelNames(const string &CAFEVarName) const;
-		vector <string> Give_CAFEVar_CAFEVarLabels(const string &CAFEVarName) const;
+		//string Give_CAFEVar_LevelName(const string &CAFEVarName, const string &CAFEVarLabel) const;
+		//vector <string> Give_CAFEVar_LevelNames(const string &CAFEVarName) const;
+		//vector <string> Give_CAFEVar_CAFEVarLabels(const string &CAFEVarName) const;
 
-		//vector <string> Give_DataSource_DataLevels(const DataSourceID_t &DataSourceID, const string &CAFEVarName) const;
-		vector <string> Give_DataSource_DataNames(const DataSourceID_t &DataSourceID) const;
+		//vector <string> Give_DataSource_DataLevels(const string &DataSourceID, const string &CAFEVarName) const;
+		//vector <string> Give_DataSource_DataNames(const string &DataSourceID) const;
 		//vector <string> Give_DataSource_DataLevels(const string &CAFEVarName) const;
-		vector <string> Give_DataSource_DataNames() const;
+		//vector <string> Give_DataSource_DataNames() const;
 
-		vector <string> Give_EventType_CAFEVarNames(const EventTypeID_t &EventTypeID) const;
-		vector <string> Give_EventType_LevelNames(const EventTypeID_t &EventTypeID, const string &CAFEVarName) const;
-		vector <string> Give_EventType_CAFEVarLabels(const EventTypeID_t &EventTypeID, const string &CAFEVarName) const;
+		//vector <string> Give_EventType_CAFEVarNames(const string &EventTypeID) const;
+		//vector <string> Give_EventType_LevelNames(const string &EventTypeID, const string &CAFEVarName) const;
+		//vector <string> Give_EventType_CAFEVarLabels(const string &EventTypeID, const string &CAFEVarName) const;
 
 
 		// Configuration modifiers		
-		bool ReplaceDatabaseStems(const string &NewDatabaseStem, const string &NewProcessedStem);
-		bool ReplaceDomain(const CAFEDomain &NewDomain);
+		//bool ReplaceDatabaseStems(const string &NewDatabaseStem, const string &NewProcessedStem);
+		//bool ReplaceDomain(const CAFEDomain &NewDomain);
 		//bool ReplaceCAFEVar(const CAFEVar &NewVar, const string &OldCAFEVarName);
-		//bool ReplaceDataSource(const DataSource &NewSource, const DataSourceID_t &OldDataSourceID);
+		//bool ReplaceDataSource(const DataSource &NewSource, const string &OldDataSourceID);
 		//bool ReplaceDataSource(const DataSource &NewSource);	// changes the default datasource to a new datasource that doesn't exist
-		//bool ReplaceEventType(const EventType &NewType, const EventTypeID_t &OldEventTypeID);
+		//bool ReplaceEventType(const EventType &NewType, const string &OldEventTypeID);
 				
 		bool AddTimePeriod(const string &NewTimePeriod);
                 bool AddCAFEVar(const CAFEVar &NewVar);
@@ -143,8 +141,8 @@ class Configuration
 		// that the default datasourceID needs to be reset.
 		bool RemoveTimePeriod(const size_t &TimePeriodIndex);
 		bool RemoveCAFEVar(const string &CAFEVarName);
-		bool RemoveDataSource(const DataSourceID_t &DataSourceID);
-		bool RemoveEventType(const EventTypeID_t &EventTypeID);
+		bool RemoveDataSource(const string &DataSourceID);
+		bool RemoveEventType(const string &EventTypeID);
 		*/
 
 	private:

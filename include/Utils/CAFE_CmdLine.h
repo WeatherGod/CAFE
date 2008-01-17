@@ -14,10 +14,10 @@ class CmdOptions
                 CmdOptions();
 
                 // The Labels are in alphabetical order
-                vector <string> GiveLabelsToDo(const Configuration &ConfigInfo, const string &EventTypeName, const string &CAFEVarName) const;
+                //vector <string> GiveLabelsToDo(const Configuration &ConfigInfo, const string &EventTypeName, const string &CAFEVarName) const;
 
                 // The CAFEVars are in alphabetical order
-                vector <string> GiveCAFEVarsToDo(const Configuration &ConfigInfo, const string &EventTypeName) const;
+                //vector <string> GiveCAFEVarsToDo(const Configuration &ConfigInfo, const string &EventTypeName) const;
 
                 int ParseCommandArgs(vector <string> &CommandArgs);
 
@@ -26,9 +26,9 @@ class CmdOptions
 
 		CAFEParam ConfigMerge(const CAFEParam &configInfo);
 
-                string GiveTimePeriod(const int &TimeOffset) const;
-                string GiveDatabaseName(const string &TheTimePeriod) const;
-                string GiveClusteredDatabaseName(const string &TheTimePeriod) const;
+                //string GiveTimePeriod(const int &TimeOffset) const;
+                //string GiveDatabaseName(const string &TheTimePeriod) const;
+                //string GiveClusteredDatabaseName(const string &TheTimePeriod) const;
 
                 void PrintSyntax(const unsigned short int &SpaceOver, const unsigned short int &ColumnWidth) const;
                 void PrintDescription(const unsigned short int &ColumnWidth) const;

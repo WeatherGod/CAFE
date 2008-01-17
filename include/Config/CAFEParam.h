@@ -81,24 +81,29 @@ class CAFEParam
 		const set<int>& GetTimeOffsets() const;
 		set<string> GetTimePeriods() const;
 		const string& GetUntrainedNameStem() const;
+		set<string> GetUntrainedNames() const;
 		const string& GetTrainedNameStem() const;
+		set<string> GetTrainedNames() const;
 
 
 		// --------------------
 		// --- Data Sources ---
 		// --------------------
 		const map<string, DataSource>& GetDataSources() const;
+		set<string> GetDataSourceNames() const;
 
 
 		// ----------------------
 		// --- CAFE Variables ---
 		// ----------------------
 		const map<string, CAFEVar>& GetCAFEVars() const;
+		set<string> GetCAFEVarNames() const;
 
 		// ------------------
 		// --- EventTypes ---
 		// ------------------
 		const map<string, EventType>& GetEventTypes() const;
+		set<string> GetEventTypeNames() const;
 	
 	
 		// ---------------

@@ -16,76 +16,29 @@ using namespace std;
 #include <StrUtly.h>				// for TakeDelimitedList(), RipWhiteSpace(), StrToSize_t(), StripWhiteSpace()
 #include <ConfigUtly.h>				// for ReadNoComments(), StripTags(), FoundStartTag(), FoundEndTag()
 
-CAFEVarID_t::CAFEVarID_t()
-	:	myCAFEVarIndex(string::npos),
-		myCAFEVarName("")
-{
-}
-
-CAFEVarID_t::CAFEVarID_t(const size_t &CAFEVarIndex)
-	:	myCAFEVarIndex(CAFEVarIndex),
-		myCAFEVarName("")
-{
-}
-
-CAFEVarID_t::CAFEVarID_t(const string &CAFEVarName)
-	:	myCAFEVarIndex(string::npos),
-		myCAFEVarName(CAFEVarName)
-{
-}
-
-size_t CAFEVarID_t::GiveIndex(const vector <CAFEVar> &TheCAFEVars) const
-{
-	if (myCAFEVarIndex != string::npos)
-	{
-		return(myCAFEVarIndex);
-	}
-
-	if (!myCAFEVarName.empty())
-	{
-		if (binary_search(TheCAFEVars.begin(), TheCAFEVars.end(), myCAFEVarName))
-		{
-			return(lower_bound(TheCAFEVars.begin(), TheCAFEVars.end(), myCAFEVarName) - TheCAFEVars.begin());
-		}
-	}
-
-	return(string::npos);
-}
-
-
 CAFEVar::CAFEVar()
 	:	myCAFEVarName(""),
-		myCAFELevelIndicies(),
-		myCAFELevelNames(),
+		myCAFELevels(),
 		myIsConfigured(false)
 {
 }
 
 CAFEVar::CAFEVar(const CAFEVar &varCopy)
 	:	myCAFEVarName(varCopy.myCAFEVarName),
-		myCAFELevelIndicies(varCopy.myCAFELevelIndicies),
-		myCAFELevelNames(varCopy.myCAFELevelNames),
+		myCAFELevels(varCopy.myCAFELevels),
 		myIsConfigured(varCopy.myIsConfigured)
 {
 }
 
 CAFEVar::CAFEVar(const string &varName, const map<string, size_t> &CAFELevels)
 	:	myCAFEVarName(varName),
-		myCAFELevelIndicies(CAFELevels.size()),
-		myCAFELevelNames(CAFELevels.size()),
+		myCAFELevels(CAFELevels),
 		myIsConfigured(true)
 {
-	size_t index = 0;
-	for (map<string, size_t>::const_iterator aLevel = CAFELevels.begin();
-	     aLevel != CAFELevels.end();
-	     aLevel++, index++)
-	{
-		myCAFELevelNames[index] = aLevel->first;
-		myCAFELevelIndicies[index] = aLevel->second;
-	}
 }
 
-void CAFEVar::GetConfigInfo(string &FileLine, fstream &ReadData)
+void
+CAFEVar::GetConfigInfo(string &FileLine, fstream &ReadData)
 {
 	const vector<string> TagWords = InitTagWords();
 
@@ -151,30 +104,23 @@ void CAFEVar::GetConfigInfo(string &FileLine, fstream &ReadData)
 	}
 }
 
-bool CAFEVar::ValidConfig() const
+bool
+CAFEVar::ValidConfig() const
 {
 	return(myIsConfigured);
 }
 
-bool CAFEVar::IsValid() const
+bool
+CAFEVar::IsValid() const
 {
 	// need to change this code to do some transaction checking, to make sure everything connects together.
 	return(myIsConfigured);
 }
 
-map<string, size_t>
+const map<string, size_t>&
 CAFEVar::GiveCAFELevels() const
 {
-	map<string, size_t> theCAFELevels;
-
-	for (size_t index = 0; index < myCAFELevelNames.size(); index++)
-	{
-		theCAFELevels.insert( theCAFELevels.end(),
-				      make_pair( myCAFELevelNames[index],
-						 myCAFELevelIndicies[index] ));
-	}
-
-	return(theCAFELevels);
+	return(myCAFELevels);
 }
 
 const string&
@@ -183,56 +129,69 @@ CAFEVar::GiveCAFEVarName() const
 	return(myCAFEVarName);
 }
 
-string CAFEVar::GiveCAFELevelName(const size_t &CAFELevelIndex) const
-{
-	if (CAFELevelIndex == string::npos)
-	{
-		return("");
-	}
 
-	vector<size_t>::const_iterator MatchPos = find(myCAFELevelIndicies.begin(), myCAFELevelIndicies.end(), CAFELevelIndex);
-
-	if (MatchPos == myCAFELevelIndicies.end())
-        {
-                return("");
-        }
-
-	return(myCAFELevelNames[MatchPos - myCAFELevelIndicies.begin()]);
-}
-
-vector <string> CAFEVar::GiveCAFELevelNames() const
+vector<string>
+CAFEVar::GiveCAFELevelNames() const
 // NOTE: this function returns the LevelNames in the order of the LevelNames!
 {
-	return(myCAFELevelNames);
+	vector<string> levelNames;
+	levelNames.reserve(GiveCAFELevels().size());
+
+	for (map<string, size_t>::const_iterator aLevel = GiveCAFELevels().begin();
+	     aLevel != GiveCAFELevels().end();
+	     aLevel++)
+	{
+		levelNames.push_back(aLevel->first);
+	}
+
+	return(levelNames);
 }
 
 size_t CAFEVar::GiveCAFELevelCount() const
 {
-	return(myCAFELevelIndicies.size());
+	return(GiveCAFELevels().size());
 }
 
-size_t CAFEVar::GiveCAFELevelIndex(const string &CAFELevelName) const
+size_t
+CAFEVar::GiveCAFELevelIndex(const string &CAFELevelName) const
 // returns string::npos if the list is zero size or no match was made
+/* NOTE: This is a feature, not a bug.  string::npos is the default
+	 CAFE level index.  Typically used for empty level names where
+         the DataSource has a level name for it.
+*/
 {
-	if (!binary_search(myCAFELevelNames.begin(), myCAFELevelNames.end(), CAFELevelName))
+	const map<string, size_t>::const_iterator levelFind = myCAFELevels.find(CAFELevelName);
+	if (myCAFELevels.end() == levelFind)
 	{
 		return(string::npos);
 	}
-
-	const size_t MatchPos = lower_bound(myCAFELevelNames.begin(), myCAFELevelNames.end(), CAFELevelName) - myCAFELevelNames.begin();
-
-	return(myCAFELevelIndicies[MatchPos]);
+	else
+	{
+		return(levelFind->second);
+	}
 }
 
-vector <size_t> CAFEVar::GiveCAFELevelIndicies() const
+vector<size_t> 
+CAFEVar::GiveCAFELevelIndicies() const
 // NOTE: This function returns the official LevelIndex values in the order of the LevelNames.
 // They are not sorted by their indicies!
 {
-        return(myCAFELevelIndicies);
+	vector<size_t> levelIndicies;
+	levelIndicies.reserve(myCAFELevels.size());
+
+	for (map<string, size_t>::const_iterator aLevel = myCAFELevels.begin();
+	     aLevel != myCAFELevels.end();
+	     aLevel++)
+	{
+		levelIndicies.push_back(aLevel->second);
+	}
+
+        return(levelIndicies);
 }
 
 
-bool CAFEVar::AddCAFELevel(const string &NewCAFELevel, const size_t &CAFELevelIndex)
+bool 
+CAFEVar::AddCAFELevel(const string &NewCAFELevel, const size_t &CAFELevelIndex)
 // Returns true if NewCAFELevel and CAFELevelIndex are a valid pair,
 // NOT if the pairing were actually entered into the CAFEVar!
 // if a pairing matches a pair that already exists, it is a valid pair,
@@ -240,6 +199,8 @@ bool CAFEVar::AddCAFELevel(const string &NewCAFELevel, const size_t &CAFELevelIn
 
 // The CAFELevels will be sorted by the LevelNames.
 {
+	// TODO: Reconsider the error-checking.  Maybe have an error if
+	//       it is an empty string and a non string::npos index?
 /*
 	if (NewCAFELevel.empty())
 	{
@@ -248,28 +209,16 @@ bool CAFEVar::AddCAFELevel(const string &NewCAFELevel, const size_t &CAFELevelIn
 	}
 */
 
-	if (!binary_search(myCAFELevelNames.begin(), myCAFELevelNames.end(), NewCAFELevel))
+	const map<string, size_t>::const_iterator levelFind = myCAFELevels.find(NewCAFELevel);
+
+	if (myCAFELevels.end() == levelFind)
 	{
-//		if (CAFELevelIndex != string::npos)
-//		{
-			vector<string>::iterator InsertPos = lower_bound(myCAFELevelNames.begin(), myCAFELevelNames.end(), NewCAFELevel);
-			const size_t InsertIndex = InsertPos - myCAFELevelNames.begin();
-			myCAFELevelNames.insert(InsertPos, NewCAFELevel);
-			myCAFELevelIndicies.insert(myCAFELevelIndicies.begin() + InsertIndex, CAFELevelIndex);
-			return(true);
-/*		}
-		else
-		{
-			cerr << "ERROR -- string::npos for CAFELevelIndex." << endl;
-			cerr << "Was the LevelIndex originally a valid, positive integer?" << endl;
-			return(false);
-		}
-*/
+		myCAFELevels.insert(myCAFELevels.end(), make_pair(NewCAFELevel, CAFELevelIndex));
+		return(true);
 	}
 	else
 	{
-		const size_t MatchPos = lower_bound(myCAFELevelNames.begin(), myCAFELevelNames.end(), NewCAFELevel) - myCAFELevelNames.begin();
-		if (myCAFELevelIndicies[MatchPos] == CAFELevelIndex)
+		if (levelFind->second == CAFELevelIndex)
 		{
 			cerr << "WARNING -- Duplicate CAFELevelName/CAFELevelIndex used: " << NewCAFELevel << '/' << CAFELevelIndex << endl;
 			return(true);
@@ -291,76 +240,6 @@ vector<string> CAFEVar::InitTagWords() const
 	TagWords[2] = "Level";
 
 	return(TagWords);
-}
-
-bool operator == (const CAFEVar &Lefty, const CAFEVar &Righty)
-{
-	return(Lefty.myCAFEVarName == Righty.myCAFEVarName);
-}
-
-bool operator != (const CAFEVar &Lefty, const CAFEVar &Righty)
-{
-	return(Lefty.myCAFEVarName != Righty.myCAFEVarName);
-}
-
-bool operator > (const CAFEVar &TheVar, const string &CAFEVarName)
-{
-	return(TheVar.myCAFEVarName > CAFEVarName);
-}
-
-bool operator < (const CAFEVar &TheVar, const string &CAFEVarName)
-{
-        return(TheVar.myCAFEVarName < CAFEVarName);
-}
-
-bool operator >= (const CAFEVar &TheVar, const string &CAFEVarName)
-{
-        return(TheVar.myCAFEVarName >= CAFEVarName);
-}
-
-bool operator <= (const CAFEVar &TheVar, const string &CAFEVarName)
-{
-        return(TheVar.myCAFEVarName <= CAFEVarName);
-}
-
-bool operator == (const CAFEVar &TheVar, const string &CAFEVarName)
-{
-        return(TheVar.myCAFEVarName == CAFEVarName);
-}
-
-bool operator != (const CAFEVar &TheVar, const string &CAFEVarName)
-{
-        return(TheVar.myCAFEVarName != CAFEVarName);
-}
-
-bool operator > (const string &CAFEVarName, const CAFEVar &TheVar)
-{
-        return(CAFEVarName > TheVar.myCAFEVarName);
-}
-
-bool operator < (const string &CAFEVarName, const CAFEVar &TheVar)
-{
-        return(CAFEVarName < TheVar.myCAFEVarName);
-}
-
-bool operator >= (const string &CAFEVarName, const CAFEVar &TheVar)
-{
-        return(CAFEVarName >= TheVar.myCAFEVarName);
-}
-
-bool operator <= (const string &CAFEVarName, const CAFEVar &TheVar)
-{
-        return(CAFEVarName <= TheVar.myCAFEVarName);
-}
-
-bool operator == (const string &CAFEVarName, const CAFEVar &TheVar)
-{
-        return(CAFEVarName == TheVar.myCAFEVarName);
-}
-
-bool operator != (const string &CAFEVarName, const CAFEVar &TheVar)
-{
-        return(CAFEVarName != TheVar.myCAFEVarName);
 }
 
 #endif

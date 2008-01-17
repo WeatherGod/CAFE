@@ -305,18 +305,16 @@ class CAFEState
 		vector<string> myTempEventVarLevelNames;
 		vector<string>::const_iterator myEventVarLevelIter;
 
-		vector<string> myTempCAFELevelNames;
-		vector<string>::const_iterator myCAFELevelIter;
+		map<string, size_t>::const_iterator myCAFELevelIter;
 
 		string GiveTimePeriod(const int &timeOffset) const;
 		CAFEState& ResetEventVars();
 		CAFEState& ResetEventLevels();
-		CAFEState& ResetCAFELevels();
 
 		const set<int>& GetTimeOffsets() const;
 		const map<string, DataSource>& GetDataSources() const;
 		const map<string, CAFEVar>& GetCAFEVars() const;
-		const vector<string>& GetCAFELevels() const;
+		const map<string, size_t>& GetCAFELevels() const;
 		const map<string, EventType>& GetEventTypes() const;
 		const vector<string>& GetEventVars() const;
 		const vector<string>& GetEventLevels() const;
@@ -326,8 +324,6 @@ class CAFEState
 		const DataSource& GetDataSource() const;
 		const CAFEVar& GetCAFEVar() const;
 		const EventType& GetEventType() const;
-		
-
 };
 
 
