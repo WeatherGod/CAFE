@@ -7,6 +7,8 @@
 #include <string>
 #include <cctype>		// for size_t
 
+#include "Utils/CAFEException.h"	// for EventVar_Not_Found
+
 #include "Variable.h"
 
 class EventType
@@ -22,21 +24,21 @@ class EventType
                 // right now, they do the same thing, but there should be a difference.
                 // ValidConfig() will return whether it was able to load a configuration correctly.
                 // IsValid() will return whether the data contained is valid information.
-                bool ValidConfig() const;
-                bool IsValid() const;
+                bool ValidConfig() const throw();
+                bool IsValid() const throw();
 
-		const map<string, Variable>& GiveEventVariables() const;
-		const string& GiveEventTypeName() const;
+		const map<string, Variable>& GiveEventVariables() const throw();
+		const string& GiveEventTypeName() const throw();
 
-		vector <string> GiveEventVariableNames() const;
+		vector<string> GiveEventVariableNames() const;
 
-		size_t GiveLevelCount(const string &EventVarName) const;
-		vector <string> GiveEventLevels(const string &EventVarName) const;
+		size_t GiveLevelCount(const string &EventVarName) const throw(EventVar_Not_Found);
+		const vector<string>& GiveEventLevels(const string &EventVarName) const throw(EventVar_Not_Found);
 
-		size_t GiveVariableCount() const;
+		size_t GiveVariableCount() const throw();
 
 		bool AddVariable(const Variable &NewVariable);
-		Variable RemoveVariable(const string &EventVarName);
+		Variable RemoveVariable(const string &EventVarName) throw(EventVar_Not_Found);
 		
 	private:
 		string myEventTypeName;

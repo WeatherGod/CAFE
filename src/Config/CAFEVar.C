@@ -11,6 +11,7 @@ using namespace std;
 #include <string>
 #include <algorithm>				// for lower_bound(), binary_search(), find()
 
+#include "Utils/CAFEException.h"		// for CAFELevel_Not_Found
 #include "Config/CAFEVar.h"
 
 #include <StrUtly.h>				// for TakeDelimitedList(), RipWhiteSpace(), StrToSize_t(), StripWhiteSpace()
@@ -55,7 +56,7 @@ CAFEVar::GetConfigInfo(string &FileLine, fstream &ReadData)
 			else if (FoundStartTag(FileLine, TagWords[2]))	//Level
 			{
 				string LevelInfo = StripTags(FileLine, TagWords[2]);
-				if (RipWhiteSpace(LevelInfo) != "")
+				if (!RipWhiteSpace(LevelInfo).empty())
 				{
 					vector <string> TempHold = TakeDelimitedList(LevelInfo, '=');
 					StripWhiteSpace(TempHold);
@@ -83,8 +84,9 @@ CAFEVar::GetConfigInfo(string &FileLine, fstream &ReadData)
 				}
 				else
 				{
-					// empty level tags were found.
-					// should I issue a warning?
+					// Empty Level tags just forces the empty name default
+					// with a default level index of string::npos
+					AddCAFELevel("", string::npos);
 				}
 			}
 			else
@@ -99,32 +101,39 @@ CAFEVar::GetConfigInfo(string &FileLine, fstream &ReadData)
 
 	if (!myCAFEVarName.empty() && !ReadData.eof() && !BadObject)
 	{
-		// note, a CAFEVar can have no levels, so I am not going to check to see if there are any levels.
+		// NOTE: A CAFEVar can have no levels, so I am not going to check to see if there are any levels.
+		//     : If there are no levels given, then a default empty level will be
+		//     : automatically supplied.
+		if (myCAFELevels.empty())
+		{
+			AddCAFELevel("", string::npos);
+		}
+
 		myIsConfigured = true;
 	}
 }
 
 bool
-CAFEVar::ValidConfig() const
+CAFEVar::ValidConfig() const throw()
 {
 	return(myIsConfigured);
 }
 
 bool
-CAFEVar::IsValid() const
+CAFEVar::IsValid() const throw()
 {
 	// need to change this code to do some transaction checking, to make sure everything connects together.
 	return(myIsConfigured);
 }
 
 const map<string, size_t>&
-CAFEVar::GiveCAFELevels() const
+CAFEVar::GiveCAFELevels() const throw()
 {
 	return(myCAFELevels);
 }
 
 const string&
-CAFEVar::GiveCAFEVarName() const
+CAFEVar::GiveCAFEVarName() const throw()
 {
 	return(myCAFEVarName);
 }
@@ -147,23 +156,21 @@ CAFEVar::GiveCAFELevelNames() const
 	return(levelNames);
 }
 
-size_t CAFEVar::GiveCAFELevelCount() const
+size_t
+CAFEVar::GiveCAFELevelCount() const throw()
 {
 	return(GiveCAFELevels().size());
 }
 
-size_t
-CAFEVar::GiveCAFELevelIndex(const string &CAFELevelName) const
-// returns string::npos if the list is zero size or no match was made
-/* NOTE: This is a feature, not a bug.  string::npos is the default
-	 CAFE level index.  Typically used for empty level names where
-         the DataSource has a level name for it.
-*/
+const size_t&
+CAFEVar::GiveCAFELevelIndex(const string &CAFELevelName) const throw(CAFELevel_Not_Found)
+// Throws CAFELevel_Not_Found if level name is not valid.
 {
 	const map<string, size_t>::const_iterator levelFind = myCAFELevels.find(CAFELevelName);
 	if (myCAFELevels.end() == levelFind)
 	{
-		return(string::npos);
+		throw CAFELevel_Not_Found("CAFEVar::GiveCAFELevelIndex()",
+					  CAFELevelName, myCAFEVarName);
 	}
 	else
 	{
@@ -196,8 +203,6 @@ CAFEVar::AddCAFELevel(const string &NewCAFELevel, const size_t &CAFELevelIndex)
 // NOT if the pairing were actually entered into the CAFEVar!
 // if a pairing matches a pair that already exists, it is a valid pair,
 // but a duplicate entry won't be added into CAFEVar.
-
-// The CAFELevels will be sorted by the LevelNames.
 {
 	// TODO: Reconsider the error-checking.  Maybe have an error if
 	//       it is an empty string and a non string::npos index?
@@ -218,17 +223,8 @@ CAFEVar::AddCAFELevel(const string &NewCAFELevel, const size_t &CAFELevelIndex)
 	}
 	else
 	{
-		if (levelFind->second == CAFELevelIndex)
-		{
-			cerr << "WARNING -- Duplicate CAFELevelName/CAFELevelIndex used: " << NewCAFELevel << '/' << CAFELevelIndex << endl;
-			return(true);
-		}
-		else
-		{
-			cerr << "ERROR -- Duplicate CAFELevelNames used.  No two CAFELevelIndicies can be associated" << endl;
-			cerr << "with the same CAFELevelName." << endl;
-			return(false);
-		}
+		throw CAFEException("CAFEVar::AddCAFELevel()",
+				    "Duplicate CAFELevelNames used. No two LevelIndicies can be associated with the same CAFE Level Name");
 	}
 }
 

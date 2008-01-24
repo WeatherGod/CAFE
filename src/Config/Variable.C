@@ -90,41 +90,30 @@ void Variable::GetConfigInfo(string &FileLine, fstream &ReadData)
 	}
 }
 
-bool Variable::ValidConfig() const
+bool Variable::ValidConfig() const throw()
 {
 	return(myIsConfigured);
 }
 
-bool Variable::IsValid() const
+bool Variable::IsValid() const throw()
 {
 	return(myIsConfigured);
 }
 
 const string&
-Variable::GiveCAFEVariableName() const
+Variable::GiveCAFEVariableName() const throw()
 {
 	return(myCAFEVariableName);
 }
 
 const vector<string>&
-Variable::GiveCAFELevels() const
+Variable::GiveCAFELevels() const throw()
 // be in alphabetical order.
 {
 	return(myCAFELevels);
 }
 
-string Variable::GiveCAFELevel(const size_t &LevelIndex) const
-// if LevelIndex is an invalid index or a string::npos, an empty string will be returned
-{
-	if (LevelIndex == string::npos || LevelIndex >= myCAFELevels.size())
-	{
-		return("");
-	}
-
-	return(myCAFELevels[LevelIndex]);
-}
-
-size_t Variable::GiveLevelCount() const
+size_t Variable::GiveLevelCount() const throw()
 {
 	return(myCAFELevels.size());
 }
@@ -134,13 +123,6 @@ bool Variable::AddCAFELevel(const string &CAFELevelName)
 // If a duplicate, but valid level is given, it will still return true,
 // but the duplicate level will not be inserted.
 {
-/*
-	if (CAFELevelName.empty())
-	{
-		return(false);
-	}
-*/
-
 	if (!binary_search(myCAFELevels.begin(), myCAFELevels.end(), CAFELevelName))
 	{
 		myCAFELevels.insert(lower_bound(myCAFELevels.begin(), myCAFELevels.end(), CAFELevelName),

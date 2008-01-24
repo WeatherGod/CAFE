@@ -7,6 +7,8 @@
 #include <string>
 #include <cctype>		// for size_t
 
+#include "Utils/CAFEException.h"	// for CAFELevel_Not_Found
+
 class CAFEVar
 {
 	public:
@@ -19,19 +21,19 @@ class CAFEVar
 		// right now, they do the same thing, but there should be a difference.
                 // ValidConfig() will return whether it was able to load a configuration correctly.
                 // IsValid() will return whether the data contained is valid information.
-                bool ValidConfig() const;
-                bool IsValid() const;
+                bool ValidConfig() const throw();
+                bool IsValid() const throw();
 
-		const map<string, size_t>& GiveCAFELevels() const;
+		const map<string, size_t>& GiveCAFELevels() const throw();
 
-		const string& GiveCAFEVarName() const;
-		size_t GiveCAFELevelCount() const;
+		const string& GiveCAFEVarName() const throw();
+		size_t GiveCAFELevelCount() const throw();
 
 		// TODO: Turn into sets?
 		// Gives the LevelNames in the order of the Names!
 		vector<string> GiveCAFELevelNames() const;
 
-		size_t GiveCAFELevelIndex(const string &CAFELevelName) const;
+		const size_t& GiveCAFELevelIndex(const string &CAFELevelName) const throw(CAFELevel_Not_Found);
 		// Gives the LevelIndicies in the order of the LevelName, not the indicies!
 		vector<size_t> GiveCAFELevelIndicies() const;
 		

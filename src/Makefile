@@ -48,7 +48,8 @@ UTLY_SOURCES = DrawStdAnomHist.C \
                PrepareCrossFold.C \
                QuickCompare.C \
 	       CAFEStateTest.C \
-	       DisplayConfig.C
+	       DisplayConfig.C \
+	       CAFEsqlSetup.C
 UTLY_BINS = $(UTLY_SOURCES:.C=)
 UTLY_DEPENDS = $(UTLY_SOURCES:.C=.d)
 
@@ -68,7 +69,8 @@ UTIL_OBJECTS := $(addprefix Utils/, CAFEEqtns.o \
 				    EventScoreFile.o \
 				    FieldMeasFile.o \
 				    LonLatAnom.o \
-				    FieldMeasure.o)
+				    FieldMeasure.o \
+				    CAFEException.o)
 UTIL_DEPENDS := $(UTIL_OBJECTS:.o=.d)
 SPA_OBJECTS := $(addprefix SPAnalysis/, BoardConvertor.o \
 					BoardType.o \

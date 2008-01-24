@@ -8,8 +8,9 @@ using namespace std;
 #include <vector>
 #include <map>
 #include <string>
-#include <algorithm>					// for binary_search(), lower_bound()
 #include <cctype>					// for size_t
+
+#include "Utils/CAFEException.h"			// for DataVar_Not_Found, DataLevel_Not_Found
 
 #include "Config/DataSource.h"
 #include "Config/DataVar.h"
@@ -19,6 +20,9 @@ using namespace std;
 
 #include <TimeUtly.h>					// for GetTime_UTC()
 #include <ctime>
+
+#include <Projection_t.h>
+#include <ProjectionFactory.h>
 
 
 
@@ -148,87 +152,122 @@ void DataSource::GetConfigInfo(string &FileLine, fstream &ReadData)
 	}
 }
 
-bool DataSource::ValidConfig() const
+bool DataSource::ValidConfig() const throw()
 {
 	return(myIsConfigured);
 }
 
-bool DataSource::IsValid() const
+bool DataSource::IsValid() const throw()
 {
 	return(myIsConfigured);
 }
 
-string DataSource::GiveSourceName() const
+const string&
+DataSource::GiveSourceName() const throw()
 {
 	return(mySourceName);
 }
 
-string DataSource::GiveProjectionName() const
+const string&
+DataSource::GiveProjectionName() const throw()
 {
 	return(myProjectionName);
 }
 
-string DataSource::GiveProjectionConfig() const
+const string&
+DataSource::GiveProjectionConfig() const throw()
 {
 	return(myProjectionConfig);
 }
 
 
-size_t DataSource::GiveDataVarCount() const
+size_t
+DataSource::GiveDataVarCount() const throw()
 {
 	return(myDataVars.size());
 }
 
-const string& DataSource::GiveDataVarName(const string &CAFEVarName) const
+const string&
+DataSource::GiveDataVarName(const string &CAFEVarName) const throw(DataVar_Not_Found)
 {
 	map<string, DataVar>::const_iterator ADataVar = myDataVars.find(CAFEVarName);
         if (ADataVar == myDataVars.end())
         {
-                return("");
+                throw DataVar_Not_Found("DataSource::GiveDataVarName()",
+					CAFEVarName, mySourceName);
         }
-
-	return(ADataVar->second.GiveDataVarName());
+	else
+	{
+		return(ADataVar->second.GiveDataVarName());
+	}
 }
 
-const string& DataSource::GiveDataLevel(const string &CAFEVarName, const size_t &CAFELevelIndex) const
+const string&
+DataSource::GiveDataLevel(const string &CAFEVarName, const size_t &CAFELevelIndex) const throw(DataVar_Not_Found,
+											       DataLevel_Not_Found)
 {
 	map<string, DataVar>::const_iterator ADataVar = myDataVars.find(CAFEVarName);
 	if (ADataVar == myDataVars.end())
         {
-                return("");
+                throw DataVar_Not_Found("DataSource::GiveDataLevel()",
+					CAFEVarName, mySourceName);
         }
-
-	return(ADataVar->second.GiveDataLevel(CAFELevelIndex));
+	else
+	{
+		try
+		{
+			return(ADataVar->second.GiveDataLevel(CAFELevelIndex));
+		}
+		catch (DataLevel_Not_Found &err)
+		{
+			err.SetDataSourceName(mySourceName);
+			err.AddFunctionName("DataSource::GiveDataLevel()");
+			throw;
+		}
+	}
 }
 
-size_t DataSource::GiveDataLevelCount(const string &CAFEVarName) const
+size_t
+DataSource::GiveDataLevelCount(const string &CAFEVarName) const throw(DataVar_Not_Found)
 {
 	map<string, DataVar>::const_iterator ADataVar = myDataVars.find(CAFEVarName);
 	if (ADataVar == myDataVars.end())
         {
-                return(string::npos);
+                throw DataVar_Not_Found("DataSource::GiveDataLevelCount()",
+					CAFEVarName, mySourceName);
         }
-
-        return(ADataVar->second.GiveDataLevelCount());
+	else
+	{
+        	return(ADataVar->second.GiveDataLevelCount());
+	}
 }
 
 const map<string, DataVar>&
-DataSource::GiveDataVars() const
+DataSource::GiveDataVars() const throw()
 {
 	return(myDataVars);
 }
 
 
-pair<time_t, time_t> DataSource::GiveTimeRange() const
+pair<time_t, time_t>
+DataSource::GiveTimeRange() const throw()
 {
 	return(make_pair(myLowerTimeRange, myUpperTimeRange));
+}
+
+const Projection_t*
+DataSource::GiveProjection() const
+{
+	ProjectionFactory theFactory;
+
+	return(theFactory.ProjectionFromStr(myProjectionConfig, myProjectionName));
 }
 
 bool DataSource::AddDataVar(const DataVar &NewDataVar)
 {
 	if (NewDataVar.IsValid())
 	{
-		map <string, DataVar>::iterator DataVarMatch = myDataVars.find(NewDataVar.GiveCAFEVarName());
+		map<string, DataVar>::iterator DataVarMatch = myDataVars.find(NewDataVar.GiveCAFEVarName());
 		if (DataVarMatch == myDataVars.end())
 		{
 			// the key doesn't exist yet, so I can add in a DataVar under that key value
@@ -246,11 +285,10 @@ bool DataSource::AddDataVar(const DataVar &NewDataVar)
 			}
 			else
 			{
-				cerr << "Bad mappings!  The datavar name does not match the stored datavar name!" << endl;
-				cerr << "CAFEName: " << NewDataVar.GiveCAFEVarName();
-				cerr << "   Stored DataVarName: " << DataVarMatch->second.GiveDataVarName();
-				cerr << "    New DataVarName: " << NewDataVar.GiveDataVarName() << endl;
-				return(false);
+				throw CAFEException("DataSource::AddDataVar()",
+						    "Bad Mappings! CAFEVarName: " + NewDataVar.GiveCAFEVarName()
+						    + "  Stored DataVarName: " + DataVarMatch->second.GiveDataVarName()
+						    + "  New DataVarName: " + NewDataVar.GiveDataVarName());
 			}
 		}
 	}

@@ -7,6 +7,8 @@
 #include <string>
 #include <cctype>			// for size_t
 
+#include "Utils/CAFEException.h"	// for DataLevel_Not_Found
+
 class DataVar
 {
 	public:
@@ -20,16 +22,16 @@ class DataVar
                 // right now, they do the same thing, but there should be a difference.
                 // ValidConfig() will return whether it was able to load a configuration correctly.
                 // IsValid() will return whether the data contained is valid information.
-                bool ValidConfig() const;                                       //
-                bool IsValid() const;
+                bool ValidConfig() const throw();
+                bool IsValid() const throw();
 
-		const map<size_t, string>& GiveDataLevels() const;
+		const map<size_t, string>& GiveDataLevels() const throw();
 
-		const string& GiveDataVarName() const;
-		const string& GiveCAFEVarName() const;
-		const string& GiveDataLevel(const size_t &CAFELevelIndex) const;
+		const string& GiveDataVarName() const throw();
+		const string& GiveCAFEVarName() const throw();
+		const string& GiveDataLevel(const size_t &CAFELevelIndex) const throw(DataLevel_Not_Found);
 
-		size_t GiveDataLevelCount() const;
+		size_t GiveDataLevelCount() const throw();
 
 		bool AddDataLevel(const string &NewDataLevel, const size_t &CAFELevelIndex);
 		

@@ -10,6 +10,8 @@ using namespace std;
 #include <map>
 #include <string>
 
+#include "Utils/CAFEException.h"	// for EventVar_Not_Found
+
 #include "Config/EventType.h"
 #include "Config/Variable.h"
 
@@ -88,39 +90,41 @@ void EventType::GetConfigInfo(string &FileLine, fstream &ReadData)
 	}
 }
 
-bool EventType::ValidConfig() const
+bool EventType::ValidConfig() const throw()
 {
 	return(myIsConfigured);
 }
 
-bool EventType::IsValid() const
+bool EventType::IsValid() const throw()
 {
 	// need to get around to modifying this to do a real check
 	return(myIsConfigured);
 }
 
 const string&
-EventType::GiveEventTypeName() const
+EventType::GiveEventTypeName() const throw()
 {
 	return(myEventTypeName);
 }
 
 const map<string, Variable>&
-EventType::GiveEventVariables() const
+EventType::GiveEventVariables() const throw()
 {
 	return(myVariables);
 }
 
-size_t EventType::GiveVariableCount() const
+size_t
+EventType::GiveVariableCount() const throw()
 {
 	return(myVariables.size());
 }
 
 
-vector <string> EventType::GiveEventVariableNames() const
+vector<string>
+EventType::GiveEventVariableNames() const
 // The elements in the eventVarNames vector are in alphabetical order.
 {
-	vector <string> eventVarNames(myVariables.size(), "");
+	vector<string> eventVarNames(myVariables.size(), "");
 
 	vector<string>::iterator eventVarIter = eventVarNames.begin();
 	for (map<string, Variable>::const_iterator varItem = myVariables.begin(); 
@@ -133,27 +137,35 @@ vector <string> EventType::GiveEventVariableNames() const
 	return(eventVarNames);
 }
 
-size_t EventType::GiveLevelCount(const string &eventVarName) const
+size_t
+EventType::GiveLevelCount(const string &eventVarName) const throw(EventVar_Not_Found)
 {
-	const map<string, Variable>::const_iterator AVariable = myVariables.find(eventVarName);
-	if (AVariable == myVariables.end())
+	const map<string, Variable>::const_iterator varFind = myVariables.find(eventVarName);
+	if (varFind == myVariables.end())
 	{
-		return(string::npos);
+		throw EventVar_Not_Found("EventType::GiveLevelCount()",
+					 eventVarName, myEventTypeName);
 	}
-
-	return(AVariable->second.GiveLevelCount());
+	else
+	{
+		return(varFind->second.GiveLevelCount());
+	}
 }
 
-vector <string> EventType::GiveEventLevels(const string &eventVarName) const
+const vector<string>&
+EventType::GiveEventLevels(const string &eventVarName) const throw(EventVar_Not_Found)
 // The elements in the CAFELevels vector are in alphabetical order.
 {
-	const map<string, Variable>::const_iterator AVariable = myVariables.find(eventVarName);
-        if (AVariable == myVariables.end())
+	const map<string, Variable>::const_iterator varFind = myVariables.find(eventVarName);
+        if (varFind == myVariables.end())
         {
-                return(vector<string>(0));
+                throw EventVar_Not_Found("EventType::GiveEventLevels()",
+					 eventVarName, myEventTypeName);
         }
-
-	return(AVariable->second.GiveCAFELevels());
+	else
+	{
+		return(varFind->second.GiveCAFELevels());
+	}
 }
 
 bool EventType::AddVariable(const Variable &NewVariable)
@@ -174,9 +186,9 @@ bool EventType::AddVariable(const Variable &NewVariable)
 			// This variable already exists, but lets make sure that any information that is in this one
 			// is added to any information that the stored variable has...
 
-			const vector <string> TempCAFELevels = NewVariable.GiveCAFELevels();
-			for (vector<string>::const_iterator A_CAFELevel = TempCAFELevels.begin(); 
-			     A_CAFELevel != TempCAFELevels.end(); 
+			const vector<string> tempCAFELevels = NewVariable.GiveCAFELevels();
+			for (vector<string>::const_iterator A_CAFELevel = tempCAFELevels.begin(); 
+			     A_CAFELevel != tempCAFELevels.end(); 
 			     A_CAFELevel++)
 			{
 				// it only adds the level if it doesn't exist already
@@ -190,13 +202,14 @@ bool EventType::AddVariable(const Variable &NewVariable)
 	return(false);
 }
 
-Variable EventType::RemoveVariable(const string &eventVarName)
+Variable EventType::RemoveVariable(const string &eventVarName) throw(EventVar_Not_Found)
 {
-	map <string, Variable>::iterator VariableToRemove = myVariables.find(eventVarName);
+	map<string, Variable>::iterator VariableToRemove = myVariables.find(eventVarName);
 
 	if (VariableToRemove == myVariables.end())
 	{
-		return(Variable());
+		throw EventVar_Not_Found("EventType::RemoveVariable()",
+					 eventVarName, myEventTypeName);
 	}
 
 	Variable VariableCopy = VariableToRemove->second;

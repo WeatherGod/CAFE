@@ -682,6 +682,22 @@ vector <time_t> GiveClusteredDates(const ClusterBoard &TheBoard, const BoardConv
 }
 
 
+set<string> GetDatabaseNames(mysqlpp::Query &theQuery)
+// Returns the names of the databases available to the user in sorted order.
+{
+	theQuery << "SHOW DATABASES";
+	mysqlpp::Result databaseResult = theQuery.store();
+
+	set<string> databaseNames;
+
+	for (mysqlpp::Result::iterator aRow = databaseResult.begin(); aRow != databaseResult.end(); aRow++)
+	{
+		databaseNames.insert(databaseNames.end(), (*aRow)["Database"].get_string());
+	}
+
+	return(databaseNames);
+}
+
 vector <string> GiveTableNames(mysqlpp::Query &TheQuery, const string &Database)
 // Returns the names of the Tables available in the database in alphabetical order.
 // Returns an empty array if there are no databases selected.

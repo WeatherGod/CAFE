@@ -67,6 +67,7 @@ void SaveBoardToDatabase(const ClusterBoard &TheBoard, mysqlpp::Query &TheQuery,
                          const BoardConvertor &ProjectionInfo);
 
 
+set<string> GetDatabaseNames(mysqlpp::Query &TheQuery);
 
 vector <string> GiveTableNames(mysqlpp::Query &TheQuery, const string &Database);
 bool DropTables(mysqlpp::Query &TheQuery, const set<string> &TableNames);

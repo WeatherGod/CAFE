@@ -9,14 +9,16 @@ using namespace std;
 #include <cstdio>		// for snprintf()
 
 // Temporary
-#include <Utils/CAFEUtly.h>	// for OffsetToTimePeriod()
+#include "Utils/CAFEUtly.h"	// for OffsetToTimePeriod()
 
-#include <Config/CAFEVar.h>
-#include <Config/EventType.h>
-#include <Config/CAFEDomain.h>
-#include <Config/DataSource.h>
+#include "Utils/CAFEException.h"
 
-#include <Config/CAFEParam.h>
+#include "Config/CAFEVar.h"
+#include "Config/EventType.h"
+#include "Config/CAFEDomain.h"
+#include "Config/DataSource.h"
+
+#include "Config/CAFEParam.h"
 
 
 CAFEParam::CAFEParam()
@@ -43,135 +45,166 @@ CAFEParam::CAFEParam()
 // --- Scalars ---
 // ---------------
 CAFEParam&
-CAFEParam::SetVerboseLevel(const int verbosity)
+CAFEParam::SetVerboseLevel(const int verbosity) throw()
 {
 	myVerboseLevel = verbosity;
 	return(*this);
 }
 
 const int&
-CAFEParam::GetVerboseLevel() const
+CAFEParam::GetVerboseLevel() const throw()
 {
         return(myVerboseLevel);
 }
 
 
 CAFEParam&
-CAFEParam::SetConfigFilename(const string &filename)
+CAFEParam::SetConfigFilename(const string &filename) throw(CAFEException)
 {
 	if (!filename.empty())
 	{
 		myConfigFilename = filename;
+	}
+	else
+	{
+		throw CAFEException("CAFEParam::SetConfigFilename()", "Empty filename!");
 	}
 
 	return(*this);
 }
 
 const string&
-CAFEParam::GetConfigFilename() const
+CAFEParam::GetConfigFilename() const throw()
 {
         return(myConfigFilename);
 }
 
 
 CAFEParam&
-CAFEParam::SetCAFEPath(const string &pathname)
+CAFEParam::SetCAFEPath(const string &pathname) throw(CAFEException)
 {
 	if (!pathname.empty())
 	{
 		myCAFEPath = pathname;
 	}
+	else
+	{
+		throw CAFEException("CAFEParam::SetCAFEPath()", "Empty pathname!");
+	}
 	return(*this);
 }
 
 const string&
-CAFEParam::GetCAFEPath() const
+CAFEParam::GetCAFEPath() const throw()
 {
         return(myCAFEPath);
 }
 
 
 CAFEParam&
-CAFEParam::SetLoginUserName(const string &newUserName)
+CAFEParam::SetLoginUserName(const string &newUserName) throw(CAFEException)
 {
 	if (!newUserName.empty())
 	{
 		myLoginUserName = newUserName;
 	}
+	else
+	{
+		throw CAFEException("CAFEParam::SetLoginUserName()", "Empty Username!");
+	}
 	return(*this);
 }
 
 const string&
-CAFEParam::GetLoginUserName() const
+CAFEParam::GetLoginUserName() const throw()
 {
         return(myLoginUserName);
 }
 
 
 CAFEParam&
-CAFEParam::SetCAFEUserName(const string &newUserName)
+CAFEParam::SetCAFEUserName(const string &newUserName) throw(CAFEException)
 {
 	if (!newUserName.empty())
 	{
 		myCAFEUserName = newUserName;
 	}
+	else
+	{
+		throw CAFEException("CAFEParam::SetCAFEUserName()", "Empty Username!");
+	}
+
 	return(*this);
 }
 
 const string&
-CAFEParam::GetCAFEUserName() const
+CAFEParam::GetCAFEUserName() const throw()
 {
         return(myCAFEUserName);
 }
 
 
 CAFEParam&
-CAFEParam::SetServerName(const string &newServerName)
+CAFEParam::SetServerName(const string &newServerName) throw(CAFEException)
 {
 	if (!newServerName.empty())
 	{
 		myServerName = newServerName;
 	}
+	else
+	{
+		throw CAFEException("CAFEParam::SetServerName()", "Empty Server Name!");
+	}
+
 	return(*this);
 }
 
 const string&
-CAFEParam::GetServerName() const
+CAFEParam::GetServerName() const throw()
 {
         return(myServerName);
 }
 
 
 CAFEParam&
-CAFEParam::SetCAFEDomain(const CAFEDomain &newDomain)
+CAFEParam::SetCAFEDomain(const CAFEDomain &newDomain) throw(CAFEException)
 {
 	if (newDomain.IsValid())
 	{
 		myDomain = newDomain;
 	}
+	else
+	{
+		throw CAFEException("CAFEParam::SetCAFEDomain()", "Invalid CAFEDomain!");
+	}
+
 	return(*this);
 }
 
 const CAFEDomain&
-CAFEParam::GetCAFEDomain() const
+CAFEParam::GetCAFEDomain() const throw()
 {
 	return(myDomain);
 }
 
 
 CAFEParam&
-CAFEParam::SetDefaultDataSource(const string &sourceName)
+CAFEParam::SetDefaultDataSource(const string &sourceName) throw(CAFEException)
 {
 	if (!sourceName.empty())
 	{
 		myDefaultDataSource = sourceName;
+	}
+	else
+	{
+		throw CAFEException("CAFEParam::SetDefaultDataSource()", "Empty Datasource Name!");
 	}
 
 	return(*this);
 }
 
 const string&
-CAFEParam::GetDefaultDataSource() const
+CAFEParam::GetDefaultDataSource() const throw()
 {
 	return(myDefaultDataSource);
 }
@@ -189,7 +222,7 @@ CAFEParam::SetTimeOffsets(const set<int> &newTimeOffsets)
 }
 
 const set<int>&
-CAFEParam::GetTimeOffsets() const
+CAFEParam::GetTimeOffsets() const throw()
 {
 	return(myTimeOffsets);
 }
@@ -209,17 +242,22 @@ CAFEParam::GetTimePeriods() const
 }
 
 CAFEParam&
-CAFEParam::SetUntrainedNameStem(const string &newNameStem)
+CAFEParam::SetUntrainedNameStem(const string &newNameStem) throw(CAFEException)
 {
 	if (!newNameStem.empty())
 	{
 		myUntrainedNameStem = newNameStem;
 	}
+	else
+	{
+		throw CAFEException("CAFEParam::SetUntrainedNameStem()", "Empty name stem!");
+	}
+
 	return(*this);
 }
 
 const string&
-CAFEParam::GetUntrainedNameStem() const
+CAFEParam::GetUntrainedNameStem() const throw()
 {
 	return(myUntrainedNameStem);
 }
@@ -239,17 +277,22 @@ CAFEParam::GetUntrainedNames() const
 }
 
 CAFEParam&
-CAFEParam::SetTrainedNameStem(const string &newNameStem)
+CAFEParam::SetTrainedNameStem(const string &newNameStem) throw(CAFEException)
 {
 	if (!newNameStem.empty())
 	{
 		myTrainedNameStem = newNameStem;
 	}
+	else
+	{
+		throw CAFEException("CAFEParam::SetTrainedNameStem()", "Empty name stem!");
+	}
+
 	return(*this);
 }
 
 const string&
-CAFEParam::GetTrainedNameStem() const
+CAFEParam::GetTrainedNameStem() const throw()
 {
 	return(myTrainedNameStem);
 }
@@ -299,7 +342,7 @@ CAFEParam::SetDataSources(const map<string, DataSource> &newDataSources)
 }
 
 const map<string, DataSource>&
-CAFEParam::GetDataSources() const
+CAFEParam::GetDataSources() const throw()
 {
 	return(myDataSources);
 }
@@ -336,12 +379,13 @@ CAFEParam::AddDataSource(const string &sourceName, const DataSource &newDataSour
 {
 	if (!newDataSource.IsValid())
 	{
-		return(*this);
+		throw CAFEException("CAFEParam::AddDataSource()", "Invalid data source!");
 	}
 
 	if (sourceName != newDataSource.GiveSourceName())
 	{
-		return(*this);
+		throw CAFEException("CAFEParam::AddDataSource()", "DataSource name mis-match... sourceName: "
+				    + sourceName + "   actualSourceName: " + newDataSource.GiveSourceName());
 	}
 
 	const map<string, DataSource>::iterator sourceFind = myDataSources.find(sourceName);
@@ -374,7 +418,7 @@ CAFEParam::SetCAFEVars(const map<string, CAFEVar> &newCAFEVars)
 }
 
 const map<string, CAFEVar>&
-CAFEParam::GetCAFEVars() const
+CAFEParam::GetCAFEVars() const throw()
 {
 	return(myCAFEVars);
 }
@@ -411,12 +455,13 @@ CAFEParam::AddCAFEVar(const string &varName, const CAFEVar& newCAFEVar)
 {
 	if (!newCAFEVar.IsValid())
 	{
-		return(*this);
+		throw CAFEException("CAFEParam::AddCAFEVar()", "Invalid CAFEVar!");
 	}
 
 	if (varName != newCAFEVar.GiveCAFEVarName())
 	{
-		return(*this);
+		throw CAFEException("CAFEParam::AddCAFEVar()", "Var Name mismatch!  varName: "
+				    + varName + "  actual Var Name: " + newCAFEVar.GiveCAFEVarName());
 	}
 
 	const map<string, CAFEVar>::iterator varFind = myCAFEVars.find(varName);
@@ -450,7 +495,7 @@ CAFEParam::SetEventTypes(const map<string, EventType> &newEventTypes)
 }
 
 const map<string, EventType>&
-CAFEParam::GetEventTypes() const
+CAFEParam::GetEventTypes() const throw()
 {
 	return(myEventTypes);
 }
@@ -487,12 +532,13 @@ CAFEParam::AddEventType(const string &eventName, const EventType& newEvent)
 {
 	if (!newEvent.IsValid())
 	{
-		return(*this);
+		throw CAFEException("CAFEParam::AddEventType()", "Invalid EventType!");
 	}
 
 	if (eventName != newEvent.GiveEventTypeName())
 	{
-		return(*this);
+		throw CAFEException("CAFEParam::AddEventType()", "Event Name mismatch!  EventName: "
+				    + eventName + "  actual eventName: " + newEvent.GiveEventTypeName());
 	}
 
 	const map<string, EventType>::iterator eventFind = myEventTypes.find(eventName);
@@ -525,7 +571,7 @@ CAFEParam::SetExtremumNames(const vector<string> &newExtremumNames)
 }
 
 const vector<string>&
-CAFEParam::GetExtremumNames() const
+CAFEParam::GetExtremumNames() const throw()
 {
 	return(myExtremumNames);
 }
@@ -608,5 +654,4 @@ CAFEParam::GetEventFields() const
 
 	return(fieldNames);
 }
-
 

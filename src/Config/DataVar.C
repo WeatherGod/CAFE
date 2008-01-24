@@ -12,9 +12,10 @@ using namespace std;
 #include <string>
 #include <algorithm>			// for binary_search() and lower_bound()
 
+#include "Utils/CAFEException.h"	// for DataLevel_Not_Found
 #include "Config/DataVar.h"
 
-#include <StrUtly.h>				// for RipWhiteSpace(), StripWhiteSpace(), TakeDelimitedList(), StrToInt(), StrToUnsignedInt()
+#include <StrUtly.h>				// for RipWhiteSpace(), StripWhiteSpace(), TakeDelimitedList(), StrToInt(), StrToSize_t()
 #include <ConfigUtly.h>				// for FoundStartTag(), FoundEndTag(), StripTags(), ReadNoComments()
 
 DataVar::DataVar()
@@ -63,43 +64,47 @@ void DataVar::GetConfigInfo(string &FileLine, fstream &ReadData)
 			}
 			else if (FoundStartTag(FileLine, TagWords[3]))	//Level
 			{
-				vector <string>	TempHold = TakeDelimitedList(StripTags(FileLine, TagWords[3]), '=');
-				StripWhiteSpace(TempHold);		// all elements have their whitespaces stripped.
-				
-				if (TempHold.size() == 2 && !TempHold[1].empty() && TempHold[1][0] == '$')
+				string levelInfo = StripTags(FileLine, TagWords[3]);
+				if (!RipWhiteSpace(levelInfo).empty())
 				{
-					TempHold[1][0] = ' ';	// replace the dollar sign with a space
-					StripWhiteSpace(TempHold[1]);
+					vector <string>	TempHold = TakeDelimitedList(levelInfo, '=');
+					StripWhiteSpace(TempHold);		// all elements have their whitespaces stripped.
+				
+					if (TempHold.size() == 2 && !TempHold[1].empty() && TempHold[1][0] == '$')
+					{
+						TempHold[1][0] = ' ';	// replace the dollar sign with a space
+						StripWhiteSpace(TempHold[1]);
 
-					if (!AddDataLevel(TempHold[0], StrToSize_t(TempHold[1])))
+						if (!AddDataLevel(TempHold[0], StrToSize_t(TempHold[1])))
+						{
+							BadObject = true;
+							cerr << "Problem in DataVar object." << endl;
+							cerr << "The line was: " << FileLine << endl;
+						}
+					}
+					else if (TempHold.size() == 1 && !TempHold[0].empty())
+					{
+						if (!AddDataLevel(TempHold[0], string::npos))
+                	                        {
+                        	                        BadObject = true;
+                                	                cerr << "Problem in DataVar object." << endl;
+                                        	        cerr << "The line was: " << FileLine << endl;
+	                                        }
+					}
+					else
 					{
 						BadObject = true;
-						cerr << "Problem in DataVar object." << endl;
-						cerr << "The line was: " << FileLine << endl;
+						cerr << "Problem in DataVar object:" << endl;
+						cerr << "Incorrect format.  Levels must be denoted as 'Level = $index'.  For example:\n";
+	        	                        cerr << "<Level>1000,850,851 = $0</Level>" << endl;
+        	        	                cerr << "The line was: " << FileLine << endl;
 					}
-				}
-				else if (TempHold.size() == 1 && !TempHold[0].empty())
-				{
-					if (!AddDataLevel(TempHold[0], string::npos))
-                                        {
-                                                BadObject = true;
-                                                cerr << "Problem in DataVar object." << endl;
-                                                cerr << "The line was: " << FileLine << endl;
-                                        }
 				}
 				else
 				{
-					BadObject = true;
-					cerr << "Problem in DataVar object:" << endl;
-					cerr << "Incorrect format.  Levels must be denoted as 'Level = $index'.  For example:\n";
-	                                cerr << "<Level>1000,850,851 = $0</Level>" << endl;
-        	                        cerr << "The line was: " << FileLine << endl;
+					// Empty level tags.  So just force the default empty level.
+					AddDataLevel("", string::npos);
 				}
-			}
-			else
-			{
-				BadObject = true;
-				cerr << "Problem in DataVar object... couldn't recognize anything.\n Here is the line: " << FileLine << endl;
 			}
 		}// end if !BadObject
 		
@@ -109,47 +114,58 @@ void DataVar::GetConfigInfo(string &FileLine, fstream &ReadData)
 	if (!myDataVarName.empty() && !myCAFEVarName.empty() && !ReadData.eof() && !BadObject)
 	{
         	myIsConfigured = true;
+		// If there are no levels, then force-add a default empty level.
+		if (myDataLevels.empty())
+		{
+			AddDataLevel("", string::npos);
+		}
 	}
 }
 
-bool DataVar::ValidConfig() const
+bool DataVar::ValidConfig() const throw()
 {
 	return(myIsConfigured);
 }
 
-bool DataVar::IsValid() const
+bool DataVar::IsValid() const throw()
 {
 	return(myIsConfigured);
 }
 
-const string& DataVar::GiveDataVarName() const
+const string&
+DataVar::GiveDataVarName() const throw()
 {
 	return(myDataVarName);
 }
 
-const string& DataVar::GiveCAFEVarName() const
+const string&
+DataVar::GiveCAFEVarName() const throw()
 {
 	return(myCAFEVarName);
 }
 
 const map<size_t, string>&
-DataVar::GiveDataLevels() const
+DataVar::GiveDataLevels() const throw()
 {
 	return(myDataLevels);
 }
 
-const string& DataVar::GiveDataLevel(const size_t &CAFELevelIndex) const
+const string&
+DataVar::GiveDataLevel(const size_t &CAFELevelIndex) const throw(DataLevel_Not_Found)
 {
-	if (myDataLevels.find(CAFELevelIndex) == myDataLevels.end())
+	const map<size_t, string>::const_iterator levelFind = myDataLevels.find(CAFELevelIndex);
+	if (levelFind == myDataLevels.end())
         {
-                return("");
+                throw DataLevel_Not_Found("DataVar::GiveDataLevel()", 
+					  CAFELevelIndex, myDataVarName);
         }
-
-	
-	return(myDataLevels.find(CAFELevelIndex)->second);
+	else
+	{
+		return(levelFind->second);
+	}
 }
 
-size_t DataVar::GiveDataLevelCount() const
+size_t DataVar::GiveDataLevelCount() const throw()
 {
 	return(myDataLevels.size());
 }
@@ -158,23 +174,15 @@ bool DataVar::AddDataLevel(const string &NewDataLevel, const size_t &CAFELevelIn
 {
 	if (myDataLevels.find(CAFELevelIndex) == myDataLevels.end())
         {
-		if (!NewDataLevel.empty())
-                {
-   	        	myDataLevels[CAFELevelIndex] = NewDataLevel;
-			return(true);
-                }
-                else
-                {
-               		cerr << "ERROR -- Empty string for DataLevel value." << endl;
-                }
+   	        myDataLevels[CAFELevelIndex] = NewDataLevel;
+		return(true);
 	}
         else
         {
-               	cerr << "ERROR -- Duplicate DataLevelIndex used.  No two datalevels can be associated" << endl;
-                cerr << "with the same CAFE level." << endl;
+		throw CAFEException("DataVar::AddDataLevel()",
+				    "Duplicate DataLevelIndex used: " + Size_tToStr(CAFELevelIndex)
+				    + ". No two datalevels can be associated with the same CAFE level.");
         }
-
-	return(false);		// if you can reach here, something was wrong and a level could not be added.
 }
 
 vector<string> DataVar::InitTagWords() const

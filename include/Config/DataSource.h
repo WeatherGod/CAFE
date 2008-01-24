@@ -10,6 +10,10 @@
 
 #include "DataVar.h"
 
+#include "Utils/CAFEException.h"	// for DataVar_Not_Found and DataLevel_Not_Found
+
+class Projection_t;
+
 class DataSource
 {
 	public:
@@ -25,22 +29,24 @@ class DataSource
 		// right now, they do the same thing, but there should be a difference.
                 // ValidConfig() will return whether it was able to load a configuration correctly.
                 // IsValid() will return whether the data contained is valid information.
-                bool ValidConfig() const;                                       //
-                bool IsValid() const;
+                bool ValidConfig() const throw();
+                bool IsValid() const throw();
 
-		string GiveSourceName() const;
-		string GiveProjectionName() const;
-		string GiveProjectionConfig() const;
+		const string& GiveSourceName() const throw();
+		const string& GiveProjectionName() const throw();
+		const string& GiveProjectionConfig() const throw();
 
-		const map<string, DataVar>& GiveDataVars() const;
+		const map<string, DataVar>& GiveDataVars() const throw();
 
-		size_t GiveDataVarCount() const;
-		const string& GiveDataVarName(const string &CAFEVarName) const;
+		size_t GiveDataVarCount() const throw();
+		const string& GiveDataVarName(const string &CAFEVarName) const throw(DataVar_Not_Found);
 		
-		const string& GiveDataLevel(const string &CAFEVarName, const size_t &CAFELevelIndex) const;
-		size_t GiveDataLevelCount(const string &CAFEVarName) const;
+		const string& GiveDataLevel(const string &CAFEVarName,
+					    const size_t &CAFELevelIndex) const throw(DataVar_Not_Found, DataLevel_Not_Found);
+		size_t GiveDataLevelCount(const string &CAFEVarName) const throw(DataVar_Not_Found);
 
-		pair<time_t, time_t> GiveTimeRange() const;
+		pair<time_t, time_t> GiveTimeRange() const throw();
+		const Projection_t* GiveProjection() const;
 
 		bool AddDataVar(const DataVar &NewDataVar);
 

@@ -19,14 +19,14 @@ class CAFEParam
 
 		// *** Setter functions ***
 		//   scalars
-		CAFEParam& SetVerboseLevel(const int verbosity);
-		CAFEParam& SetConfigFilename(const string &filename);
-		CAFEParam& SetCAFEPath(const string &pathname);
-		CAFEParam& SetLoginUserName(const string &newUserName);
-		CAFEParam& SetCAFEUserName(const string &newUserName);
-		CAFEParam& SetServerName(const string &newServerName);
-		CAFEParam& SetCAFEDomain(const CAFEDomain &newDomain);
-		CAFEParam& SetDefaultDataSource(const string &sourceName);
+		CAFEParam& SetVerboseLevel(const int verbosity) throw();
+		CAFEParam& SetConfigFilename(const string &filename) throw(CAFEException);
+		CAFEParam& SetCAFEPath(const string &pathname) throw(CAFEException);
+		CAFEParam& SetLoginUserName(const string &newUserName) throw(CAFEException);
+		CAFEParam& SetCAFEUserName(const string &newUserName) throw(CAFEException);
+		CAFEParam& SetServerName(const string &newServerName) throw(CAFEException);
+		CAFEParam& SetCAFEDomain(const CAFEDomain &newDomain) throw(CAFEException);
+		CAFEParam& SetDefaultDataSource(const string &sourceName) throw(CAFEException);
 		
 
 		//   Time Periods
@@ -34,8 +34,8 @@ class CAFEParam
 		CAFEParam& AddTimeOffsets(const set<int> &newTimeOffsets);
 		CAFEParam& AddTimeOffset(const int newTimeOffset);
 
-		CAFEParam& SetUntrainedNameStem(const string &newNameStem);
-		CAFEParam& SetTrainedNameStem(const string &newNameStem);
+		CAFEParam& SetUntrainedNameStem(const string &newNameStem) throw(CAFEException);
+		CAFEParam& SetTrainedNameStem(const string &newNameStem) throw(CAFEException);
 
 
 		//   Data Sources
@@ -65,51 +65,51 @@ class CAFEParam
 
 		// *** Getter functions ***
 		//   scalars
-		const int& GetVerboseLevel() const;
-		const string& GetConfigFilename() const;
-		const string& GetCAFEPath() const;
-		const string& GetLoginUserName() const;
-		const string& GetCAFEUserName() const;
-		const string& GetServerName() const;
-		const CAFEDomain& GetCAFEDomain() const;
-		const string& GetDefaultDataSource() const;
+		const int& GetVerboseLevel() const throw();
+		const string& GetConfigFilename() const throw();
+		const string& GetCAFEPath() const throw();
+		const string& GetLoginUserName() const throw();
+		const string& GetCAFEUserName() const throw();
+		const string& GetServerName() const throw();
+		const CAFEDomain& GetCAFEDomain() const throw();
+		const string& GetDefaultDataSource() const throw();
 
 
 		// -------------------------------------
 		// --- TimePeriods and dataset names ---
 		//--------------------------------------
-		const set<int>& GetTimeOffsets() const;
+		const set<int>& GetTimeOffsets() const throw();
 		set<string> GetTimePeriods() const;
-		const string& GetUntrainedNameStem() const;
+		const string& GetUntrainedNameStem() const throw();
 		set<string> GetUntrainedNames() const;
-		const string& GetTrainedNameStem() const;
+		const string& GetTrainedNameStem() const throw();
 		set<string> GetTrainedNames() const;
 
 
 		// --------------------
 		// --- Data Sources ---
 		// --------------------
-		const map<string, DataSource>& GetDataSources() const;
+		const map<string, DataSource>& GetDataSources() const throw();
 		set<string> GetDataSourceNames() const;
 
 
 		// ----------------------
 		// --- CAFE Variables ---
 		// ----------------------
-		const map<string, CAFEVar>& GetCAFEVars() const;
+		const map<string, CAFEVar>& GetCAFEVars() const throw();
 		set<string> GetCAFEVarNames() const;
 
 		// ------------------
 		// --- EventTypes ---
 		// ------------------
-		const map<string, EventType>& GetEventTypes() const;
+		const map<string, EventType>& GetEventTypes() const throw();
 		set<string> GetEventTypeNames() const;
 	
 	
 		// ---------------
 		// --- Extrema ---
 		// ---------------
-		const vector<string>& GetExtremumNames() const;
+		const vector<string>& GetExtremumNames() const throw();
 
 
 		// ************************************
