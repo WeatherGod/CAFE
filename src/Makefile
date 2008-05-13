@@ -91,18 +91,19 @@ CONF_DEPENDS := $(CONF_OBJECTS:.o=.d)
 
 
 all : libCAFE.so CAFE Utly PeakVal
-.PHONY : all clean clean-depends CAFE Utly PeakVal \
+.PHONY : all clean clean-depends clean-lib clean-bin \
+         CAFE Utly PeakVal \
          $(CAFE_BINS) $(UTLY_BINS) $(PEAKVAL_BINS) \
          libCAFE.so
 
-#######################################
+
 CAFE : libCAFE.so $(CAFE_BINS)
 
 Utly : libCAFE.so $(UTLY_BINS)
 
 PeakVal : $(PEAKVAL_BINS)
-#######################################
 
+clean : clean-lib clean-bin
 
 
 ###################################################################################
@@ -119,8 +120,11 @@ $(CAFE_DEPENDS) $(UTLY_DEPENDS) $(PEAKVAL_DEPENDS) : DEP_TARGET = $(BINDIR)/$*
 ###########################################################################
 
 
-#############################################################
-#        --- Shared Library file ---
+#######################################################################
+# ******************************
+# ==== Shared Library Files ====
+# ******************************
+#----------------------------------------------------------------------
 libCAFE.so : $(LIBDIR)/libCAFE.so
 
 $(LIBDIR)/libCAFE.so : $(CONF_OBJECTS) $(SPA_OBJECTS) $(UTIL_OBJECTS)
@@ -128,42 +132,51 @@ $(LIBDIR)/libCAFE.so : $(CONF_OBJECTS) $(SPA_OBJECTS) $(UTIL_OBJECTS)
 
 %.o : %.C
 	$(CXX) -fPIC -c $< -o $@ $(DEFFLAGS) $(CXXFLAGS)
-##############################################################
 
-include $(CAFE_DEPENDS)
-include $(UTLY_DEPENDS)
-include $(PEAKVAL_DEPENDS)
+clean-lib :
+	-rm -f $(LIBDIR)/libCAFE.so
+	-rm -f $(UTIL_OBJECTS)
+	-rm -f $(SPA_OBJECTS)
+	-rm -f $(CONF_OBJECTS)
+
+#  Additional information given for specific objects
+$(SPA_OBJECTS) : CXXFLAGS += -O3
+$(CONF_OBJECTS) : CXXFLAGS += -O2
+$(UTIL_OBJECTS) : CXXFLAGS += -O2
+
 include $(UTIL_DEPENDS)
 include $(SPA_DEPENDS)
 include $(CONF_DEPENDS)
+###############################################################
 
-################################################################
+
+
+###############################################################
+# ******************
+# ==== Binaries ====
+# ******************
+# --------------------------------------------------------------
 # Pattern rules for compiling an executable from a .C file
 $(CAFE_BINS) $(UTLY_BINS) $(PEAKVAL_BINS) : % : $(BINDIR)/%
 
 $(addprefix $(BINDIR)/, $(CAFE_BINS) $(UTLY_BINS) $(PEAKVAL_BINS)) : $(BINDIR)/% : %.C $(LIBDIR)/libCAFE.so
 	$(CXX) $< -o $@ $(DEFFLAGS) $(CXXFLAGS) $(LDFLAGS)
-#################################################################
+#---------------------------------------------------------------
 
-### Additional information given for specific executables ###
+clean-bin :
+	-rm -f $(addprefix $(BINDIR)/, $(CAFE_BINS) $(UTLY_BINS) $(PEAKVAL_BINS))
+
+include $(CAFE_DEPENDS)
+include $(UTLY_DEPENDS)
+include $(PEAKVAL_DEPENDS)
+
+# Additional information given for specific executables
 CalcCorrelation : CXXFLAGS += -O3
 ClusterWork : CXXFLAGS += -O3
 FindGammaMaxChi : CXXFLAGS += -O3
 PeakValleyPicker : CXXFLAGS += -O3
 #############################################################
 
-### Additional information given for specific objects ###
-$(SPA_OBJECTS) : CXXFLAGS += -O3
-$(CONF_OBJECTS) : CXXFLAGS += -O2
-$(UTIL_OBJECTS) : CXXFLAGS += -O2
-#########################################################
-
-clean :
-	-rm -f $(LIBDIR)/libCAFE.so
-	-rm -f $(addprefix $(BINDIR)/, $(CAFE_BINS) $(UTLY_BINS) $(PEAKVAL_BINS))
-	-rm -f $(UTIL_OBJECTS)
-	-rm -f $(SPA_OBJECTS)
-	-rm -f $(CONF_OBJECTS)
 
 clean-depends :
 	-rm -f $(CAFE_DEPENDS)

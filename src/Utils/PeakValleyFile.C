@@ -13,9 +13,9 @@ using namespace std;
 #include "Utils/PeakValleyFile.h"
 
 
-PeakValleyFile::PeakValleyFile(const char* filename, const ios::openmode &theOpenmode)
+PeakValleyFile::PeakValleyFile(const char* filename, ios::openmode theOpenmode)
+	:	fstream(filename, theOpenmode)
 {
-	open(filename, theOpenmode);
 }
 
 PeakValleyFile::~PeakValleyFile()
@@ -23,7 +23,7 @@ PeakValleyFile::~PeakValleyFile()
 	close();
 }
 
-vector <LonLatAnom>
+vector<LonLatAnom>
 PeakValleyFile::RetrieveExtrema(const size_t &variableCnt, const size_t &extremumCnt)
 {
 	string lineRead = "";
@@ -62,7 +62,7 @@ PeakValleyFile::RetrieveExtrema(const size_t &variableCnt, const size_t &extremu
 			{
 				vector<string> lineList = TakeDelimitedList(lineRead, ' ');
 
-				if (lineList.size() != 3)
+				if (lineList.size() < 3)
 				{
 					cerr << "ERROR: Problem reading the peakvalley file.\n";
 					cerr << "       The line does not have the correct number of data fields:\n";

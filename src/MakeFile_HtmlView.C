@@ -36,7 +36,7 @@ void PrintHelp(const CmdOptions &CAFEOptions)
 
         cout << "DESCRIPTION" << endl;
 	cout << "--webloc\n"
-	     << "     The location for the html files.  Default: /hart/s0/www/bvroot\n\n";
+	     << "     The location for the html files.  Default: ./\n\n";
         CAFEOptions.PrintDescription(63);
         cout << endl;
 }

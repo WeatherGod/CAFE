@@ -8,9 +8,6 @@ using namespace std;
 #include <cmath>		// for abs()
 #include <cstdio>		// for snprintf()
 
-// Temporary
-#include "Utils/CAFEUtly.h"	// for OffsetToTimePeriod()
-
 #include "Utils/CAFEException.h"
 
 #include "Config/CAFEVar.h"
@@ -27,7 +24,7 @@ CAFEParam::CAFEParam()
 		myTrainedNameStem(""),
 		myDefaultDataSource(""),
 		myConfigFilename(""),
-		myCAFEPath("."),
+		myCAFEPath(""),
 		myLoginUserName(""),
 		myCAFEUserName(""),
 		myServerName(""),
@@ -227,6 +224,26 @@ CAFEParam::GetTimeOffsets() const throw()
 	return(myTimeOffsets);
 }
 
+CAFEParam&
+CAFEParam::SetTimePeriods(const set<string> &newTimePeriods)
+{
+	set<int> timeOffsets;
+	for (set<string>::const_iterator aTimePeriod = newTimePeriods.begin();
+	     aTimePeriod != newTimePeriods.end();
+	     aTimePeriod++)
+	{
+		const int theOffset = TimePeriodToOffset(*aTimePeriod);
+		if (theOffset == INT_MAX)
+		{
+			throw CAFEException("CAFEParam::SetTimePeriods()", "Invalid time period: '" + *aTimePeriod + "'");
+		}
+
+		timeOffsets.insert(timeOffsets.end(), theOffset);
+	}
+
+	return(SetTimeOffsets(timeOffsets));
+}
+
 set<string>
 CAFEParam::GetTimePeriods() const
 {
@@ -319,12 +336,45 @@ CAFEParam::AddTimeOffsets(const set<int> &newTimeOffsets)
 }
 
 CAFEParam&
+CAFEParam::AddTimePeriods(const set<string> &newTimePeriods)
+{
+	set<int> timeOffsets;
+	for (set<string>::const_iterator aTimePeriod = newTimePeriods.begin();
+	     aTimePeriod != newTimePeriods.end();
+	     aTimePeriod++)
+	{
+		const int theOffset = TimePeriodToOffset(*aTimePeriod);
+
+		if (theOffset == INT_MAX)
+		{
+			throw CAFEException("CAFEParam::AddTimePeriods()", "Invalid time period: '" + *aTimePeriod + "'");
+		}
+
+		timeOffsets.insert(timeOffsets.end(), theOffset);
+	}
+
+	return(AddTimeOffsets(timeOffsets));
+}
+
+CAFEParam&
 CAFEParam::AddTimeOffset(const int newTimeOffset)
 {
 	myTimeOffsets.insert(myTimeOffsets.end(), newTimeOffset);
 	return(*this);
 }
 
+CAFEParam&
+CAFEParam::AddTimePeriod(const string &newTimePeriod)
+{
+	const int theOffset = TimePeriodToOffset(newTimePeriod);
+
+	if (theOffset == INT_MAX)
+	{
+		throw CAFEException("CAFEParam::AddTimePeriod()", "Invalid time period: '" + newTimePeriod + "'");
+	}
+
+	return(AddTimeOffset(theOffset));
+}
 
 
 // --------------------
@@ -653,5 +703,50 @@ CAFEParam::GetEventFields() const
 	}
 
 	return(fieldNames);
+}
+
+
+
+
+int
+CAFEParam::TimePeriodToOffset(const string &timePeriodStr)
+{
+        const size_t locFind = timePeriodStr.find_last_of("T");
+
+        if (locFind != string::npos)
+        {
+                if (timePeriodStr.size() - locFind >= 4)
+                {
+                        if (timePeriodStr[locFind + 1] == 'p')
+                        {
+                                return(atoi(timePeriodStr.substr(locFind + 2).c_str()));
+                        }
+                        else if (timePeriodStr[locFind + 1] == 'm')
+                        {
+                                return(-1 * atoi(timePeriodStr.substr(locFind + 2).c_str()));
+                        }
+                }
+        }
+
+        return(INT_MAX);
+}
+
+
+string
+CAFEParam::OffsetToTimePeriod(const int &timeOffset)
+{
+        char periodStr[8];
+        memset(periodStr, '\0', 8);
+
+        if (timeOffset <= 0)
+        {
+                snprintf(periodStr, 8, "Tm%.2d", abs(timeOffset));
+        }
+        else
+        {
+                snprintf(periodStr, 8, "Tp%.2d", timeOffset);
+        }
+
+        return(periodStr);
 }
 

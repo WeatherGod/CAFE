@@ -4,7 +4,7 @@ using namespace std;
 #include <string>
 #include <vector>
 #include <fstream>
-#include <cctype>			// for size_t
+#include <cstddef>			// for size_t
 #include <mysql++/mysql++.h>
 
 #include "Config/Configuration.h"
@@ -387,6 +387,14 @@ int main(int argc, char *argv[])
 
 	try
 	{
+		if (system(("mkdir --parents '" + CAFEOptions.CAFEPath
+			   + "/Forecast/" + CacheName).c_str()) != 0)
+                {
+                	cerr << "WARNING: Trouble trying to create directory "
+			     << CAFEOptions.CAFEPath + "/Forecast/" + CacheName << "\n"
+			     << "       : You may have issues with the peak/valley data from TotalRecall...\n";
+		}
+
 		for (currState.TimePeriods_Begin(); currState.TimePeriods_HasNext(); currState.TimePeriods_Next()) 
 		{
 
