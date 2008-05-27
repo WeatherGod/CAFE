@@ -23,7 +23,7 @@ BaseThick = 0.25;
 
 RestrictEvents = 0;
 
-if (length(EventNames) > 0)
+if (~isempty(EventNames))
     RestrictEvents = 1;
 end
 
@@ -42,7 +42,7 @@ for DatabaseIndex = 1:length(TheDatabaseNames)
     for TableIndex = 1:length(ConfigInfo.EventTypes)
         TableName = ConfigInfo.EventTypes(TableIndex).EventName;
 
-    	if (RestrictEvents == 1 & isempty(strmatch(TableName, EventNames, 'exact')))
+    	if ((RestrictEvents == 1) && isempty(strmatch(TableName, EventNames, 'exact')))
             % The TableName does not match those in EventNames, so move on to the next iteration.
             continue;
         end
@@ -56,11 +56,13 @@ for DatabaseIndex = 1:length(TheDatabaseNames)
             end
             
             AxisCopy = axesm('lambert','Grid','on','MapParallels',[50 50],'Origin',[-107]);
-            
-            
             set(AxisCopy,'XLim',[x(1) x(2)],'YLim',[y(1) y(2)]);
-            set(gcf, 'CurrentAxes', AxisCopy, 'Units', 'points', 'Position', [0 0 236 177], 'PaperUnits', 'points', 'PaperPosition', [0 0 236 177]);
+            set(gcf, 'CurrentAxes', AxisCopy, 'Units', 'points', 'Position', [0 0 336 277], ...
+                                              'PaperUnits', 'points', 'PaperPosition', [0 0 336 277]);
+            geoshow(landareas, 'FaceColor','white', 'EdgeColor', 'black');
             
+            % strrep is done so that any underscores in the fieldname is
+            % not treated as a LaTex subscripter
             title(AxisCopy, strrep([Database, '/', FieldName], '_', ' '), 'FontUnits', 'points', 'FontSize', 5.5);
             
             [XPos YPos] = mfwdtran(LonLatAnom(:, 2), LonLatAnom(:, 1));
@@ -72,28 +74,16 @@ for DatabaseIndex = 1:length(TheDatabaseNames)
             end
 
             Increm = (MaxRadius - MinRadius) / max(XYCounts);
-            
-%            plot(UniqueXY(:, 1), UniqueXY(:, 2), 'ok', 'MarkerSize', XYCounts .* Increm + MinRadius);
 
             for XYIndex = 1:length(UniqueXY)
-                CircRadius = MinRadius;
                 TheX = UniqueXY(XYIndex, 1);
                 TheY = UniqueXY(XYIndex, 2);
                 
-                plot(TheX, TheY, 'ok', 'MarkerSize', XYCounts(XYIndex) * Increm + MinRadius, 'LineWidth', (XYCounts(XYIndex) - 1) * Increm + BaseThick);
-                
-                %for CircIndex = 1:XYCounts(XYIndex)
-                %    plot(TheX, TheY, 'ok', 'MarkerSize', CircRadius);
-                    
-                    %rectangle('Position', [UniqueXY(XYIndex, 1) - CircRadius, UniqueXY(XYIndex, 2) - CircRadius,...
-                    %          CircRadius * 2.0, CircRadius * 2.0],...
-                    %          'Curvature', [1, 1],...
-                    %          'LineWidth', Increm * 0.75);
-                %    CircRadius = CircRadius + Increm;
-                %end
+                plot(TheX, TheY, 'ok', 'MarkerSize', (XYCounts(XYIndex) .* Increm) + MinRadius, ...
+                                 'LineWidth', (XYCounts(XYIndex) - 1) * Increm + BaseThick);
             end
             
-            geoshow(landareas, 'FaceColor','white', 'EdgeColor', 'black');
+            
     	    saveas(gcf, [CAFEPath, '/AnalysisInfo/', Database, '/', FieldName, '_MapPlot.jpg']);
             clf;
         end

@@ -5,7 +5,7 @@ ConfigInfo = ReadConfiguration([CAFEPath, '/', ConfigFilename]);
 
 RestrictEvents = 0;
 
-if (length(EventNames) > 0)
+if (~isempty(EventNames))
     RestrictEvents = 1;
 end
 
@@ -20,7 +20,7 @@ for DatabaseIndex = 1:length(TheDatabaseNames)
     for TableIndex = 1:length(ConfigInfo.EventTypes)
         TableName = ConfigInfo.EventTypes(TableIndex).EventName;
 
-    	if (RestrictEvents == 1 & isempty(strmatch(TableName, EventNames, 'exact')))
+    	if (RestrictEvents == 1 && isempty(strmatch(TableName, EventNames, 'exact')))
             % The TableName does not match those in EventNames, so move on to the next iteration.
             continue;
         end
@@ -41,7 +41,8 @@ for DatabaseIndex = 1:length(TheDatabaseNames)
 %                figure;
 %	        disp(AnomVals);
 %	        disp(OptimalBinCount(AnomVals));
-            set(gcf, 'Units', 'points', 'Position', [0 0 236 177], 'PaperUnits', 'points', 'PaperPosition', [0 0 236 177]);
+            set(gcf, 'Units', 'points', 'Position', [0 0 336 277], ...
+                     'PaperUnits', 'points', 'PaperPosition', [0 0 336 277]);
             hist(AnomVals, OptimalBinCount(AnomVals));
 
             saveas(gcf, [CAFEPath, '/AnalysisInfo/', Database, '/', FieldName, '_Hist.jpg']);
