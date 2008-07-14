@@ -104,11 +104,16 @@ int main(int argc, char *argv[])
         
 	// TODO: Bit of a kludge for now...
 	const set<string> eventNames = currState.EventType_Names();
+
+	// TODO: Update the matlab command to let the error message show.
+        // The current command uses the try-catch in order to ensure that the Matlab
+        // program will not just hang, expecting user input.
+
 	// Do the unclustered stuff first
-	string SysCommand = "matlab -nodisplay -nodesktop -r \"MakeFingerprintMaps('" + currState.GetCAFEPath()
+	string SysCommand = "matlab -nodisplay -nodesktop -r \"try MakeFingerprintMaps('" + currState.GetCAFEPath()
                             + "', '" + currState.GetConfigFilename() + "', {'" 
 			    + GiveDelimitedList(vector<string>(eventNames.begin(), eventNames.end()), "','")
-                            + "'},0)\"";
+                            + "'},0); catch disp 'An error occurred while trying to generate fingerprint maps for unclustered fingerprints'; end; exit;\"";
 
         system(SysCommand.c_str());
 
@@ -116,7 +121,7 @@ int main(int argc, char *argv[])
         SysCommand = "matlab -nodisplay -nodesktop -r \"MakeFingerprintMaps('" + currState.GetCAFEPath()
                             + "', '" + currState.GetConfigFilename() + "', {'" 
 			    + GiveDelimitedList(vector<string>(eventNames.begin(), eventNames.end()), "','")
-                            + "'},1)\"";
+                            + "'},1); catch disp 'An error occurred while trying to generate fingerprint maps for clustered fingerprints'; end; exit;\"";
 
         system(SysCommand.c_str());
 
